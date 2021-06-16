@@ -27,3 +27,4 @@ root                    (project root folder)
 ## Authors
 ---
 [list author names and emails]
+Nathaniel Jackson - jac20003@byui.edu

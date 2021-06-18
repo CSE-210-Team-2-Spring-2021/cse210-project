@@ -26,6 +26,6 @@ root                    (project root folder)
 
 ## Authors
 ---
-[list author names and emails]
 Nathaniel Jackson - jac20003@byui.edu
 Kyle Ames - ame18007@byui.edu
+TJ Anderson - and15126@byui.edu

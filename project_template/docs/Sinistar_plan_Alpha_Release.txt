@@ -1,0 +1,97 @@
+https://arcade.academy/quick_index.html
+
+Sinistar:
+
+1st Checkpoint - Alpha Release assignments:
+
+Menu: THIS WAS NOT ASSIGNED. LOOKING FOR VOLUNTEER
+	Is_paused (bool) to determine what Director is to do.
+        (game start and stop)
+        (in-game menu/pause menu)
+    Is_playing (bool) to determine if still playing.
+
+Help/How-To:  ANYONE WHO FINISHES EARLY?
+            (text file containing game details)
+
+Ship:
+	Subclass(Actor) - 
+        (movement)
+    Asteroids:
+        (screenwrapping)No breakage to smaller pieces
+
+Classes:
+    Actors: KYLE A.
+    Depending on Arcade feel, break out Actors individually.
+	    Super init
+        Sprite(to go to all_sprites list)
+        Set_locations(coordinates)
+        Set_velocity (arcade get_x & get_y)
+        Toughness/Durability(int count)
+		    Set/get this attribute
+
+    Subclasses:
+        Ship(player): Lucas G 
+			Initialize off Super(), then override below:
+                Set center spawn location
+                Set_velocity (0,0) until input received
+                Set_Toughness to 1
+                Set_lives to 3
+            Add to all_sprites list
+            Get_lives, then return int 
+		    Ship_reset()- all of the above, with 1 less life
+
+        Asteroids: KYLE A.
+            Super Init of Actor
+            Do not spawn in center (radius TBD)
+			Add to asteroids_sprite list for each instance
+			Add to all_sprites list
+        
+        Lasers if possible: KYLE A.
+            same as Asteroids above
+
+    Actions Super class: TJ A 
+        Execute format with method to override
+        Sub class:
+            Movement: TJ A 
+	        Execute method
+            
+            death: TJ A 
+            Execute method
+            
+            shoot if possible: 
+            explosion if possible:
+
+            Collisions: LUCAS G.
+			    Execute method
+				screenwrapping
+				
+                Asteroids execute
+				Asteroids(and other "accidents")destruction animation
+				
+                Lasers execute if possible:
+        	   	Lasers(and other weapons)if possible
+
+    Output Service: (all_sprite list) CHASE P.
+        draw Actors
+        draw board 
+
+    Director:  CHASE P./NATHANIEL J. help
+    follow the last project design
+		    Is_paused = game paused
+		    Is_playing = run all scripts		
+        start game 
+	    pause game       
+        do Collisions        
+        update Actors
+		game over condition?
+		    if lives = 0, then is_playing = False
+        update Actions		
+        arcade weirdness interaction of classes and subclasses
+
+Main: NATHANIEL J.
+follow the last project design
+    run the program through Director
+
+
+
+

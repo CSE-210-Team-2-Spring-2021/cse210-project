@@ -1,5 +1,6 @@
 import sys
-from game import constants
+import arcade
+from data import constants
 
 
 class OutputService:
@@ -19,6 +20,7 @@ class OutputService:
             screen (Screen): An Asciimatics Screen.
         """
         self._screen = screen
+        self._sprites = []
 
     def clear_screen(self):
         """Clears the Asciimatics buffer for the next rendering."""
@@ -28,8 +30,9 @@ class OutputService:
 
     def draw_board(self):
         """ Draws the board onto the screen. """
-        # Not finished yet just a template.
-        self._screen.draw
+        window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT)
+        window.show_view()
+        arcade.run()
 
     def draw_actors(self, actors):
         """Renders the given list of actors on the screen.
@@ -38,7 +41,7 @@ class OutputService:
             actors (list): The actors to render.
         """
         for actor in actors:
-            self.draw_actor(actor)
+            actor.arcade.load_texture(self._sprites)
 
     def flush_buffer(self):
         """Renders the screen."""

@@ -11,6 +11,7 @@ class Ship(arcade.Sprite):
         _location (coordinate) - the actors position in 2D space
         _velocity (coordinate) - the actors speed and direction 
     """
+
     # add in each new instance of player ship
     def add_ship(self):
         player_ship = "S"

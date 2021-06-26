@@ -52,7 +52,7 @@ class SinistarWindow(arcade.Window):
 
         #Create Asteroids
         for _ in range(constants.ASTEROID_COUNT):
-            asteroid = Asteroid(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_PLAYER)
+            asteroid = Asteroid(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_ASTEROIDS)
 
             #Set Position
             asteroid.center_x = random.randrange(constants.SCREEN_WIDTH)

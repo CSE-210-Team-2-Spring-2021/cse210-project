@@ -8,11 +8,12 @@ SCREEN_TITLE = "Definitely Not a Sinistar Clone"
 SPRITE_IMAGE_SIZE = 128
 
 # Scale sprites up or down
-SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
+SPRITE_SCALING_ASTEROIDS = 0.2
 
 # Scaled sprite size for tiles
-SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_PLAYER)
+SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
 
 # Size of grid to show on screen, in number of tiles
 SCREEN_GRID_WIDTH = 25
@@ -33,5 +34,5 @@ ASTEROID_COUNT = 20
 
 #Sprites from assets
 path = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
-PLAYER_SPRITE = path / 'basic-ship.jpg'
+PLAYER_SPRITE = path / 'basic-ship.png'
 ASTEROID_SPRITE = path / 'basic-astroid.png'

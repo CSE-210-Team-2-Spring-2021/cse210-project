@@ -1,9 +1,8 @@
 import arcade
 import random
 from data import constants
-from data import actors
 
-class Ship(actors):
+class Ship(arcade.Sprite):
     """Subclass of Actors to create instances of Ship (Player)
 
     Stereotype: Information Holder
@@ -12,10 +11,6 @@ class Ship(actors):
         _location (coordinate) - the actors position in 2D space
         _velocity (coordinate) - the actors speed and direction 
     """
-    # instantiate as an Actor and inherit the init.
-    def __init__(self):
-        super().__init__()
-        self._lives = 0
 
     # add in each new instance of player ship
     def add_ship(self):

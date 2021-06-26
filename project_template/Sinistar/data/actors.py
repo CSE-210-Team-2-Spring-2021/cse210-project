@@ -19,7 +19,8 @@ class Actors(arcade.Sprite):
         
         # Setup the empty sprite lists
         self.lasers_list = arcade.SpriteList()
-        self.asteroids_list = arcade.SpriteList()        
+        self.asteroids_list = arcade.SpriteList()   
+        self.player_ship = arcade.SpriteList()     
         self.all_sprites = arcade.SpriteList()
 
     

@@ -18,13 +18,16 @@ class Ship(actors):
         self._lives = 0
 
     # add in each new instance of asteroid
-    def draw_ship(self):
+    def add_ship(self):
+        player_ship = "S"
         x = int(constants.SCREEN_GRID_WIDTH / 2)
         y = int(constants.SCREEN_GRID_HEIGHT / 2)
-        self.set_location(x,y)
-        self.set_velocity(0,0)
-        self.set_toughness(1)
-        self.set_lives(constants.LIVES)
+        player_ship.set_location(x,y)
+        player_ship.set_velocity(0,0)
+        player_ship.set_toughness(1)
+        player_ship.set_lives(constants.LIVES)
+        self.player_ship.append(player_ship)
+        self.all_sprites.append(player_ship)
     
     # Reset the ship
     def ship_reset(self):

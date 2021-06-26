@@ -18,7 +18,7 @@ class Asteroid(actors):
 
     # add in each new instance of asteroid
     def add_asteroid(self):
-        asteroid = arcade.Sprite("images/asteroid.png", constants.SPRITE_SIZE)
+        asteroid = "*"    # arcade.Sprite("images/asteroid.png", constants.SPRITE_SIZE)
         asteroid.center_y = random.randrange(constants.SCREEN_HEIGHT) 
         asteroid.center_x = random.randrange(constants.SCREEN_WIDTH)
         asteroid.velocity = (random.randint(-5, 5), random.randint(5, -5))

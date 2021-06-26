@@ -1,5 +1,6 @@
 import arcade
 from data import constants
+from data.ship import Ship
 
 class SinistarWindow(arcade.Window):
     """
@@ -33,7 +34,7 @@ class SinistarWindow(arcade.Window):
         self.player_list = arcade.SpriteList()
 
         # Set up the player
-        self._player_sprite = "S"   # Player("<Sprite png here>", constants.SPRITE_SCALING_PLAYER)
+        self._player_sprite =  Ship(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
         self._player_sprite.center_x = 50
         self._player_sprite.center_y = 50
         self._player_list.append(self._player_sprite)

@@ -17,7 +17,7 @@ class Ship(actors):
         super().__init__()
         self._lives = 0
 
-    # add in each new instance of asteroid
+    # add in each new instance of player ship
     def add_ship(self):
         player_ship = "S"
         x = int(constants.SCREEN_GRID_WIDTH / 2)

@@ -31,8 +31,12 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
 
+        #Create Class objects
+        self._asteroid = Asteroid()
+        self._ship = Ship()
+
         # Set the background color
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.GRAY_ASPARAGUS)
 
     def setup(self):
         """ Set up the game and initialize the variables. 
@@ -44,24 +48,12 @@ class SinistarWindow(arcade.Window):
         # Sprite lists
         self._all_sprites_list = arcade.SpriteList()
 
-        # Set up the player
-        self._player_sprite =  Ship(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
-        self._player_sprite.center_x = constants.SCREEN_WIDTH/2
-        self._player_sprite.center_y = constants.SCREEN_HEIGHT/2
-        self._all_sprites_list.append(self._player_sprite)
-
         #Create Asteroids
-        for _ in range(constants.ASTEROID_COUNT):
-            asteroid = Asteroid(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_ASTEROIDS)
+        self._asteroid.generate_astroids(self._all_sprites_list)
 
-            #Set Position
-            asteroid.center_x = random.randrange(constants.SCREEN_WIDTH)
-            asteroid.center_y = random.randrange(constants.SCREEN_HEIGHT)
-            #Set Speed
-            asteroid.change_x = random.randint(-2, 2)
-            asteroid.change_y = random.randint(-2, 2)
-
-            self._all_sprites_list.append(asteroid)
+        #Set up the player
+        self._ship.generate_ship(self._all_sprites_list)
+        self._player_sprite = self._ship.get_ship()
 
 
     def on_draw(self):

@@ -41,7 +41,7 @@ class OutputService:
             actors (list): The actors to render.
         """
         for actor in actors:
-            actor.arcade.load_texture(self._sprites)
+            actor.arcade.SpriteList(self._sprites)
 
     def flush_buffer(self):
         """Renders the screen."""

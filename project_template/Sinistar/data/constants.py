@@ -25,6 +25,9 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 # How many lives has the Player?
 LIVES = 5
 
+#Player Speed
+MOVEMENT_SPEED = 5
+
 #Sprites from assets
-path = pathlib.Path(__file__).resolve().parents[0] / 'assets' #path to parent directory
+path = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = path / 'basic-ship.jpg'

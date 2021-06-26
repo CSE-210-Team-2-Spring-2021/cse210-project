@@ -11,6 +11,7 @@ class Ship(arcade.Sprite):
         _location (coordinate) - the actors position in 2D space
         _velocity (coordinate) - the actors speed and direction 
     """
+
     def generate_ship(self, all_sprites):
         """Generates ship in the center of screen
             Args:

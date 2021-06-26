@@ -1,7 +1,6 @@
 import arcade
 import random
 from data import constants
-from data import actors
 
 class Asteroid(arcade.Sprite):
     """Subclass of Actors to create instances of asteroid

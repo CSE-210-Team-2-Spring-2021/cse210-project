@@ -20,7 +20,6 @@ class OutputService:
             screen (Screen): An Asciimatics Screen.
         """
         self._screen = screen
-        self._sprites = []
 
     def clear_screen(self):
         """Clears the Asciimatics buffer for the next rendering."""
@@ -34,6 +33,18 @@ class OutputService:
         window.show_view()
         arcade.run()
 
+    def draw_actor(self, actor):
+        """Renders the given actor's sprite on the screen.
+
+        Args:
+            actor (Actor): The actor to render.
+        """
+        texture = actor.get_Sprite()
+        position = actor.get_position()
+        x = position.get_x()
+        y = position.get_y()
+        self._screen.print_at(texture, x, y)
+
     def draw_actors(self, actors):
         """Renders the given list of actors on the screen.
 
@@ -41,7 +52,7 @@ class OutputService:
             actors (list): The actors to render.
         """
         for actor in actors:
-            actor.arcade.SpriteList(self._sprites)
+            self.draw_actor.arcade.SpriteList(actor)
 
     def flush_buffer(self):
         """Renders the screen."""

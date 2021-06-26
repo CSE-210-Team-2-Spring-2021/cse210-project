@@ -18,7 +18,7 @@ class Laser(actors):
 
     # add in each new instance of laser shooting from player ship
     def add_laser(self):
-        laser = arcade.Sprite("images/laser.png", constants.SPRITE_SIZE)
+        laser = "!"     # arcade.Sprite("images/laser.png", constants.SPRITE_SIZE)
 
         # need to modify this for shooting from the front of player ship
 

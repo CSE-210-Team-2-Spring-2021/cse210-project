@@ -21,3 +21,6 @@ SCREEN_GRID_HEIGHT = 15
 # Size of screen to show, in pixels
 SCREEN_WIDTH = SPRITE_SIZE * SCREEN_GRID_WIDTH
 SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
+
+# How many lives has the Player?
+LIVES = 5

@@ -38,11 +38,4 @@ class Asteroid(arcade.Sprite):
         asteroid.velocity = (random.randint(-5, 5), random.randint(5, -5))
         self.asteroids_list.append(asteroid)
         self.all_sprites.append(asteroid)
-
-    def get_astroids(self):
-        """Returns astroids sprite list
-        Args:
-            self - an instance of Astroid"""
-
-        return self._asteroids
     

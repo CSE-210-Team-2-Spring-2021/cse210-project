@@ -48,13 +48,6 @@ class Director:
     def do_collisions(self):
         """ This will handle collisions """
         for asteroid in self._asteroid:
-            for laser in self._lasers:
-                if laser.alive and asteroid.alive:
-                    too_close = laser.radius + asteroid.radius
-                    if (abs(laser.center.x - asteroid.center.x) < too_close and abs(laser.center.y - asteroid.center.y) < too_close):
-                        bullet.alive = False
-                        self._asteroids += asteroid.hit()
-                        self._score += 1
             if self._ship.alive and asteroid.alive and self._ship.shield == False:
                 too_close = self._ship.radius + asteroid.radius
                 if (abs(self._ship.center.x - asteroid.center.x) < too_close and abs(self._ship.center.y - asteroid.center.y) < too_close):
@@ -65,18 +58,10 @@ class Director:
                         self._ship.alive = False
                         self._is_playing = False
 
-        self.cleanup_zombies()
-
-    def cleanup_zombies(self):
-        """ Cleans up all dead objects """
-        for laser in self._laser:
-            if laser.alive == False:
-                self._lasers.remove(laser)
-
-    def update_actors(self):
+    def update_actors(self, actors):
         """ This will update the Actors """
-        pass
+        self.actors.update()
 
-    def update_actions(self):
+    def update_actions(self, actions):
         """ This will update the Actions """
-        pass
+        self.actions.update()

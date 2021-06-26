@@ -1,4 +1,5 @@
 from data import constants
+import arcade
 
 
 class Director:
@@ -47,21 +48,8 @@ class Director:
 
     def do_collisions(self):
         """ This will handle collisions """
-        for asteroid in self._asteroid:
-            if self._ship.alive and asteroid.alive and self._ship.shield == False:
-                too_close = self._ship.radius + asteroid.radius
-                if (abs(self._ship.center.x - asteroid.center.x) < too_close and abs(self._ship.center.y - asteroid.center.y) < too_close):
-                    self._asteroids += asteroid.hit()
-                    self._ship.lives -= 1
-                    self._ship.shield = True
-                    if self._ship.lives <= 0:
-                        self._ship.alive = False
-                        self._is_playing = False
 
-    def update_actors(self, actors):
-        """ This will update the Actors """
+    def update(self, delta_time):
+        """ Updates Actors and Actions """
         self.actors.update()
-
-    def update_actions(self, actions):
-        """ This will update the Actions """
         self.actions.update()

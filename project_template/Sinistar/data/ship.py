@@ -11,6 +11,18 @@ class Ship(arcade.Sprite):
         _location (coordinate) - the actors position in 2D space
         _velocity (coordinate) - the actors speed and direction 
     """
+    def generate_ship(self, all_sprites):
+        """Generates ship in the center of screen
+            Args:
+                self - An instance of Asteroid
+                all_sprites - List of all sprites from WinistarWindow
+        """
+        
+        self._player_sprite =  Ship(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
+        self._player_sprite.center_x = constants.SCREEN_WIDTH/2
+        self._player_sprite.center_y = constants.SCREEN_HEIGHT/2
+        all_sprites.append(self._player_sprite)
+
     # add in each new instance of player ship
     def add_ship(self):
         player_ship = "S"
@@ -45,6 +57,14 @@ class Ship(arcade.Sprite):
             lives: The ship's lives.
         """
         return self._velocity
+
+    def get_ship(self):
+        """Returns player sprite
+        
+        Args:
+            self - An instance of SHip
+        """
+        return self._player_sprite
 
 
    

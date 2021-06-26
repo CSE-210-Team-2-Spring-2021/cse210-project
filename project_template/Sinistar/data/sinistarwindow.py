@@ -41,12 +41,12 @@ class SinistarWindow(arcade.Window):
         """
 
         # Sprite lists
-        self.player_list = arcade.SpriteList()
+        self._all_sprites_list = arcade.SpriteList()
 
         # Set up the player
         self._player_sprite =  Ship(str(constants.PLAYER_SPRITE), constants.SPRITE_SCALING_PLAYER)
-        self._player_sprite.center_x = 50
-        self._player_sprite.center_y = 50
+        self._player_sprite.center_x = constants.SCREEN_WIDTH/2
+        self._player_sprite.center_y = constants.SCREEN_HEIGHT/2
         self._all_sprites_list.append(self._player_sprite)
 
     def on_draw(self):
@@ -66,7 +66,7 @@ class SinistarWindow(arcade.Window):
         # Updte all sprites
         self._all_sprites_list.update()
 
-    def on_key_press(self, key):
+    def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
 
         Args:
@@ -75,18 +75,18 @@ class SinistarWindow(arcade.Window):
             player_sprite - the player's sprite object
         """
         if key == arcade.key.UP:
-            self._player_sprite.change_y = self.MOVEMENT_SPEED
+            self._player_sprite.change_y = constants.MOVEMENT_SPEED
         
         elif key == arcade.key.DOWN:
-            self._player_sprite.change_y = -self.MOVEMENT_SPEED
+            self._player_sprite.change_y = -constants.MOVEMENT_SPEED
 
         elif key == arcade.key.LEFT:
-            self._player_sprite.change_x = -self.MOVEMENT_SPEED
+            self._player_sprite.change_x = -constants.MOVEMENT_SPEED
 
         elif key == arcade.key.RIGHT:
-            self._player_sprite.change_x = self.MOVEMENT_SPEED
+            self._player_sprite.change_x = constants.MOVEMENT_SPEED
 
-    def on_key_release(self, key):
+    def on_key_release(self, key, modifier):
         """Called when a key stops being pressed
 
         Args:

@@ -30,7 +30,7 @@ class OutputService:
 
     def draw_board(self):
         """ Draws the board onto the screen. """
-        window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT)
+        window = arcade.Window(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         window.show_view()
         arcade.run()
 

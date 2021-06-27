@@ -45,6 +45,9 @@ class SinistarWindow(arcade.Window):
         #Immunity Timer
         self._immunity = 100
 
+        #Sounds
+        self._explosion = arcade.load_sound(constants.COMICAL_EXPLOSION, False)
+
     def setup(self):
         """ Set up the game and initialize the variables. 
         
@@ -88,7 +91,7 @@ class SinistarWindow(arcade.Window):
             self._all_sprites_list.draw()
 
             lives = self._ship.get_lives()
-            if lives > 0:
+            if lives >= 0:
                 self._lives_sprites[lives].draw()
 
             #Draw Score
@@ -116,6 +119,7 @@ class SinistarWindow(arcade.Window):
                 ship_hit = arcade.check_for_collision_with_list(self._player_sprite, self._asteroid_sprites)
 
                 if ship_hit != []:
+                    arcade.play_sound(self._explosion, 0.8, 0, False)
                     self._immunity = constants.IMMUNITY
                     self._score -= 100
                     lives = self._ship.get_lives()

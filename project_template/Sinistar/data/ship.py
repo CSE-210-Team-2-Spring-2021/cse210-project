@@ -23,6 +23,7 @@ class Ship(arcade.Sprite):
         self._player_sprite.center_x = constants.SCREEN_WIDTH/2
         self._player_sprite.center_y = constants.SCREEN_HEIGHT/2
         all_sprites.append(self._player_sprite)
+        
 
     # add in each new instance of player ship
     def add_ship(self):
@@ -57,7 +58,7 @@ class Ship(arcade.Sprite):
         Returns:
             lives: The ship's lives.
         """
-        return self._velocity
+        return self._lives
 
     def get_ship(self):
         """Returns player sprite

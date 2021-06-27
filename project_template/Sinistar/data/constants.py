@@ -25,6 +25,7 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 
 # How many lives has the Player?
 LIVES = 5
+IMMUNITY = 100 #TIME spent invincible after damage
 
 #Player Speed
 MOVEMENT_SPEED = 5
@@ -33,6 +34,12 @@ MOVEMENT_SPEED = 5
 ASTEROID_COUNT = 20
 
 #Sprites from assets
-path = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
-PLAYER_SPRITE = path / 'basic-ship.png'
-ASTEROID_SPRITE = path / 'basic-astroid.png'
+asset_path = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
+PLAYER_SPRITE = asset_path / 'basic-ship.png'
+ASTEROID_SPRITE = asset_path / 'basic-astroid.png'
+LIVES_SPRITES = [asset_path / 'Lives0.png', asset_path / 'Lives1.png', asset_path / 'Lives2.png', asset_path / 'Lives3.png',
+                asset_path / 'Lives4.png', asset_path / 'Lives5.png']
+
+#Sounds
+sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
+THEME = sound_path / 'bensound-scifi.mp3'

@@ -8,7 +8,7 @@ def main():
 
     window.setup()
     
-    theme = arcade.load_sound("project_template/Sinistar/sounds/bensound-scifi.mp3", True)
+    theme = arcade.load_sound(constants.THEME, True)
     arcade.play_sound(theme, 0.8, 0, True)
     
     arcade.run()

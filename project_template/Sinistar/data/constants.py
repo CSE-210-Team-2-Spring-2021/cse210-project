@@ -43,3 +43,5 @@ LIVES_SPRITES = [asset_path / 'Lives0.png', asset_path / 'Lives1.png', asset_pat
 #Sounds
 sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
 THEME = sound_path / 'bensound-scifi.mp3'
+EXPLOSION = sound_path / 'explosion.wav'
+COMICAL_EXPLOSION = sound_path / 'boom.wav'

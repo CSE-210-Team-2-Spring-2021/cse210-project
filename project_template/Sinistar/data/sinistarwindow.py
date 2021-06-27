@@ -106,8 +106,11 @@ class SinistarWindow(arcade.Window):
         self._all_sprites_list.update()
 
         if not self._game_over:
-            #Check for collisions
+            #Wrap objects
+            for sprite in self._all_sprites_list:
+                self._wrap_sprite(sprite)
 
+            #Check for collisions
             if self._immunity <= 0:
                 ship_hit = []
                 ship_hit = arcade.check_for_collision_with_list(self._player_sprite, self._asteroid_sprites)
@@ -125,7 +128,7 @@ class SinistarWindow(arcade.Window):
 
                     else:
                         #GAME OVER
-                        self.game_over()
+                        self._game_lost()
                 else:
                     self._score += 1
                     
@@ -133,22 +136,32 @@ class SinistarWindow(arcade.Window):
                 self._immunity -= 1
 
 
-    def game_over(self):
+    def _game_lost(self):
         """Removes Sprites and displays Game OVER
         
         Args:
             self - An Instance of SinistarWindow"""
-        
-        #self._all_sprites_list = arcade.SpriteList()
-        #self._lives_sprites = []
-
-        #output = 'GAME OVER'
-        #score = "Score: " + str(self._score)
-        #arcade.draw_text(score, constants.SCREEN_WIDTH/2, constants.SCREEN_HEIGHT/2 - 10, arcade.color.WHITE, 14)
-        #arcade.draw_text(output, constants.SCREEN_WIDTH/2, constants.SCREEN_HEIGHT/2, arcade.color.WHITE, 20)
         self._game_over = True
         
+    def _wrap_sprite(self, sprite):
+        """Wraps Sprite objects 
+        
+        Args:
+            self - An instance of self
+            sprite - a sprite object
+        """
 
+        if sprite.center_x <= 0:
+            sprite.center_x = constants.SCREEN_WIDTH - 1
+
+        elif sprite.center_y <= 0:
+            sprite.center_y = constants.SCREEN_HEIGHT - 1
+
+        elif sprite.center_x > constants.SCREEN_WIDTH:
+            sprite.center_x = 1
+
+        elif sprite.center_y > constants.SCREEN_HEIGHT:
+            sprite.center_y = 1
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

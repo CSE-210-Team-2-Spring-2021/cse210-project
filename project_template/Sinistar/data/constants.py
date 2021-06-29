@@ -33,6 +33,10 @@ MOVEMENT_SPEED = 5
 #Number of Asteroids
 ASTEROID_COUNT = 20
 
+#Number of Enemies
+WORKER_COUNT = 10
+WARRIOR_COUNT = 20
+
 #Sprites from assets
 asset_path = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = asset_path / 'basic-ship.png'

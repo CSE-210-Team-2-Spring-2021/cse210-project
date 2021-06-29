@@ -1,0 +1,73 @@
+https://arcade.academy/quick_index.html
+
+2nd Checkpoint(Beta):
+	
+	Changes:
+		Make the Asteroids move and not be static.
+		Movement: update to rotate ship.
+		Laser: determine the angle to be shot out of the ship.
+
+
+	Menu():(Natahniel)
+		(create a list of sprites for this class in constants)?
+		(holds sprites for classes like difficulty)
+		__init__(self): list_of_sprites
+		get_sprites(self): returns sprites to be printed onto the screen
+		is_paused(self): determines if the game is paused or not. Will display score and lives. To access press ESC key. 
+		start_game(self): Renders the game.
+		resume_game(self): Unpauses the game from Pause menu.
+		game_settings(self): controls the settings that a user can change. Volume and controls can be change.
+		game_volume(self): controls the volume of both the music and sfx.
+		help(self): gives instructions on the game to the user. Sprite or text?
+		quit_game(self): will exit the game when chosen by user.
+		    	
+
+	
+	Difficulty():(Chase)
+    (selector in the Menu)
+		(choose difficulty)
+		(received by enemies and asteroids)
+		__init__(self): sets difficulty to default, default == ???
+		set_difficulty(self): takes input from something and set attributes that is read by enemies and asteroids. Will have booleans for different 						features. Difficulty from 1-5
+		
+
+
+  Enemies(Actor):(TJ)
+    (multiple types optional)
+		(random generation)
+		__init__(self): set default attributes of enemies.
+		generate_enemies(self, all_sprites): will decide which type of enemy will be outputted to the screen.
+		respawn_enemies(self): respawns enemies after they are killed off.
+		get_enemies(self): retreives enemies to be added.
+		set_toughness(self): determines the amount of damage each enemy can take.
+		ai_destroy(self): creates the AI for enemies to shoot and chase after player.
+
+
+	Lasers/Bullets(Projectile):(Kyle)
+    (faster than the player)
+    (erased after a certain distance)
+		generate_laser(self): puts lasers on the screen when player pushes button.
+		add_laser(self): add in each new instance of laser shooting from player ship
+		delete_lasers(self): remove lasers that have traveled off the edge of the screen.
+		get_laser(self): retreives the lasers.
+
+	Bomb(Projectile):(Kyle)
+		(randomly spawns a bomb form asteroid)
+		(damage is increased and can damage Sinistar)
+		get_location(self): picks a random asteroid to spawn from.
+		add_bomb(self): add each new instance of bomb to random asteroid.
+		delete_lasers(self): remove lasers that have traveled off the edge of the screen.
+		get_bomb(self): retreives the bombs.
+
+
+	Collision():(Lucas)
+		(handles the collisions)
+		check_collisions(self): determines if an object has collided with another object and then boom!
+		
+
+	Actor(Sprite):(possibly)
+		Parent class to Ship, Asteroid, Enemies.
+
+
+	Projectile(Actor):(possibly)
+		Parent class to Laser and Bomb.

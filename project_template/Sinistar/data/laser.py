@@ -3,6 +3,8 @@ import random
 from data import constants
 from data import actors
 
+#test
+
 class Laser(actors):
     """Subclass of Actors to create instances of asteroid
 

@@ -17,6 +17,8 @@ class Ship(arcade.Sprite):
         super().__init__(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
         self._player_sprite = None
         self._lives = None
+        self.speed = 0
+        self.angle = 90
         self.generate_ship(all_sprites)
 
     def generate_ship(self, all_sprites):
@@ -27,9 +29,26 @@ class Ship(arcade.Sprite):
         """
         self.center_x = constants.SCREEN_WIDTH/2
         self.center_y = constants.SCREEN_HEIGHT/2
-        self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         self.set_lives(constants.LIVES)
         all_sprites.append(self)
+
+    #def update(self):
+    #    """Updates the ship sprite
+    #    
+    #    Args:
+    #        self - an instance of Ship
+    #    """
+    #    # Convert angle in degrees to radians.
+    #    angle_rad = math.radians(self.angle)
+#
+    #    # Rotate the ship
+    #    self.angle += self.change_angle
+#
+    #    # Use math to find our change based on our speed and angle
+    #    self.center_x += -self.speed * math.sin(angle_rad)
+    #    self.center_y += self.speed * math.cos(angle_rad)
+
+
     
     def set_lives(self, lives):
         """Updates the ship's lives.

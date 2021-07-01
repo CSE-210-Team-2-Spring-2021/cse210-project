@@ -9,7 +9,7 @@ class Asteroid(arcade.Sprite):
     Stereotype: Information Holder
 
     Attributes:
-         
+        
         
     """
     def __init__(self):

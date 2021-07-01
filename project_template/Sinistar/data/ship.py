@@ -1,5 +1,5 @@
 import arcade
-import random
+import random, math
 from data import constants
 
 class Ship(arcade.Sprite):
@@ -27,26 +27,9 @@ class Ship(arcade.Sprite):
         """
         self.center_x = constants.SCREEN_WIDTH/2
         self.center_y = constants.SCREEN_HEIGHT/2
+        self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         self.set_lives(constants.LIVES)
         all_sprites.append(self)
-
-    # add in each new instance of player ship
-    def add_ship(self):
-        player_ship = "S"
-        x = int(constants.SCREEN_GRID_WIDTH / 2)
-        y = int(constants.SCREEN_GRID_HEIGHT / 2)
-        player_ship.set_location(x,y)
-        player_ship.set_velocity(0,0)
-        player_ship.set_toughness(1)
-        player_ship.set_lives(constants.LIVES)
-        self.player_ship.append(player_ship)
-        self.all_sprites.append(player_ship)
-    
-    # Reset the ship
-    def ship_reset(self):
-        self.draw_ship()
-        self.set_lives(constants.LIVES-1)
-
     
     def set_lives(self, lives):
         """Updates the ship's lives.

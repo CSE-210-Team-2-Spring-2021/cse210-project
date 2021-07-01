@@ -1,8 +1,11 @@
 import arcade, random
+
+from pyglet.libs.win32.constants import FALSE
 from data import constants
 from data.ship import Ship
 from data.asteroid import Asteroid
 from data.asteroid_manager import AsteroidManager
+from data.laser import Laser
 from data.menu import Menu
 
 class SinistarWindow(arcade.Window):
@@ -42,11 +45,12 @@ class SinistarWindow(arcade.Window):
         self._generate_menu()
 
         # Sprite lists
-        self._all_sprites_list = None
+        self._all_sprites_list = None  # is this a duplicate of line 34??
         
         #Create Class objects
         self._asteroid_sprites = None
         self._ship = None
+        self._laser_sprites = None
 
         self._status = []
 
@@ -55,6 +59,7 @@ class SinistarWindow(arcade.Window):
         self._theme = arcade.Sound(constants.THEME, True)
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False) 
+        self._laser = arcade.Sound(constants.LASER, False)
 
         # Set the background color
         arcade.set_background_color(arcade.color.GRAY_ASPARAGUS)
@@ -272,6 +277,10 @@ class SinistarWindow(arcade.Window):
                 self._menu.start_pressed()
             else:
                 self._menu.game_paused()
+        # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
+        if  key == arcade.key.SPACE:
+            self._laser_sprites = Laser(self._all_sprites_list, self._ship)
+            self._laser.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed

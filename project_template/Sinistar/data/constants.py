@@ -11,6 +11,7 @@ SPRITE_IMAGE_SIZE = 128
 SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
 SPRITE_SCALING_ASTEROIDS = 0.2
+SPRITE_SCALING_LASERS = .04
 SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
 SPRITE_SCALING_DIFFICULTY = 0.2
@@ -30,8 +31,9 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 LIVES = 5
 IMMUNITY = 10 #TIME spent invincible after damage
 
-#Player Speed
+# Player/Laser Speeds
 MOVEMENT_SPEED = 5
+LASER_SPEED = 7
 
 #Number of Asteroids
 ASTEROID_COUNT = 20
@@ -46,6 +48,7 @@ PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
 ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
+LASER_SPRITE = ASSET_PATH / 'laser.png'
 
 MOUSE = ASSET_PATH / 'mouse.png'
 
@@ -78,3 +81,4 @@ sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
 THEME = sound_path / 'bensound-scifi.mp3'
 EXPLOSION = sound_path / 'explosion.wav'
 COMICAL_EXPLOSION = sound_path / 'boom.wav'
+LASER = sound_path / 'laser.wav'

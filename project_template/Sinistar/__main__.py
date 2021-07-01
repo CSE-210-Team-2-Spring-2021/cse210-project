@@ -8,9 +8,6 @@ def main():
 
     window.setup()
     
-    theme = arcade.load_sound(constants.THEME, True)
-    arcade.play_sound(theme, 0.8, 0, True)
-    
     arcade.run()
 
 if __name__ == "__main__":

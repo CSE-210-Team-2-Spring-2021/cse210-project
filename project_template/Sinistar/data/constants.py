@@ -11,6 +11,7 @@ SPRITE_IMAGE_SIZE = 128
 SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
 SPRITE_SCALING_ASTEROIDS = 0.2
+SPRITE_SCALING_ENEMIES = 1
 SPRITE_SCALING_LASERS = .04
 SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
@@ -46,6 +47,9 @@ WARRIOR_COUNT = 20
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
 ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
+WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
+WORKER_SPRITE = ASSET_PATH / 'worker.png'
+WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'

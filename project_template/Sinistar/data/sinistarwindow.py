@@ -5,6 +5,9 @@ from data import constants
 from data.ship import Ship
 from data.asteroid import Asteroid
 from data.asteroid_manager import AsteroidManager
+from data.enemies import EnemyManager
+from data.worker import Worker
+from data.warrior import Warrior
 from data.laser import Laser
 from data.menu import Menu
 
@@ -89,6 +92,10 @@ class SinistarWindow(arcade.Window):
         #Create Asteroids
         self._asteroid_sprites = AsteroidManager()
         self._all_sprites_list.extend(self._asteroid_sprites)
+
+        #Create Enemies
+        self._enemy_sprites = EnemyManager()
+        self._all_sprites_list.extend(self._enemy_sprites)
 
         #Set up the player
         self._player_sprite = self._ship.get_ship()

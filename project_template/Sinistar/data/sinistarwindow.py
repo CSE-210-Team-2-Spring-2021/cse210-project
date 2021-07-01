@@ -169,9 +169,9 @@ class SinistarWindow(arcade.Window):
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
-                                 constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
-                                 constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
+                                constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
                 self._mouse_list.draw()
             
             else: #Game playing
@@ -182,7 +182,7 @@ class SinistarWindow(arcade.Window):
                     self._lives_sprites[lives].draw()
                 #Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
-                                 constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
 
 
     def on_update(self, delta_time):
@@ -221,7 +221,9 @@ class SinistarWindow(arcade.Window):
                 if self._immunity <= 0:
                     ship_hit = []
                     ship_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                 self._asteroid_sprites)
+                                                self._asteroid_sprites)
+                    ship_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                                                self._enemy_sprites)
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY

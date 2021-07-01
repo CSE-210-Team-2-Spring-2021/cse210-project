@@ -30,10 +30,14 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 
 # How many lives has the Player?
 LIVES = 5
-IMMUNITY = 10 #TIME spent invincible after damage
+IMMUNITY = 100 #TIME spent invincible after damage
 
 # Player/Laser Speeds
-MOVEMENT_SPEED = 5
+MOVEMENT_SPEED = 7
+ANGLE_SPEED = 5
+ACCELERATION_RATE = 1
+DECELERATION_RATE = 0.1
+ANGLE_DECAY = 0.2
 LASER_SPEED = 7
 
 #Number of Asteroids

@@ -32,24 +32,6 @@ class Ship(arcade.Sprite):
         self.set_lives(constants.LIVES)
         all_sprites.append(self)
 
-    #def update(self):
-    #    """Updates the ship sprite
-    #    
-    #    Args:
-    #        self - an instance of Ship
-    #    """
-    #    # Convert angle in degrees to radians.
-    #    angle_rad = math.radians(self.angle)
-#
-    #    # Rotate the ship
-    #    self.angle += self.change_angle
-#
-    #    # Use math to find our change based on our speed and angle
-    #    self.center_x += -self.speed * math.sin(angle_rad)
-    #    self.center_y += self.speed * math.cos(angle_rad)
-
-
-    
     def set_lives(self, lives):
         """Updates the ship's lives.
         

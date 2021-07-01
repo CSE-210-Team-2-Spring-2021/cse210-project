@@ -50,15 +50,18 @@ class SinistarWindow(arcade.Window):
 
         self._status = []
 
+        #Create sound objects
+        self._volume = 0.5
+        self._theme = arcade.Sound(constants.THEME, True)
+        self._theme_player = self._theme.play(self._volume, 0, True)
+        self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False) 
+
         # Set the background color
         arcade.set_background_color(arcade.color.GRAY_ASPARAGUS)
         
         #Immunity Timer
         self._immunity = constants.IMMUNITY
-
-        #Sounds
-        self._explosion = arcade.load_sound(constants.COMICAL_EXPLOSION, False)
-
+    
         #Hide Mouse
         self.set_mouse_visible(False)
 
@@ -108,6 +111,15 @@ class SinistarWindow(arcade.Window):
         self._settings_menu = self._menu.get_settings_menu()
         self._help_menu = self._menu.get_help_menu()
         self._game_over_menu = self._menu.get_game_over_menu()
+    
+    def _change_volume(self, volume):
+        """
+        Changes volume of game
+        
+        Args:
+            self - An instance of Menu"""
+        self._theme.set_volume(volume, self._theme_player)
+        self._volume = volume
 
     def on_draw(self):
         """
@@ -121,31 +133,34 @@ class SinistarWindow(arcade.Window):
 
         #self._status (0 - Main, 1 - Pause, 2 - Settings, 3 - Help, 4 - Game Over)
         if self._status[0]: #Main menu bool
-            self._mouse_list.draw()
+            #self._mouse_list.draw() #This draws the mouse under menu items due to location
 
             if self._status[2]: #Settings
                 self._settings_menu.draw()
+                self._mouse_list.draw()
             
             elif self._status[3]: #Help
                 self._help_menu.draw()
+                self._mouse_list.draw()
 
             else: #Main Menu
                 self._main_menu.draw()
+                self._mouse_list.draw()
         
         elif self._status[1]: #Paused
                 #ADD IF STATEMENT HERE IF MORE OPTIONS ARE ADDED TO PAUSE
-                self._mouse_list.draw()
                 self._pause_menu.draw()
+                self._mouse_list.draw()
             
         else:
             if self._status[4]: #Game over (Will need more options for restart)
-                self._mouse_list.draw()
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
                                  constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
                                  constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
+                self._mouse_list.draw()
             
             else: #Game playing
                 # Draw all the sprites.
@@ -196,7 +211,7 @@ class SinistarWindow(arcade.Window):
                     ship_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                  self._asteroid_sprites)
                     if ship_hit != []:
-                        arcade.play_sound(self._explosion, 0.8, 0, False)
+                        self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
                         self._score -= 100
                         lives = self._ship.get_lives()
@@ -301,24 +316,71 @@ class SinistarWindow(arcade.Window):
         else:
             pass
 
-        if clicked[0] == buttons[0]:
+        if clicked[0] == buttons[0]: #Start
             self._menu.start_pressed()
-        elif clicked[0] == buttons[1]:
+        elif clicked[0] == buttons[1]: #Settings
             self._menu.settings_pressed()
-        elif clicked[0] == buttons[2]:
+        elif clicked[0] == buttons[2]: #Help
             self._menu.help_pressed()
-        elif clicked[0] == buttons[3]:
+        elif clicked[0] == buttons[3]: #Quit
             self._menu.quit(self)
-        elif clicked[0] == buttons[4]:
+
+        elif clicked[0] == buttons[4]: #Resume
             self._menu.start_pressed()
-        elif clicked[0] == buttons[5]:
+        elif clicked[0] == buttons[5]: #Back
             self._menu.back_pressed()
-        elif clicked[0] == buttons[6]:
+
+        elif clicked[0] == buttons[6]: #Restart
             self._menu.restart(self)
-        elif clicked[0] == buttons[7]:
+        elif clicked[0] == buttons[7]: #Main
             self._menu.go_to_main(self)
+
+        elif clicked[0] == buttons[8]: #Easiest
+            self._menu.change_difficulty(1)
+        elif clicked[0] == buttons[9]: #Easy
+            self._menu.change_difficulty(2)
+        elif clicked[0] == buttons[10]: #Normal
+            self._menu.change_difficulty(3)
+        elif clicked[0] == buttons[11]: #Hard
+            self._menu.change_difficulty(4)
+        elif clicked[0] == buttons[12]: #Sinistar
+            self._menu.change_difficulty(5)
+
+        elif clicked[0] == buttons[15]: #Volume 0
+            self._menu.volume_select(0)
+            self._change_volume(0)
+        elif clicked[0] == buttons[16]: #Volume 0
+            self._menu.volume_select(1)
+            self._change_volume(0.1)
+        elif clicked[0] == buttons[17]: #Volume 0
+            self._menu.volume_select(2)
+            self._change_volume(0.2)
+        elif clicked[0] == buttons[18]: #Volume 0
+            self._menu.volume_select(3)
+            self._change_volume(0.3)
+        elif clicked[0] == buttons[19]: #Volume 0
+            self._menu.volume_select(4)
+            self._change_volume(0.4)
+        elif clicked[0] == buttons[20]: #Volume 0
+            self._menu.volume_select(5)
+            self._change_volume(0.5)
+        elif clicked[0] == buttons[21]: #Volume 0
+            self._menu.volume_select(6)
+            self._change_volume(0.6)
+        elif clicked[0] == buttons[22]: #Volume 0
+            self._menu.volume_select(7)
+            self._change_volume(0.7)
+        elif clicked[0] == buttons[23]: #Volume 0
+            self._menu.volume_select(8)
+            self._change_volume(0.8)
+        elif clicked[0] == buttons[24]: #Volume 0
+            self._menu.volume_select(9)
+            self._change_volume(0.9)
+        elif clicked[0] == buttons[25]: #Volume 0
+            self._menu.volume_select(10)
+            self._change_volume(1)
+
         
         else:
-            pass
+            return
         
-        #print(str(clicked[0]))

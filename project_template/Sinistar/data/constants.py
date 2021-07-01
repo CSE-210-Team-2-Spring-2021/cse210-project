@@ -13,6 +13,7 @@ SPRITE_SCALING_TILES = 0.5
 SPRITE_SCALING_ASTEROIDS = 0.2
 SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
+SPRITE_SCALING_DIFFICULTY = 0.2
 
 # Scaled sprite size for tiles
 SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
@@ -56,6 +57,21 @@ MENU_SETTINGS = ASSET_PATH / 'Menu - Settings.png'
 MENU_START = ASSET_PATH / 'Menu - Start.png'
 MENU_MAIN = ASSET_PATH / 'Menu - Main.png'
 MENU_RESTART = ASSET_PATH / 'Menu - Restart.png'
+
+DIFFICULTY_EASIEST = ASSET_PATH / 'Difficulty - Easiest.png'
+DIFFICULTY_EASY = ASSET_PATH / 'Difficulty - Easy.png'
+DIFFICULTY_NORMAL = ASSET_PATH / 'Difficulty - Normal.png'
+DIFFICULTY_HARD = ASSET_PATH / 'Difficulty - Hard.png'
+DIFFICULTY_SINISTAR = ASSET_PATH / 'Difficulty - Sinistar.png'
+DIFFICULTY_SELECTOR = ASSET_PATH / 'Difficulty - Selector.png'
+DIFFICULTY_LABEL = ASSET_PATH / 'Difficulty - Label.png'
+
+
+VOLUME_SPRITE = ASSET_PATH / 'Volume.png'
+VOLUME_LABEL = ASSET_PATH / 'Volume - Label.png'
+VOLUME_SELECTOR = ASSET_PATH / 'Volume - Selector.png'
+VOLUME_MUTE = ASSET_PATH / 'Mute.png'
+VOLUME_INC = 10
 
 #Sounds
 sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'

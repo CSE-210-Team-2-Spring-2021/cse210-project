@@ -309,10 +309,11 @@ class SinistarWindow(arcade.Window):
                 #Check for collisions
                 if self._immunity <= 0:
                     ship_hit = []
-                    ship_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                    asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._asteroid_sprites)
-                    ship_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                    enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._enemy_sprites)
+                    ship_hit = asteroid_hit + enemy_hit
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY

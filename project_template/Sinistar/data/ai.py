@@ -1,5 +1,6 @@
 import arcade
 from data import constants
+from data.laser import Laser
 
 class AI():
     """Class used for handling the enemy AI
@@ -7,6 +8,13 @@ class AI():
     Sterotypes:
         Information Holder?
     """
+
+    def __init__(self):
+        """
+        
+        """
+
+        self._laser = Laser()
 
     def find_barriers(self, enemy_sprites, all_sprites):
         """Returns a list of barriers to be used to find pathing.
@@ -51,3 +59,11 @@ class AI():
         (tuple_bool, tuple_list) = arcade.has_line_of_sight(enemy_location,
                                                             player_location, all_sprites, 100)
         return (tuple_bool, tuple_list)
+
+    def get_path_vector(self, enemy_location, enemy_path):
+        """
+        
+        """
+
+        vector = enemy_path - enemy_location
+        return vector

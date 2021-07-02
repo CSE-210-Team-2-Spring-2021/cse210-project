@@ -6,8 +6,7 @@ from data.ship import Ship
 from data.asteroid import Asteroid
 from data.asteroid_manager import AsteroidManager
 from data.enemies import EnemyManager
-from data.worker import Worker
-from data.warrior import Warrior
+from data.enemy_laser import EnemyLaser
 from data.laser import Laser
 from data.menu import Menu
 
@@ -56,6 +55,7 @@ class SinistarWindow(arcade.Window):
         self._laser_sprites = None
 
         self._enemy_sprites = None
+        self._enemy_laser_sprites = None
 
         self._status = []
 
@@ -65,6 +65,7 @@ class SinistarWindow(arcade.Window):
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False) 
         self._laser = arcade.Sound(constants.LASER, False)
+        self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, 0, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
 
         #Movement Bool
@@ -114,6 +115,7 @@ class SinistarWindow(arcade.Window):
         self._laser_sprites = Laser(self._all_sprites_list, self._player_sprite)
         # self._all_sprites_list.extend(self._laser_sprites)
 
+        self._enemy_laser_sprites = EnemyLaser()
 
         #Setup Lives Spritelist
         self._lives_sprites = [] #THis is a normal list

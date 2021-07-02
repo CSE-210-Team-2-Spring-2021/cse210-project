@@ -44,8 +44,8 @@ LASER_SPEED = 7
 ASTEROID_COUNT = 20
 
 #Number of Enemies
-WORKER_COUNT = 10
-WARRIOR_COUNT = 20
+WORKER_COUNT = 5
+WARRIOR_COUNT = 5
 
 #Sprites from assets
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory

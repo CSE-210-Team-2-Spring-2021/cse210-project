@@ -54,7 +54,9 @@ class SinistarWindow(arcade.Window):
         self._asteroid_sprites = None
         self._ship = None
         self._laser_sprites = None
-        
+
+        self._enemy_sprites = None
+
         self._status = []
 
         #Create sound objects
@@ -107,9 +109,11 @@ class SinistarWindow(arcade.Window):
         #Set up the player
         self._player_sprite = self._ship.get_ship()
 
+
         # Setup the lasers
         self._laser_sprites = Laser(self._all_sprites_list, self._player_sprite)
         # self._all_sprites_list.extend(self._laser_sprites)
+
 
         #Setup Lives Spritelist
         self._lives_sprites = [] #THis is a normal list
@@ -310,6 +314,8 @@ class SinistarWindow(arcade.Window):
                 for sprite in self._all_sprites_list:
                     self._wrap_sprite(sprite)
 
+
+
                 #Check for collisions
                 # _lasers = Laser.get_lasers(self)
                 # for _laser in _lasers:
@@ -329,11 +335,13 @@ class SinistarWindow(arcade.Window):
                 #         _laser.kill()
                 if self._immunity <= 0:
                     ship_hit = []
+
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._enemy_sprites)                                                    
                     ship_hit = asteroid_hit + enemy_hit                    
+
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY

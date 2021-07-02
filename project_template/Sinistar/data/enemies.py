@@ -1,53 +1,57 @@
 import arcade
-import random
 from data import constants
+from data.menu import Menu
+from data.worker import Worker
+from data.warrior import Warrior
 
-class Enemy():
-    """
-    
-    """
+class EnemyManager(arcade.SpriteList):
+    """This class manages the enemy objects for use in Sinistar window"""
 
-    def __init__(self): 
-        """set default attributes of enemies."""
-
-        _toughness = 1
+    def __init__(self):
+        """Generate initial list of enemies
+        
+        Args:
+            self - an instance of EnemyManager
+        """
+        super().__init__()
+        
+        self.menu = Menu()
+        difficulty_mod = self._retrieve_difficulty()
+        self._generate_list(difficulty_mod)
         
 
-    def generate_enemies(self, all_sprites): 
-        """will decide which type of enemy will be outputted to the screen."""
-
-        self._enemy_sprite = Enemy(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
-        self._enemy_sprite.center_x = constants.SCREEN_WIDTH/2
-        self._enemy_sprite.center_y = constants.SCREEN_HEIGHT/2
-        all_sprites.append(self._enemy_sprite)
-
-        for _ in range(constants.enemy_COUNT):
-            enemy = enemy(constants.enemy_SPRITE, constants.SPRITE_SCALING_enemyS)
-
+    def _generate_list(self, difficulty_mod):
+        """Fills self with enemy objects
+        
+        Args:
+            self - instance of EnemyManager
+        """
+        for _ in range(round(constants.WARRIOR_COUNT * difficulty_mod)):
             #Set Position
-            enemy.center_x = random.randrange(constants.SCREEN_WIDTH)
-            while enemy.center_x in exclude_group_x:
-                enemy.center_x = random.randrange(constants.SCREEN_WIDTH)
+            worker = Worker()
+            self.append(worker)
 
-            enemy.center_y = random.randrange(constants.SCREEN_HEIGHT)
-            while enemy.center_y in exclude_group_y:
-                enemy.center_y = random.randrange(constants.SCREEN_WIDTH)
-                
-            #Set Speed
-            enemy.change_x = random.randint(-2, 2)
-            enemy.change_y = random.randint(-2, 2)
+        for _ in range(round(constants.WORKER_COUNT * difficulty_mod)):
+            #Set Position
+            warrior = Warrior()
+            self.append(warrior)
 
-            all_sprites.append(enemy)
-            self._enemys.append(enemy)
+    def _retrieve_difficulty(self):
+        """
+        
+        """
 
-    def respawn_enemies(self): 
-        """respawns enemies after they are killed off."""
-    
-    def get_enemies(self): 
-        """retreives enemies to be added."""
-    
-    def set_toughness(self): 
-        """determines the amount of damage each enemy can take."""
-    
-    def ai_destroy(self): 
-        """creates the AI for enemies to shoot and chase after player."""
+        diff_temp = self.menu.get_difficulty()
+
+        if diff_temp == 1:
+            difficulty_modifier = .2
+        elif diff_temp == 2:
+            difficulty_modifier = .4
+        elif diff_temp == 3:
+            difficulty_modifier = .6
+        elif diff_temp == 4:
+            difficulty_modifier = .8
+        else:
+            difficulty_modifier = 1
+
+        return difficulty_modifier

@@ -28,7 +28,7 @@ https://arcade.academy/quick_index.html
 		(choose difficulty)
 		(received by enemies and asteroids)
 		__init__(self): sets difficulty to default, default == ???
-		set_difficulty(self): takes input from something and set attributes that is read by enemies and asteroids. Will have booleans for different 						features. Difficulty from 1-5
+		set_difficulty(self): takes input from something and set attributes that is read by enemies and asteroids. Will have booleans for different features. Difficulty from 1-5
 		
 
 

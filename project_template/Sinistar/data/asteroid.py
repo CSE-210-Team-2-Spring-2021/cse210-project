@@ -1,5 +1,6 @@
+from os import X_OK
 import arcade
-import random
+import random, math
 from data import constants
 
 class Asteroid(arcade.Sprite):
@@ -8,37 +9,38 @@ class Asteroid(arcade.Sprite):
     Stereotype: Information Holder
 
     Attributes:
-        _location (coordinate) - the actors position in 2D space
-        _velocity (coordinate) - the actors speed and direction 
+        
         
     """
-    def generate_astroids(self, all_sprites):
-        """Creates astroid sprites with random location and velocity
+    def __init__(self):
+        """
+        Class Constructor"""
+        super().__init__(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_ASTEROIDS)
+        self._setup_asteroid()
+
+    def _setup_asteroid(self):
+        """Responsible for assigning the position and velocity of asteroid
+        
         Args:
-            self - An instance of Asteroid
-            all_sprites - List of all sprites from WinistarWindow"""
-        self._asteroids = arcade.SpriteList()
-        exclude_group_x = range(constants.SCREEN_WIDTH - 200, constants.SCREEN_WIDTH + 200)
-        exclude_group_y = range(constants.SCREEN_HEIGHT - 200, constants.SCREEN_HEIGHT + 200)
+            self - An Instance of Asteroid
+        """
+        x = constants.SCREEN_WIDTH
+        y = constants.SCREEN_HEIGHT
+        speed = 2
+        exclude_group_x = range(math.ceil(x/2) - 200, math.ceil(x/2) + 200)
+        exclude_group_y = range(math.ceil(y/2) - 200, math.ceil(y/2) + 200)
 
-        for _ in range(constants.ASTEROID_COUNT):
-            asteroid = Asteroid(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_ASTEROIDS)
+        self.center_x = random.randrange(x)
+        while self.center_x in exclude_group_x:
+            self.center_x = random.randrange(x)
 
-            #Set Position
-            asteroid.center_x = random.randrange(constants.SCREEN_WIDTH)
-            while asteroid.center_x in exclude_group_x:
-                asteroid.center_x = random.randrange(constants.SCREEN_WIDTH)
+        self.center_y = random.randrange(y)
+        while self.center_y in exclude_group_y:
+            self.center_y = random.randrange(x)
 
-            asteroid.center_y = random.randrange(constants.SCREEN_HEIGHT)
-            while asteroid.center_y in exclude_group_y:
-                asteroid.center_y = random.randrange(constants.SCREEN_WIDTH)
-                
-            #Set Speed
-            asteroid.change_x = random.randint(-2, 2)
-            asteroid.change_y = random.randint(-2, 2)
-
-            all_sprites.append(asteroid)
-            self._asteroids.append(asteroid)
+        #Set Speed
+        self.change_x = random.randint(-speed, speed)
+        self.change_y = random.randint(-speed, speed)
 
     # add in each new instance of asteroid
     def add_asteroid(self):

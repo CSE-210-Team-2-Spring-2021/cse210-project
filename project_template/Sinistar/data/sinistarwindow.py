@@ -359,22 +359,22 @@ class SinistarWindow(arcade.Window):
             key - the key pressed
             player_sprite - the player's sprite object
         """
-        if key == arcade.key.UP:
+        if key == arcade.key.UP or key == arcade.key.W:
             #self._player_sprite.change_y = constants.MOVEMENT_SPEED
             #self._player_sprite.speed = constants.MOVEMENT_SPEED
             self.up_pressed = True
         
-        elif key == arcade.key.DOWN:
+        elif key == arcade.key.DOWN or key == arcade.key.S:
             #self._player_sprite.change_y = -constants.MOVEMENT_SPEED
             #self._player_sprite.speed = -constants.MOVEMENT_SPEED
             self.down_pressed = True
 
-        elif key == arcade.key.LEFT:
+        elif key == arcade.key.LEFT or key == arcade.key.A:
             #self._player_sprite.change_x = -constants.MOVEMENT_SPEED
             #self._player_sprite.change_angle = constants.ANGLE_SPEED
             self.left_pressed = True
 
-        elif key == arcade.key.RIGHT:
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
             #self._player_sprite.change_x = constants.MOVEMENT_SPEED
             #self._player_sprite.change_angle = -constants.ANGLE_SPEED
             self.right_pressed = True
@@ -403,13 +403,13 @@ class SinistarWindow(arcade.Window):
         #elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
         #    self._player_sprite.change_angle = 0
 
-        if key == arcade.key.UP:
+        if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = False
-        elif key == arcade.key.DOWN:
+        elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_pressed = False
-        elif key == arcade.key.LEFT:
+        elif key == arcade.key.LEFT or key == arcade.key.A:
             self.left_pressed = False
-        elif key == arcade.key.RIGHT:
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_pressed = False
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -423,7 +423,7 @@ class SinistarWindow(arcade.Window):
         """Handles clicking menu"""
 
         buttons = self._menu.get_menu()
-        clicked = []
+        clicked = [] 
         #self._status (0 - Main, 1 - Pause, 2 - Settings, 3 - Help, 4 - Game Over)
         if self._status[0]: #main menu
             if self._status[2]:
@@ -438,74 +438,75 @@ class SinistarWindow(arcade.Window):
         
         elif self._status[4]:
             clicked = arcade.check_for_collision_with_list(self._mouse_sprite, self._game_over_menu)
-        else:
-            pass
-
-        if clicked[0] == buttons[0]: #Start
-            self._menu.start_pressed()
-        elif clicked[0] == buttons[1]: #Settings
-            self._menu.settings_pressed()
-        elif clicked[0] == buttons[2]: #Help
-            self._menu.help_pressed()
-        elif clicked[0] == buttons[3]: #Quit
-            self._menu.quit(self)
-
-        elif clicked[0] == buttons[4]: #Resume
-            self._menu.start_pressed()
-        elif clicked[0] == buttons[5]: #Back
-            self._menu.back_pressed()
-
-        elif clicked[0] == buttons[6]: #Restart
-            self._menu.restart(self)
-        elif clicked[0] == buttons[7]: #Main
-            self._menu.go_to_main(self)
-
-        elif clicked[0] == buttons[8]: #Easiest
-            self._menu.change_difficulty(1)
-        elif clicked[0] == buttons[9]: #Easy
-            self._menu.change_difficulty(2)
-        elif clicked[0] == buttons[10]: #Normal
-            self._menu.change_difficulty(3)
-        elif clicked[0] == buttons[11]: #Hard
-            self._menu.change_difficulty(4)
-        elif clicked[0] == buttons[12]: #Sinistar
-            self._menu.change_difficulty(5)
-
-        elif clicked[0] == buttons[15]: #Volume 0
-            self._menu.volume_select(0)
-            self._change_volume(0)
-        elif clicked[0] == buttons[16]: #Volume 0
-            self._menu.volume_select(1)
-            self._change_volume(0.1)
-        elif clicked[0] == buttons[17]: #Volume 0
-            self._menu.volume_select(2)
-            self._change_volume(0.2)
-        elif clicked[0] == buttons[18]: #Volume 0
-            self._menu.volume_select(3)
-            self._change_volume(0.3)
-        elif clicked[0] == buttons[19]: #Volume 0
-            self._menu.volume_select(4)
-            self._change_volume(0.4)
-        elif clicked[0] == buttons[20]: #Volume 0
-            self._menu.volume_select(5)
-            self._change_volume(0.5)
-        elif clicked[0] == buttons[21]: #Volume 0
-            self._menu.volume_select(6)
-            self._change_volume(0.6)
-        elif clicked[0] == buttons[22]: #Volume 0
-            self._menu.volume_select(7)
-            self._change_volume(0.7)
-        elif clicked[0] == buttons[23]: #Volume 0
-            self._menu.volume_select(8)
-            self._change_volume(0.8)
-        elif clicked[0] == buttons[24]: #Volume 0
-            self._menu.volume_select(9)
-            self._change_volume(0.9)
-        elif clicked[0] == buttons[25]: #Volume 0
-            self._menu.volume_select(10)
-            self._change_volume(1)
-
-        
-        else:
+        else: #Gameplay
             return
+
+        if clicked == []: #prevents index errors
+            return
+        else:
+            if clicked[0] == buttons[0]: #Start
+                self._menu.start_pressed()
+            elif clicked[0] == buttons[1]: #Settings
+                self._menu.settings_pressed()
+            elif clicked[0] == buttons[2]: #Help
+                self._menu.help_pressed()
+            elif clicked[0] == buttons[3]: #Quit
+                self._menu.quit(self)
+
+            elif clicked[0] == buttons[4]: #Resume
+                self._menu.start_pressed()
+            elif clicked[0] == buttons[5]: #Back
+                self._menu.back_pressed()
+
+            elif clicked[0] == buttons[6]: #Restart
+                self._menu.restart(self)
+            elif clicked[0] == buttons[7]: #Main
+                self._menu.go_to_main(self)
+
+            elif clicked[0] == buttons[8]: #Easiest
+                self._menu.change_difficulty(1)
+            elif clicked[0] == buttons[9]: #Easy
+                self._menu.change_difficulty(2)
+            elif clicked[0] == buttons[10]: #Normal
+                self._menu.change_difficulty(3)
+            elif clicked[0] == buttons[11]: #Hard
+                self._menu.change_difficulty(4)
+            elif clicked[0] == buttons[12]: #Sinistar
+                self._menu.change_difficulty(5)
+
+            elif clicked[0] == buttons[15]: #Volume 0
+                self._menu.volume_select(0)
+                self._change_volume(0)
+            elif clicked[0] == buttons[16]: #Volume 0
+                self._menu.volume_select(1)
+                self._change_volume(0.1)
+            elif clicked[0] == buttons[17]: #Volume 0
+                self._menu.volume_select(2)
+                self._change_volume(0.2)
+            elif clicked[0] == buttons[18]: #Volume 0
+                self._menu.volume_select(3)
+                self._change_volume(0.3)
+            elif clicked[0] == buttons[19]: #Volume 0
+                self._menu.volume_select(4)
+                self._change_volume(0.4)
+            elif clicked[0] == buttons[20]: #Volume 0
+                self._menu.volume_select(5)
+                self._change_volume(0.5)
+            elif clicked[0] == buttons[21]: #Volume 0
+                self._menu.volume_select(6)
+                self._change_volume(0.6)
+            elif clicked[0] == buttons[22]: #Volume 0
+                self._menu.volume_select(7)
+                self._change_volume(0.7)
+            elif clicked[0] == buttons[23]: #Volume 0
+                self._menu.volume_select(8)
+                self._change_volume(0.8)
+            elif clicked[0] == buttons[24]: #Volume 0
+                self._menu.volume_select(9)
+                self._change_volume(0.9)
+            elif clicked[0] == buttons[25]: #Volume 0
+                self._menu.volume_select(10)
+                self._change_volume(1)
+            else:
+                return
         

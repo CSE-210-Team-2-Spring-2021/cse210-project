@@ -131,7 +131,10 @@ class Menu:
         V_LABEL.center_y = y/2 + 200
         menu.append(V_LABEL) #27
 
-        
+        INSTRUCTIONS = arcade.Sprite(constants.INSTRUCTIONS, menu_scaling)
+        INSTRUCTIONS.center_x = x/2
+        INSTRUCTIONS.center_y = y/2 + 50
+        menu.append(INSTRUCTIONS) #28
 
         for sprite in menu:
             self._menu_sprites.append(sprite)
@@ -157,7 +160,8 @@ class Menu:
                 self._settings_sprites.append(item)
         
         #HELP MENU
-        self._help_sprites.append(self._menu_sprites[5]) #BACK
+        self._help_sprites.append(self._menu_sprites[5])#BACK
+        self._help_sprites.append(self._menu_sprites[28]) 
 
         #GAME OVER
         self._game_over_sprites.append(self._menu_sprites[3])
@@ -244,6 +248,7 @@ class Menu:
         Args:
             self - an Instance of Menu
         """
+        self._menu_sprites[5].center_y = constants.SCREEN_HEIGHT/2 - 400 #Lower Back button
         self._is_settings = False
         self._is_help = True
 
@@ -268,6 +273,7 @@ class Menu:
         Args:
             self - an Instance of Menu
         """
+        self._menu_sprites[5].center_y = constants.SCREEN_HEIGHT/2 - 200 #move back button back
         self._is_settings = False
         self._is_help = False
 

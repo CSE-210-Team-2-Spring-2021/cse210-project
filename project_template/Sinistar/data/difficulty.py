@@ -17,17 +17,17 @@ class Difficulty():
 
     def set_difficulty(self):
         if self._change_difficulty() == 1:
-            self._add_asteroid(1)
-            self._retrieve_difficulty(1)
+            self._difficulty = self._add_asteroid(
+                1) & self._retrieve_difficulty(1)
         elif self._change_difficulty() == 2:
-            self._add_asteroid(2)
-            self._retrieve_difficulty(2)
+            self._difficulty = self._add_asteroid(
+                2) & self._retrieve_difficulty(2)
         elif self._change_difficulty() == 3:
-            self._add_asteroid(3)
-            self._retrieve_difficulty(3)
+            self._difficulty = self._add_asteroid(
+                3) & self._retrieve_difficulty(3)
         elif self._change_difficulty() == 4:
-            self._add_asteroid(4)
-            self._retrieve_difficulty(4)
+            self._difficulty = self._add_asteroid(
+                4) & self._retrieve_difficulty(4)
         else:
-            self._add_asteroid(5)
-            self._retrieve_difficulty(5)
+            self._difficulty = self._add_asteroid(
+                5) & self._retrieve_difficulty(5)

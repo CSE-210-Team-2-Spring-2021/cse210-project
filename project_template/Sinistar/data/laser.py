@@ -1,3 +1,4 @@
+from data.ship import Ship
 from data.constants import LASER_SPRITE, SCREEN_HEIGHT, SCREEN_WIDTH
 import arcade
 import random
@@ -27,6 +28,7 @@ class Laser(arcade.Sprite):
         self._laser_speed = constants.LASER_SPEED
         self.generate_laser(all_sprites, _player_sprite)
         self.delete_laser()
+        self.get_lasers()
 
     def generate_laser(self, all_sprites, _player_sprite):
         """Generates each new instance of laser shooting from player ship
@@ -35,10 +37,8 @@ class Laser(arcade.Sprite):
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of player ship
-        self.change_y = math.cos(math.radians(
-            _player_sprite.angle - 90)) * self._laser_speed
-        self.change_x = math.sin(math.radians(
-            _player_sprite.angle - 90)) * self._laser_speed
+        self.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * self._laser_speed
+        self.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * self._laser_speed
 
         self.center_x = _player_sprite.center_x
         self.center_y = _player_sprite.center_y
@@ -62,4 +62,4 @@ class Laser(arcade.Sprite):
     def get_lasers(self):
         """Returns laser list"""
 
-        return self._lasers
+        return self._laser_sprites

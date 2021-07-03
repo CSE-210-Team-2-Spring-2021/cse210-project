@@ -368,7 +368,6 @@ class SinistarWindow(arcade.Window):
             self - An instance of self
             sprite - a sprite object
         """
-
         if sprite.center_x <= 0:
             sprite.center_x = constants.SCREEN_WIDTH - 1
 
@@ -379,7 +378,7 @@ class SinistarWindow(arcade.Window):
             sprite.center_x = 1
 
         elif sprite.center_y > constants.SCREEN_HEIGHT:
-            sprite.center_y = 1
+                sprite.center_y = 1
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

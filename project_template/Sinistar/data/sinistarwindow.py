@@ -311,22 +311,22 @@ class SinistarWindow(arcade.Window):
                     self._wrap_sprite(sprite)
 
                 #Check for collisions
-                # _lasers = Laser.get_lasers(self)
-                # for _laser in _lasers:
-                #     asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
-                #                             self._asteroid_sprites) 
-                #     enemies = arcade.check_for_collision_with_list(self._laser_sprites,
-                #                             self._enemy_sprites)
-                #     for asteroid in asteroids:
-                #         self._explosion.play(self._volume, 0, False)
-                #         self._score += 50
-                #         asteroid.kill()
-                #         _laser.kill()
-                #     for enemy in enemies:
-                #         self._explosion.play(self._volume, 0, False)
-                #         self._score += 200
-                #         enemy.kill()
-                #         _laser.kill()
+                _lasers = self._laser_sprites.get_lasers()
+                for _laser in _lasers:
+                    asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
+                                            self._asteroid_sprites) 
+                    enemies = arcade.check_for_collision_with_list(self._laser_sprites,
+                                            self._enemy_sprites)
+                for asteroid in asteroids:
+                    self._explosion.play(self._volume, 0, False)
+                    self._score += 50
+                    asteroid.kill()
+                    _laser.kill()
+                for enemy in enemies:
+                    self._explosion.play(self._volume, 0, False)
+                    self._score += 200
+                    enemy.kill()
+                    _laser.kill()
                 if self._immunity <= 0:
                     ship_hit = []
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,

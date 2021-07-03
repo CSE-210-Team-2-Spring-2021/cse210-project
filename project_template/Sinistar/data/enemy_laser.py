@@ -49,8 +49,8 @@ class EnemyLaser(arcade.Sprite):
         super().update()  # init from arcade.Sprite update functionality
         _enemy_laser_sprites = self._enemy_laser_sprites
         for _ in _enemy_laser_sprites:
-            if self.center_x < 0 or self.center_x > SCREEN_WIDTH or \
-                    self.center_y > SCREEN_HEIGHT or self.center_y < 0:
+            if self.center_x < 0 or self.center_x > constants.SCREEN_WIDTH or \
+                    self.center_y > constants.SCREEN_HEIGHT or self.center_y < 0:
                 self.kill()
 
     def get_lasers(self):

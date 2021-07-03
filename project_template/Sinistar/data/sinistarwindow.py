@@ -65,7 +65,7 @@ class SinistarWindow(arcade.Window):
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False) 
         self._laser = arcade.Sound(constants.LASER, False)
-        self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, 0, False)
+        self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
 
         #Movement Bool

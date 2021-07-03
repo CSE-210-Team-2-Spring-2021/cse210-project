@@ -6,8 +6,7 @@ from data.ship import Ship
 from data.asteroid import Asteroid
 from data.asteroid_manager import AsteroidManager
 from data.enemies import EnemyManager
-from data.worker import Worker
-from data.warrior import Warrior
+from data.enemy_laser import EnemyLaser
 from data.laser import Laser
 from data.menu import Menu
 
@@ -54,7 +53,10 @@ class SinistarWindow(arcade.Window):
         self._asteroid_sprites = None
         self._ship = None
         self._laser_sprites = None
-        
+
+        self._enemy_sprites = None
+        self._enemy_laser_sprites = None
+
         self._status = []
 
         #Create sound objects
@@ -63,6 +65,7 @@ class SinistarWindow(arcade.Window):
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False) 
         self._laser = arcade.Sound(constants.LASER, False)
+        self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
 
         #Movement Bool
@@ -107,9 +110,11 @@ class SinistarWindow(arcade.Window):
         #Set up the player
         self._player_sprite = self._ship.get_ship()
 
+
         # Setup the lasers
         self._laser_sprites = Laser(self._all_sprites_list, self._player_sprite)
-        # self._all_sprites_list.extend(self._laser_sprites)
+
+        self._enemy_laser_sprites = EnemyLaser()
 
         #Setup Lives Spritelist
         self._lives_sprites = [] #THis is a normal list
@@ -310,30 +315,35 @@ class SinistarWindow(arcade.Window):
                 for sprite in self._all_sprites_list:
                     self._wrap_sprite(sprite)
 
+
+
                 #Check for collisions
-                # _lasers = Laser.get_lasers(self)
-                # for _laser in _lasers:
-                #     asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
-                #                             self._asteroid_sprites) 
-                #     enemies = arcade.check_for_collision_with_list(self._laser_sprites,
-                #                             self._enemy_sprites)
-                #     for asteroid in asteroids:
-                #         self._explosion.play(self._volume, 0, False)
-                #         self._score += 50
-                #         asteroid.kill()
-                #         _laser.kill()
-                #     for enemy in enemies:
-                #         self._explosion.play(self._volume, 0, False)
-                #         self._score += 200
-                #         enemy.kill()
-                #         _laser.kill()
+                self._laser_sprites.delete_laser()
+                _lasers = self._laser_sprites.get_lasers()
+                for _laser in _lasers:
+                    asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
+                                            self._asteroid_sprites) 
+                    enemies = arcade.check_for_collision_with_list(self._laser_sprites,
+                                            self._enemy_sprites)
+                for asteroid in asteroids:
+                    self._explosion.play(self._volume, 0, False)
+                    self._score += 50
+                    asteroid.kill()
+                    _laser.kill()
+                for enemy in enemies:
+                    self._explosion.play(self._volume, 0, False)
+                    self._score += 200
+                    enemy.kill()
+                    _laser.kill()
                 if self._immunity <= 0:
                     ship_hit = []
+
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                 self._enemy_sprites)                                                    
                     ship_hit = asteroid_hit + enemy_hit                    
+
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
@@ -358,7 +368,6 @@ class SinistarWindow(arcade.Window):
             self - An instance of self
             sprite - a sprite object
         """
-
         if sprite.center_x <= 0:
             sprite.center_x = constants.SCREEN_WIDTH - 1
 
@@ -369,7 +378,7 @@ class SinistarWindow(arcade.Window):
             sprite.center_x = 1
 
         elif sprite.center_y > constants.SCREEN_HEIGHT:
-            sprite.center_y = 1
+                sprite.center_y = 1
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

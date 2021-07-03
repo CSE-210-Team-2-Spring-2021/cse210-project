@@ -1,7 +1,4 @@
-from data.ship import Ship
-from data.constants import LASER_SPRITE, SCREEN_HEIGHT, SCREEN_WIDTH
 import arcade
-import random
 import math
 from data import constants
 # from data.projectile import Projectile
@@ -9,7 +6,7 @@ from data import constants
 # Laser class for projectiles shooting from front of ship.
 
 
-class Laser(arcade.Sprite):
+class EnemyLaser(arcade.Sprite):
     """Subclass of Actors to create instances of asteroid
 
     Stereotype: Information Holder
@@ -20,31 +17,28 @@ class Laser(arcade.Sprite):
     """
     # instantiate as a projectile sprite and inherit the init from arcade.Sprite.
 
-    def __init__(self, all_sprites, _player_sprite):
+    def __init__(self):
         """
         Class Constructor"""
-        super().__init__(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
-        self._laser_sprites = []
+        super().__init__(constants.ENEMY_LASER_SPRITE, constants.SPRITE_SCALING_ENEMY_LASERS)
+        self._enemy_laser_sprites = []
         self._laser_speed = constants.LASER_SPEED
-        self.generate_laser(all_sprites, _player_sprite)
-        self.delete_laser()
-        self.get_lasers()
 
-    def generate_laser(self, all_sprites, _player_sprite):
+    def generate_laser(self, all_sprites, _enemy_sprite):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of player ship
-        self.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * self._laser_speed
-        self.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * self._laser_speed
+        self.change_y = math.cos(math.radians(_enemy_sprite.angle - 90)) * self._laser_speed
+        self.change_x = -math.sin(math.radians(_enemy_sprite.angle - 90)) * self._laser_speed
 
-        self.center_x = _player_sprite.center_x
-        self.center_y = _player_sprite.center_y
+        self.center_x = _enemy_sprite.center_x
+        self.center_y = _enemy_sprite.center_y
 
         # add laser to laser list, and add to all sprites list
-        self._laser_sprites.append(self)
+        self._enemy_laser_sprites.append(self)
         all_sprites.append(self)
 
     def delete_laser(self):
@@ -53,18 +47,13 @@ class Laser(arcade.Sprite):
                 self - an instance of laser
         """
         super().update()  # init from arcade.Sprite update functionality
-        _laser_sprites = self._laser_sprites
-        for _ in _laser_sprites:
-            if self.right < 0:
-                self.remove_from_sprite_lists()
-            elif self.left > SCREEN_WIDTH:
-                self.remove_from_sprite_lists()
-            elif self.bottom > SCREEN_HEIGHT:
-                self.remove_from_sprite_lists() 
-            elif self.top < 0:
-                self.remove_from_sprite_lists()
+        _enemy_laser_sprites = self._enemy_laser_sprites
+        for _ in _enemy_laser_sprites:
+            if self.center_x < 0 or self.center_x > constants.SCREEN_WIDTH or \
+                    self.center_y > constants.SCREEN_HEIGHT or self.center_y < 0:
+                self.kill()
 
     def get_lasers(self):
         """Returns laser list"""
 
-        return self._laser_sprites
+        return self._enemy_laser_sprites

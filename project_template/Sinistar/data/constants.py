@@ -12,6 +12,7 @@ SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
 SPRITE_SCALING_ASTEROIDS = 0.2
 SPRITE_SCALING_ENEMIES = 1
+SPRITE_SCALING_ENEMY_LASERS = 1
 SPRITE_SCALING_LASERS = .04
 SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
@@ -44,8 +45,8 @@ LASER_SPEED = 7
 ASTEROID_COUNT = 20
 
 #Number of Enemies
-WORKER_COUNT = 10
-WARRIOR_COUNT = 20
+WORKER_COUNT = 5
+WARRIOR_COUNT = 5
 
 #Sprites from assets
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
@@ -57,6 +58,7 @@ WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'
+ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
 
 MOUSE = ASSET_PATH / 'mouse.png'
 
@@ -90,3 +92,4 @@ THEME = sound_path / 'bensound-scifi.mp3'
 EXPLOSION = sound_path / 'explosion.wav'
 COMICAL_EXPLOSION = sound_path / 'boom.wav'
 LASER = sound_path / 'laser.wav'
+ENEMY_LASER = sound_path / 'laser-gun-19sf.mp3'

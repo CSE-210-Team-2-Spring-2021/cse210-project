@@ -109,7 +109,6 @@ class SinistarWindow(arcade.Window):
 
         # Setup the lasers
         self._laser_sprites = Laser(self._all_sprites_list, self._player_sprite)
-        # self._all_sprites_list.extend(self._laser_sprites)
 
         #Setup Lives Spritelist
         self._lives_sprites = [] #THis is a normal list
@@ -311,6 +310,7 @@ class SinistarWindow(arcade.Window):
                     self._wrap_sprite(sprite)
 
                 #Check for collisions
+                self._laser_sprites.delete_laser()
                 _lasers = self._laser_sprites.get_lasers()
                 for _laser in _lasers:
                     asteroids = arcade.check_for_collision_with_list(self._laser_sprites,

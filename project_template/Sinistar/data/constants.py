@@ -17,6 +17,7 @@ SPRITE_SCALING_LASERS = .04
 SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
 SPRITE_SCALING_DIFFICULTY = 0.2
+SPRITE_SCALING_INSTRUCTIONS = 0.7
 
 # Scaled sprite size for tiles
 SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
@@ -85,6 +86,8 @@ VOLUME_LABEL = ASSET_PATH / 'Volume - Label.png'
 VOLUME_SELECTOR = ASSET_PATH / 'Volume - Selector.png'
 VOLUME_MUTE = ASSET_PATH / 'Mute.png'
 VOLUME_INC = 10
+
+INSTRUCTIONS = ASSET_PATH / 'Help_Menu.png'
 
 #Sounds
 sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'

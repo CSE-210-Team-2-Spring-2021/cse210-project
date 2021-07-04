@@ -73,3 +73,4 @@ Chase Patterson - pat20001@byui.edu
 
 In-Game Theme: https://www.bensound.com
 Enemy Laser Sound: https://www.soundfishing.eu
+Laser Sound: https://www.findsounds.com

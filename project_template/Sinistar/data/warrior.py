@@ -76,7 +76,6 @@ class Warrior(arcade.Sprite):
         """
         if self._path:
             if len(self._path) > 2:
-                print(self._path)
                 start_x = self._path[0][0]
                 start_y = self._path[0][1]
                 end_x = self._path[1][0]

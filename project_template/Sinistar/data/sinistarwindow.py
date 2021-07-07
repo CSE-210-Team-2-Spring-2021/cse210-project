@@ -313,6 +313,10 @@ class SinistarWindow(arcade.Window):
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
+                
+                #for enemy in self._enemy_sprites:
+                #    if enemy.get_path():
+                #        arcade.draw_line_strip(enemy.get_path(), arcade.color.BLUE, 2)
 
     def on_update(self, delta_time):
         """ Movement and game logic """
@@ -390,8 +394,12 @@ class SinistarWindow(arcade.Window):
                 else:
                     self._immunity -= 1
 
+                #enemy movement
+                barriers = self._ai.find_barriers(self._enemy_sprites, self._all_sprites_list)
                 for enemy in self._enemy_sprites:
                     self._ai.face_player(enemy, self._player_sprite)
+                    
+                    enemy.set_path(self._ai.do_pathing(enemy.position, self._player_sprite.position, barriers))                  
 
     def _wrap_sprite(self, sprite):
         """Wraps Sprite objects 

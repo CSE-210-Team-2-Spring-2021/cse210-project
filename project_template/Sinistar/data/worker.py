@@ -49,3 +49,20 @@ class Worker(arcade.Sprite):
         """Returns astroids list"""
 
         return self._workers
+    
+    def set_path(self, path, ):
+        """Sets the path attribute
+        
+        Args:
+            self - instance of Enemies
+            path - An astar path instance
+        """
+        self._path = path
+
+    def get_path(self):
+        """Sets the path attribute
+        
+        Args:
+            self - instance of Enemies
+        """
+        return self._path

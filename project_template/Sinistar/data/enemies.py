@@ -18,6 +18,7 @@ class EnemyManager(arcade.SpriteList):
         self.menu = Menu()
         difficulty_mod = self._retrieve_difficulty()
         self._generate_list(difficulty_mod)
+        self._path = None
         
 
     def _generate_list(self, difficulty_mod):

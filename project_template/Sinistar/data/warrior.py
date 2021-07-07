@@ -49,3 +49,40 @@ class Warrior(arcade.Sprite):
         """Returns astroids list"""
 
         return self._warriors
+    
+    def set_path(self, path):
+        """Sets the path attribute
+        
+        Args:
+            self - instance of Enemies
+            path - An astar path instance
+        """
+        self._path = path
+        self._change_direction()
+
+    def get_path(self):
+        """Sets the path attribute
+        
+        Args:
+            self - instance of Enemies
+        """
+        return self._path
+
+    def _change_direction(self):
+        """Sets the direciton to follow the path
+        
+        Args:
+            self - instance of Warrior
+        """
+        if self._path:
+            if len(self._path) > 2:
+                print(self._path)
+                start_x = self._path[0][0]
+                start_y = self._path[0][1]
+                end_x = self._path[1][0]
+                end_y = self._path[1][1]
+                direction = (end_x - start_x, end_y - start_y)
+
+
+                self.change_x = direction[0]/constants.GRID * 2
+                self.change_y = direction[1]/constants.GRID * 2

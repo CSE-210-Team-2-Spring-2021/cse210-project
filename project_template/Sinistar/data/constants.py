@@ -7,6 +7,8 @@ SCREEN_TITLE = "Definitely Not a Sinistar Clone"
 # How big are our image tiles?
 SPRITE_IMAGE_SIZE = 128
 
+GRID = 128
+
 # Scale sprites up or down
 SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5

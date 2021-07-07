@@ -10,6 +10,7 @@ from data.asteroid_manager import AsteroidManager
 from data.enemies import EnemyManager
 from data.enemy_laser import EnemyLaser
 from data.laser import Laser
+from data.laser_manager import LaserManager
 from data.menu import Menu
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
@@ -123,8 +124,7 @@ class SinistarWindow(arcade.Window):
         self._player_sprite = self._ship.get_ship()
 
         # Setup the lasers
-        self._laser_sprites = Laser(
-            self._all_sprites_list, self._player_sprite)
+        self._laser_sprites = LaserManager(self._all_sprites_list, self._player_sprite)
 
         self._enemy_laser_sprites = EnemyLaser()
 

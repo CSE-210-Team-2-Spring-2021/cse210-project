@@ -15,7 +15,6 @@ class Ship(arcade.Sprite):
         """
         Class Constructor"""
         super().__init__(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
-        self._player_sprite = None
         self._lives = None
         self.speed = 0
         self.angle = 90
@@ -56,6 +55,101 @@ class Ship(arcade.Sprite):
             self - An instance of SHip
         """
         return self
+
+    def move(self, up_pressed, down_pressed, left_pressed, right_pressed):
+        """Controls the movement of the ship
+        
+        Args:
+            self - An instance of ship
+        """
+        FRICTION = constants.DECELERATION_RATE
+        ACCELERATION_RATE = constants.ACCELERATION_RATE
+        ANGLE_DECAY = constants.ANGLE_DECAY
+        ANGLE_RATE = constants.ANGLE_SPEED
+        MAX_SPEED = constants.MOVEMENT_SPEED
+        angle = self.angle
+        angle_rad = math.radians(angle)
+        speed = math.sqrt(self.change_x **
+                          2 + self.change_y ** 2)
+
+        # Find angle in radians that the ship is moving in (not where it is facing)
+        if self.change_x != 0:  # No division by 0
+            velocity_rad = math.atan(
+                self.change_y/self.change_x)
+        else:
+            if self.change_y > 0:  # Player moving up
+                velocity_rad = math.pi/2
+            else:
+                velocity_rad = -math.pi/2
+
+        # Slows down the ship as it drifts
+        if speed > FRICTION:
+            if self.change_x > 0:
+                self.change_x -= abs(
+                    FRICTION * math.cos(velocity_rad))
+            elif self.change_x < 0:
+                self.change_x += abs(
+                    FRICTION * math.cos(velocity_rad))
+            else:
+                self.change_x = 0
+            if self.change_y > 0:
+                self.change_y -= abs(
+                    FRICTION * math.sin(velocity_rad))
+            elif self.change_y < 0:
+                self.change_y += abs(
+                    FRICTION * math.sin(velocity_rad))
+            else:
+                self.change_y = 0
+        else:
+            self.change_x = 0
+            self.change_y = 0
+
+        # Slows down ships rotation
+        if self.change_angle > ANGLE_DECAY:
+            self.change_angle -= ANGLE_DECAY
+        elif self.change_angle < -ANGLE_DECAY:
+            self.change_angle += ANGLE_DECAY
+        else:
+            self.change_angle = 0
+
+        angle = self.angle  # Update values
+        angle_rad = math.radians(angle)
+
+        # Apply acceleration based on the keys pressed
+        if up_pressed and not down_pressed:
+            self.change_x += ACCELERATION_RATE * \
+                math.cos(angle_rad)
+            self.change_y += ACCELERATION_RATE * \
+                math.sin(angle_rad)
+        elif down_pressed and not up_pressed:
+            self.change_x -= ACCELERATION_RATE * \
+                math.cos(angle_rad)
+            self.change_y -= ACCELERATION_RATE * \
+                math.sin(angle_rad)
+        if left_pressed and not right_pressed:
+            self.change_angle = ANGLE_RATE
+        elif right_pressed and not left_pressed:
+            self.change_angle = -ANGLE_RATE
+
+        # Stop the ship from moving beyond max speed
+        speed = math.sqrt(self.change_x **
+                          2 + self.change_y ** 2)
+        if speed > MAX_SPEED:
+            velocity_rad = math.atan(
+                self.change_y/self.change_x)
+            angle_rad = math.radians(angle)
+            if self.change_x > 0:
+                self.change_x = abs(
+                    MAX_SPEED * math.cos(velocity_rad))
+            elif self.change_x < 0:
+                self.change_x = - \
+                    abs(MAX_SPEED * math.cos(velocity_rad))
+            if self.change_y > 0:
+                self.change_y = abs(
+                    MAX_SPEED * math.sin(velocity_rad))
+            elif self.change_y < 0:
+                self.change_y = - \
+                    abs(MAX_SPEED * math.sin(velocity_rad))
 
 
    

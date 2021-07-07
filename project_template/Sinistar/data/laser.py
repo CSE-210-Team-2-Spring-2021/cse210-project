@@ -55,13 +55,13 @@ class Laser(arcade.Sprite):
         super().update()  # init from arcade.Sprite update functionality
         _laser_sprites = self._laser_sprites
         for _ in _laser_sprites:
-            if self.right < 0:
+            if self.right < 5:
                 self.remove_from_sprite_lists()
-            elif self.left > SCREEN_WIDTH:
+            elif self.left > SCREEN_WIDTH - 5:
                 self.remove_from_sprite_lists()
-            elif self.bottom > SCREEN_HEIGHT:
+            elif self.bottom > SCREEN_HEIGHT - 5:
                 self.remove_from_sprite_lists() 
-            elif self.top < 0:
+            elif self.top < 5:
                 self.remove_from_sprite_lists()
 
     def get_lasers(self):

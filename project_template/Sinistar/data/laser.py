@@ -23,9 +23,9 @@ class Laser(arcade.Sprite):
         Class Constructor"""
         super().__init__(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
         self._laser_speed = constants.LASER_SPEED
-        self.generate_laser(_player_sprite)
+        self.generate_laser(_all_sprites_list, _player_sprite)
 
-    def generate_laser(self, _player_sprite):
+    def generate_laser(self, _all_sprites_list, _player_sprite):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
@@ -42,4 +42,19 @@ class Laser(arcade.Sprite):
         # self._laser_sprites.append(self)
         # all_sprites.append(self)
 
-    
+    def delete_laser(self, _laser_sprites_list):
+        """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
+            Args:
+                self - an instance of laser
+        """
+        #super().update(self)  # init from arcade.Sprite update functionality
+        lasers = _laser_sprites_list
+        for _ in lasers:
+            if self.right < 5:
+                self.kill()
+            elif self.left > constants.SCREEN_WIDTH - 5:
+                self.kill()
+            elif self.bottom > constants.SCREEN_HEIGHT - 5:
+                self.kill() 
+            elif self.top < 5:
+                self.kill()

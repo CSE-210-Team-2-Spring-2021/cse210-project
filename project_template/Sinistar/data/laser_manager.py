@@ -1,6 +1,5 @@
 import arcade
 from data import constants
-from data.constants import LASER_SPRITE, SCREEN_HEIGHT, SCREEN_WIDTH
 from data.laser import Laser
 
 class LaserManager(arcade.SpriteList):
@@ -13,12 +12,10 @@ class LaserManager(arcade.SpriteList):
             self - an instance of LaserManager
         """
         super().__init__()
-        self._laser_sprites = []
+        self._laser_sprites_list = []
         self._generate_list(_all_sprites_list, _player_sprite)
-        self._laser_sprites = self.get_lasers()
-        self.delete_laser(self)
+        self._laser_sprites_list = self.get_lasers()
         
-
     def _generate_list(self, _all_sprites_list, _player_sprite):
         """Fills self with laser objects
         
@@ -27,27 +24,10 @@ class LaserManager(arcade.SpriteList):
         """
         laser = Laser(_all_sprites_list, _player_sprite)
         self.append(laser)
-        self._laser_sprites.append(self)
+        self._laser_sprites_list.append(self)
         _all_sprites_list.append(laser)
     
-    def delete_laser(self, _laser_sprites):
-    #     """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
-    # #         Args:
-    # #             self - an instance of laser
-    # #     """
-    #     super().update()  # init from arcade.Sprite update functionality
-          lasers = _laser_sprites
-    #     for _ in lasers:
-    #         if self.right < 5:
-    #             self.kill()
-    #         elif self.left > constants.SCREEN_WIDTH - 5:
-    #             self.kill()
-    #         elif self.bottom > constants.SCREEN_HEIGHT - 5:
-    #             self.kill() 
-    #         elif self.top < 5:
-    #             self.kill()
-
     def get_lasers(self):
         """Returns laser list"""
 
-        return self._laser_sprites
+        return self._laser_sprites_list

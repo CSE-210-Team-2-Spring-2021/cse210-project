@@ -62,7 +62,7 @@ class SinistarWindow(arcade.Window):
         # Create Class objects
         self._asteroid_sprites = None
         self._ship = None
-        self._laser_sprites = None
+        self._laser_sprites_list = None
 
         self._enemy_sprites = None
         self._enemy_laser_sprites = None
@@ -128,7 +128,8 @@ class SinistarWindow(arcade.Window):
         self._player_sprite = self._ship.get_ship()
 
         # Setup the lasers
-        self._laser_sprites = LaserManager(self._all_sprites_list, self._player_sprite)
+        self._laser_sprites_list = LaserManager(self._all_sprites_list, self._player_sprite)
+        self._all_sprites_list.extend(self._laser_sprites_list)
 
         self._enemy_laser_sprites = EnemyLaser()
 
@@ -353,21 +354,21 @@ class SinistarWindow(arcade.Window):
 
                 # Check for collisions
                 # self._collisions.handle_collisions()
-
+                # Laser.delete_laser(self, self._laser_sprites_list)
                 self._lasers = LaserManager.get_lasers(self)
-                for _laser in self._laser_sprites:
+                for _laser in self._lasers:
                     self._asteroids = arcade.check_for_collision_with_list(_laser, self._asteroid_sprites)
                     enemies = arcade.check_for_collision_with_list(_laser, self._enemy_sprites)
-                for _asteroid in self._asteroids:
-                    self._explosion.play(self._volume, 0, False)
-                    self._score += 50
-                    _asteroid.kill()
-                    #self._laser.kill()
-                for enemy in enemies:
-                    self._explosion.play(self._volume, 0, False)
-                    self._score += 200
-                    enemy.kill()
-                    #self._laser.kill()
+                    for _asteroid in self._asteroids:
+                        self._explosion.play(self._volume, 0, False)
+                        self._score += 50
+                        _asteroid.kill()
+                        _laser.kill()
+                    for enemy in enemies:
+                        self._explosion.play(self._volume, 0, False)
+                        self._score += 200
+                        enemy.kill()
+                        _laser.kill()
                 if self._immunity <= 0:
                     ship_hit = []
 
@@ -455,7 +456,7 @@ class SinistarWindow(arcade.Window):
                 self._menu.game_paused()
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
-            self._laser_sprites = LaserManager(self._all_sprites_list, self._ship)
+            self._laser_sprites_list = LaserManager(self._all_sprites_list, self._ship)
             self._laser.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):

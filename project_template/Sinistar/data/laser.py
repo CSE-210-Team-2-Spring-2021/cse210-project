@@ -42,7 +42,4 @@ class Laser(arcade.Sprite):
         # self._laser_sprites.append(self)
         # all_sprites.append(self)
 
-    def get_lasers(self):
-        """Returns laser list"""
-
-        return self._laser_sprites
+    

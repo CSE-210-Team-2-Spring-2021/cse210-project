@@ -346,22 +346,20 @@ class SinistarWindow(arcade.Window):
                 # Check for collisions
                 # self._collisions.handle_collisions()
 
-                # self._lasers = self._laser_sprites.get_lasers()
+                self._lasers = LaserManager.get_lasers(self)
                 for _laser in self._laser_sprites:
-                    asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                                     self._asteroid_sprites)
-                    enemies = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                                   self._enemy_sprites)
-                for asteroid in asteroids:
+                    self._asteroids = arcade.check_for_collision_with_list(_laser, self._asteroid_sprites)
+                    enemies = arcade.check_for_collision_with_list(_laser, self._enemy_sprites)
+                for _asteroid in self._asteroids:
                     self._explosion.play(self._volume, 0, False)
                     self._score += 50
-                    asteroid.kill()
-                    _laser.kill()
+                    _asteroid.kill()
+                    #self._laser.kill()
                 for enemy in enemies:
                     self._explosion.play(self._volume, 0, False)
                     self._score += 200
                     enemy.kill()
-                    _laser.kill()
+                    #self._laser.kill()
                 if self._immunity <= 0:
                     ship_hit = []
 
@@ -442,7 +440,7 @@ class SinistarWindow(arcade.Window):
                 self._menu.game_paused()
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
-            self._laser_sprites = Laser(self._all_sprites_list, self._ship)
+            self._laser_sprites = LaserManager(self._all_sprites_list, self._ship)
             self._laser.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):

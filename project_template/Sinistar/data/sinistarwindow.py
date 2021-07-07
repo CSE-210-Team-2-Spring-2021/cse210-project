@@ -12,6 +12,7 @@ from data.enemy_laser import EnemyLaser
 from data.laser import Laser
 from data.laser_manager import LaserManager
 from data.menu import Menu
+from data.ai import AI
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -51,6 +52,9 @@ class SinistarWindow(arcade.Window):
         # Setup Menu
         self._menu = Menu()
         self._generate_menu()
+
+        #Setup Menu
+        self._ai = AI()
 
         # Sprite lists
         self._all_sprites_list = None  # is this a duplicate of line 34??
@@ -385,6 +389,9 @@ class SinistarWindow(arcade.Window):
                         self._score += 1
                 else:
                     self._immunity -= 1
+
+                for enemy in self._enemy_sprites:
+                    self._ai.face_player(enemy, self._player_sprite)
 
     def _wrap_sprite(self, sprite):
         """Wraps Sprite objects 

@@ -24,7 +24,7 @@ class EnemyLaser(arcade.Sprite):
         self._enemy_laser_sprites = []
         self._laser_speed = constants.LASER_SPEED
 
-    def generate_laser(self, all_sprites, _enemy_sprite):
+    def generate_laser(self, _enemy_sprite):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
@@ -37,10 +37,6 @@ class EnemyLaser(arcade.Sprite):
         self.center_x = _enemy_sprite.center_x
         self.center_y = _enemy_sprite.center_y
 
-        # add laser to laser list, and add to all sprites list
-        self._enemy_laser_sprites.append(self)
-        all_sprites.append(self)
-
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:
@@ -49,9 +45,14 @@ class EnemyLaser(arcade.Sprite):
         super().update()  # init from arcade.Sprite update functionality
         _enemy_laser_sprites = self._enemy_laser_sprites
         for _ in _enemy_laser_sprites:
-            if self.center_x < 0 or self.center_x > constants.SCREEN_WIDTH or \
-                    self.center_y > constants.SCREEN_HEIGHT or self.center_y < 0:
-                self.kill()
+            if self.right < 5:
+                self.remove_from_sprite_lists()
+            elif self.left > constants.SCREEN_WIDTH - 5:
+                self.remove_from_sprite_lists()
+            elif self.bottom > constants.SCREEN_HEIGHT - 5:
+                self.remove_from_sprite_lists() 
+            elif self.top < 5:
+                self.remove_from_sprite_lists()
 
     def get_lasers(self):
         """Returns laser list"""

@@ -1,5 +1,3 @@
-from data.ship import Ship
-from data.constants import LASER_SPRITE, SCREEN_HEIGHT, SCREEN_WIDTH
 import arcade
 import random
 import math
@@ -20,17 +18,14 @@ class Laser(arcade.Sprite):
     """
     # instantiate as a projectile sprite and inherit the init from arcade.Sprite.
 
-    def __init__(self, all_sprites, _player_sprite):
+    def __init__(self, _all_sprites_list, _player_sprite):
         """
         Class Constructor"""
         super().__init__(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
-        self._laser_sprites = []
         self._laser_speed = constants.LASER_SPEED
-        self.generate_laser(all_sprites, _player_sprite)
-        self.delete_laser()
-        self.get_lasers()
+        self.generate_laser(_player_sprite)
 
-    def generate_laser(self, all_sprites, _player_sprite):
+    def generate_laser(self, _player_sprite):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
@@ -44,25 +39,8 @@ class Laser(arcade.Sprite):
         self.center_y = _player_sprite.center_y
 
         # add laser to laser list, and add to all sprites list
-        self._laser_sprites.append(self)
-        all_sprites.append(self)
-
-    def delete_laser(self):
-        """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
-            Args:
-                self - an instance of laser
-        """
-        super().update()  # init from arcade.Sprite update functionality
-        _laser_sprites = self._laser_sprites
-        for _ in _laser_sprites:
-            if self.right < 5:
-                self.remove_from_sprite_lists()
-            elif self.left > SCREEN_WIDTH - 5:
-                self.remove_from_sprite_lists()
-            elif self.bottom > SCREEN_HEIGHT - 5:
-                self.remove_from_sprite_lists() 
-            elif self.top < 5:
-                self.remove_from_sprite_lists()
+        # self._laser_sprites.append(self)
+        # all_sprites.append(self)
 
     def get_lasers(self):
         """Returns laser list"""

@@ -345,9 +345,9 @@ class SinistarWindow(arcade.Window):
 
                 # Check for collisions
                 # self._collisions.handle_collisions()
-                self._laser_sprites.delete_laser()
-                _lasers = self._laser_sprites.get_lasers()
-                for _laser in _lasers:
+
+                # self._lasers = self._laser_sprites.get_lasers()
+                for _laser in self._laser_sprites:
                     asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
                                                                      self._asteroid_sprites)
                     enemies = arcade.check_for_collision_with_list(self._laser_sprites,

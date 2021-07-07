@@ -167,102 +167,6 @@ class SinistarWindow(arcade.Window):
         self._theme.set_volume(volume, self._theme_player)
         self._volume = volume
 
-    def _update_movement(self):
-        """
-        Controls the movement of ship
-
-        Args:
-            self - An instane of SinistarWindow
-        """
-        FRICTION = constants.DECELERATION_RATE
-        ACCELERATION_RATE = constants.ACCELERATION_RATE
-        ANGLE_DECAY = constants.ANGLE_DECAY
-        ANGLE_RATE = constants.ANGLE_SPEED
-        MAX_SPEED = constants.MOVEMENT_SPEED
-        angle = self._player_sprite.angle
-        angle_rad = math.radians(angle)
-        speed = math.sqrt(self._player_sprite.change_x **
-                          2 + self._player_sprite.change_y ** 2)
-
-        # Find angle in radians that the ship is moving in (not where it is facing)
-        if self._player_sprite.change_x != 0:  # No division by 0
-            velocity_rad = math.atan(
-                self._player_sprite.change_y/self._player_sprite.change_x)
-        else:
-            if self._player_sprite.change_y > 0:  # Player moving up
-                velocity_rad = math.pi/2
-            else:
-                velocity_rad = -math.pi/2
-
-        # Slows down the ship as it drifts
-        if speed > FRICTION:
-            if self._player_sprite.change_x > 0:
-                self._player_sprite.change_x -= abs(
-                    FRICTION * math.cos(velocity_rad))
-            elif self._player_sprite.change_x < 0:
-                self._player_sprite.change_x += abs(
-                    FRICTION * math.cos(velocity_rad))
-            else:
-                self._player_sprite.change_x = 0
-            if self._player_sprite.change_y > 0:
-                self._player_sprite.change_y -= abs(
-                    FRICTION * math.sin(velocity_rad))
-            elif self._player_sprite.change_y < 0:
-                self._player_sprite.change_y += abs(
-                    FRICTION * math.sin(velocity_rad))
-            else:
-                self._player_sprite.change_y = 0
-        else:
-            self._player_sprite.change_x = 0
-            self._player_sprite.change_y = 0
-
-        # Slows down ships rotation
-        if self._player_sprite.change_angle > ANGLE_DECAY:
-            self._player_sprite.change_angle -= ANGLE_DECAY
-        elif self._player_sprite.change_angle < -ANGLE_DECAY:
-            self._player_sprite.change_angle += ANGLE_DECAY
-        else:
-            self._player_sprite.change_angle = 0
-
-        angle = self._player_sprite.angle  # Update values
-        angle_rad = math.radians(angle)
-
-        # Apply acceleration based on the keys pressed
-        if self.up_pressed and not self.down_pressed:
-            self._player_sprite.change_x += ACCELERATION_RATE * \
-                math.cos(angle_rad)
-            self._player_sprite.change_y += ACCELERATION_RATE * \
-                math.sin(angle_rad)
-        elif self.down_pressed and not self.up_pressed:
-            self._player_sprite.change_x -= ACCELERATION_RATE * \
-                math.cos(angle_rad)
-            self._player_sprite.change_y -= ACCELERATION_RATE * \
-                math.sin(angle_rad)
-        if self.left_pressed and not self.right_pressed:
-            self._player_sprite.change_angle = ANGLE_RATE
-        elif self.right_pressed and not self.left_pressed:
-            self._player_sprite.change_angle = -ANGLE_RATE
-
-        # Stop the ship from moving beyond max speed
-        speed = math.sqrt(self._player_sprite.change_x **
-                          2 + self._player_sprite.change_y ** 2)
-        if speed > MAX_SPEED:
-            velocity_rad = math.atan(
-                self._player_sprite.change_y/self._player_sprite.change_x)
-            angle_rad = math.radians(angle)
-            if self._player_sprite.change_x > 0:
-                self._player_sprite.change_x = abs(
-                    MAX_SPEED * math.cos(velocity_rad))
-            elif self._player_sprite.change_x < 0:
-                self._player_sprite.change_x = - \
-                    abs(MAX_SPEED * math.cos(velocity_rad))
-            if self._player_sprite.change_y > 0:
-                self._player_sprite.change_y = abs(
-                    MAX_SPEED * math.sin(velocity_rad))
-            elif self._player_sprite.change_y < 0:
-                self._player_sprite.change_y = - \
-                    abs(MAX_SPEED * math.sin(velocity_rad))
-
     def on_draw(self):
         """
         Render the screen.
@@ -346,7 +250,8 @@ class SinistarWindow(arcade.Window):
             else:  # Gameplay
                 # Update all sprites
                 self._all_sprites_list.update()
-                self._update_movement()
+                self._player_sprite.move(self.up_pressed, self.down_pressed, 
+                                        self.left_pressed, self.right_pressed)
 
                 # Wrap objects
                 for sprite in self._all_sprites_list:
@@ -430,23 +335,15 @@ class SinistarWindow(arcade.Window):
             player_sprite - the player's sprite object
         """
         if key == arcade.key.UP or key == arcade.key.W:
-            #self._player_sprite.change_y = constants.MOVEMENT_SPEED
-            #self._player_sprite.speed = constants.MOVEMENT_SPEED
             self.up_pressed = True
         
         elif key == arcade.key.DOWN or key == arcade.key.S:
-            #self._player_sprite.change_y = -constants.MOVEMENT_SPEED
-            #self._player_sprite.speed = -constants.MOVEMENT_SPEED
             self.down_pressed = True
 
         elif key == arcade.key.LEFT or key == arcade.key.A:
-            #self._player_sprite.change_x = -constants.MOVEMENT_SPEED
-            #self._player_sprite.change_angle = constants.ANGLE_SPEED
             self.left_pressed = True
 
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            #self._player_sprite.change_x = constants.MOVEMENT_SPEED
-            #self._player_sprite.change_angle = -constants.ANGLE_SPEED
             self.right_pressed = True
 
         elif key == arcade.key.ESCAPE:
@@ -467,12 +364,6 @@ class SinistarWindow(arcade.Window):
             key - the key pressed
             player_sprite - the player's sprite object
         """
-        # if key == arcade.key.UP or key == arcade.key.DOWN:
-        #    self._player_sprite.speed = 0
-
-        # elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
-        #    self._player_sprite.change_angle = 0
-
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = False
         elif key == arcade.key.DOWN or key == arcade.key.S:

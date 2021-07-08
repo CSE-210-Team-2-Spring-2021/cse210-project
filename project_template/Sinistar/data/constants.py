@@ -91,6 +91,8 @@ VOLUME_INC = 10
 
 INSTRUCTIONS = ASSET_PATH / 'Help_Menu.png'
 
+BACKGROUND = ASSET_PATH / 'Star Background.png'
+
 #Sounds
 sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
 THEME = sound_path / 'bensound-scifi.mp3'

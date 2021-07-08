@@ -57,6 +57,7 @@ SCORE_DOC = pathlib.Path(__file__).resolve().parents[1] / 'data' / 'highscores.j
 #Sprites from assets
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
+SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
 ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
 WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
 WORKER_SPRITE = ASSET_PATH / 'worker.png'

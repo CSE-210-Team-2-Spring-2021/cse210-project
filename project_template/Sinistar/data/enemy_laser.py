@@ -40,11 +40,7 @@ class EnemyLaser(arcade.SpriteList):
         laser.angle = _enemy_sprite.angle
         self.append(laser)
         all_sprites.append(laser)
-        print(laser.change_x)
-        print(laser.change_y)
-        print('e-laser appended')
         
-
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:

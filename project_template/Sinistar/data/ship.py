@@ -1,5 +1,7 @@
 import arcade
 import random, math
+
+from arcade.texture import load_texture
 from data import constants
 
 class Ship(arcade.Sprite):
@@ -18,6 +20,10 @@ class Ship(arcade.Sprite):
         self._lives = None
         self.speed = 0
         self.angle = 90
+        self._toggle = False
+        self._timer = 3
+        self._norm_texture = load_texture(constants.PLAYER_SPRITE)
+        self._shield_texture = load_texture(constants.SHIELD_PLAYER_SPRITE)
         self.generate_ship(all_sprites)
 
     def generate_ship(self, all_sprites):
@@ -150,6 +156,23 @@ class Ship(arcade.Sprite):
             elif self.change_y < 0:
                 self.change_y = - \
                     abs(MAX_SPEED * math.sin(velocity_rad))
-
-
    
+    def set_normal_texture(self):
+        """Makes the ship its normal texture
+        
+        Args:
+            self - an instance of Ship
+        """
+        if self._toggle:
+            self._texture = self._norm_texture
+            self._toggle = False
+
+    def set_shield_texture(self):
+        """Makes the ship its inverted texture
+        
+        Args:
+            self - an instance of Ship
+        """
+        if self._toggle == False:
+            self._texture = self._shield_texture
+            self._toggle = True

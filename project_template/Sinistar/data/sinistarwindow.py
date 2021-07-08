@@ -116,16 +116,16 @@ class SinistarWindow(arcade.Window):
             constants.MOUSE, constants.SPRITE_SCALING_MOUSE)
         self._mouse_list.append(self._mouse_sprite)
 
+        # Set up the player
+        self._player_sprite = self._ship.get_ship()
+
         # Create Asteroids
-        self._asteroid_sprites = AsteroidManager()
+        self._asteroid_sprites = AsteroidManager(self._player_sprite)
         self._all_sprites_list.extend(self._asteroid_sprites)
 
         # Create Enemies
         self._enemy_sprites = EnemyManager()
         self._all_sprites_list.extend(self._enemy_sprites)
-
-        # Set up the player
-        self._player_sprite = self._ship.get_ship()
 
         # Setup the lasers
         self._player_laser_sprites = Laser()
@@ -269,6 +269,7 @@ class SinistarWindow(arcade.Window):
                 Laser.delete_laser(self._player_laser_sprites)
               
                 if self._immunity <= 0:
+                    self._player_sprite.set_normal_texture()
                     ship_hit = []
 
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
@@ -291,12 +292,18 @@ class SinistarWindow(arcade.Window):
                         else:
                             # GAME OVER
                             self._menu.game_lost()
-                    else:
-                        self._immunity -= 1
+                else:
+                    self._immunity -= 1
+                    self._player_sprite.set_shield_texture()
+
 
                 #enemy movement
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
                                                     self._enemy_sprites, self._enemy_laser_sprites)
+                
+                #Respawn Asteroids
+                self._asteroid_sprites.respawn_asteroids(self._player_sprite,
+                                                         self._all_sprites_list)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

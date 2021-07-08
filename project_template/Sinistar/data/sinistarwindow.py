@@ -46,6 +46,7 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
         self._score = None
+        self._bomb_count = None
 
         self._mouse_sprite = None
         self._mouse_list = None
@@ -113,6 +114,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
+        self._bomb_count = constants.BOMBS
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -150,6 +152,16 @@ class SinistarWindow(arcade.Window):
             sprite.center_y = constants.SCREEN_HEIGHT - 20
             temp_sprite_list.append(sprite)
             self._lives_sprites.append(temp_sprite_list)
+        
+        # Setup Bombs Spritelist
+        self._bomb_sprites = []  # THis is a normal list of SpriteList objects
+        for path in constants.BOMB_SPRITES:
+            temp_sprite_list = arcade.SpriteList()
+            sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
+            sprite.center_x = 80
+            sprite.center_y = constants.SCREEN_HEIGHT - 80
+            temp_sprite_list.append(sprite)
+            self._bomb_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """

@@ -36,6 +36,7 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 # How many lives has the Player?
 LIVES = 5
 IMMUNITY = 100 #TIME spent invincible after damage
+BOMBS = 0
 
 # Player/Laser Speeds
 MOVEMENT_SPEED = 7
@@ -68,6 +69,8 @@ LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PAT
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'
 ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
+BOMB_SPRITES = [ASSET_PATH / 'Bombs0.png', ASSET_PATH / 'Bombs1.png', ASSET_PATH / 'Bombs2.png', ASSET_PATH / 'Bombs3.png',
+                ASSET_PATH / 'Bombs4.png', ASSET_PATH / 'Bombs5.png']
 
 MOUSE = ASSET_PATH / 'mouse.png'
 
@@ -106,3 +109,4 @@ EXPLOSION = sound_path / 'explosion.wav'
 COMICAL_EXPLOSION = sound_path / 'boom.wav'
 LASER = sound_path / 'laser.wav'
 ENEMY_LASER = sound_path / 'laser-gun-19sf.mp3'
+CRYSTAL_SOUND = sound_path / 'crystal_sound.ogg'

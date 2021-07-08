@@ -155,13 +155,13 @@ class SinistarWindow(arcade.Window):
         
         # Setup Bombs Spritelist
         self._bomb_sprites = []  # THis is a normal list of SpriteList objects
-        for path in constants.BOMB_SPRITES:
-            temp_sprite_list = arcade.SpriteList()
-            sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
-            sprite.center_x = 80
-            sprite.center_y = constants.SCREEN_HEIGHT - 80
-            temp_sprite_list.append(sprite)
-            self._bomb_sprites.append(temp_sprite_list)
+        # for path in constants.BOMB_SPRITES:
+        #     temp_sprite_list = arcade.SpriteList()
+        #     sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
+        #     sprite.center_x = 80
+        #     sprite.center_y = constants.SCREEN_HEIGHT - 80
+        #     temp_sprite_list.append(sprite)
+        #     self._bomb_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """

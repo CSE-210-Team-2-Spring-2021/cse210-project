@@ -124,7 +124,7 @@ class SinistarWindow(arcade.Window):
         self._all_sprites_list.extend(self._asteroid_sprites)
 
         # Create Enemies
-        self._enemy_sprites = EnemyManager()
+        self._enemy_sprites = EnemyManager(self._player_sprite)
         self._all_sprites_list.extend(self._enemy_sprites)
 
         # Setup the lasers
@@ -304,6 +304,8 @@ class SinistarWindow(arcade.Window):
                 #Respawn Asteroids
                 self._asteroid_sprites.respawn_asteroids(self._player_sprite,
                                                          self._all_sprites_list)
+                self._enemy_sprites.respawn_enemies(self._player_sprite,
+                                                     self._all_sprites_list)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

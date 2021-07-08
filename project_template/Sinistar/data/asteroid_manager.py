@@ -37,9 +37,9 @@ class AsteroidManager(arcade.SpriteList):
         count =  constants.ASTEROID_COUNT
         num_asteroids = len(self)
         if num_asteroids < count:
-            odds = 400
-            dif = (count - num_asteroids) / count
-            odds = math.ceil(400 * dif)
+            odds = 200
+            dif = 1 - ((count - num_asteroids) / count)
+            odds = math.ceil(odds * dif)
             if random.randrange(odds) == 0:
                 asteroid = Asteroid(player_sprite)
                 self.append(asteroid)

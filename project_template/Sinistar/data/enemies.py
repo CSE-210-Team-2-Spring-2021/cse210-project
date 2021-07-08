@@ -19,7 +19,6 @@ class EnemyManager(arcade.SpriteList):
         difficulty_mod = self._retrieve_difficulty()
         self._generate_list(difficulty_mod)
         self._path = None
-        
 
     def _generate_list(self, difficulty_mod):
         """Fills self with enemy objects

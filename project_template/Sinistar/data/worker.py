@@ -8,6 +8,7 @@ class Worker(arcade.Sprite):
         """
         Class Constructor
         """
+        self.enemy_type = "Worker"
         super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES)
         self._setup_worker()
 
@@ -76,3 +77,10 @@ class Worker(arcade.Sprite):
             self - instance of Enemies
         """
         return self._path
+
+    def get_enemy_type(self):
+        """
+        
+        """
+
+        return self._enemy_type

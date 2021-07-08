@@ -1,10 +1,6 @@
 import arcade
 import math
 from data import constants
-# from data.projectile import Projectile
-
-# Laser class for projectiles shooting from front of ship.
-
 
 class Laser(arcade.SpriteList):
     """Subclass of arcade to create instances of laser
@@ -23,6 +19,7 @@ class Laser(arcade.SpriteList):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
+                _player_sprite - player ship sprite
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of player ship

@@ -296,16 +296,10 @@ class SinistarWindow(arcade.Window):
                     self._immunity -= 1
                     self._player_sprite.set_shield_texture()
 
-
-                #enemy movement
+                #enemy movement/ respawns
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
-                                                    self._enemy_sprites, self._enemy_laser_sprites)
-                
-                #Respawn Asteroids
-                self._asteroid_sprites.respawn_asteroids(self._player_sprite,
-                                                         self._all_sprites_list)
-                self._enemy_sprites.respawn_enemies(self._player_sprite,
-                                                     self._all_sprites_list)
+                                                    self._enemy_sprites, self._enemy_laser_sprites,
+                                                    self._asteroid_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

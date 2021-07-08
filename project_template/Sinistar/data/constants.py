@@ -49,6 +49,9 @@ ASTEROID_COUNT = 20
 WORKER_COUNT = 5
 WARRIOR_COUNT = 5
 
+#Highscore doc path
+SCORE_DOC = pathlib.Path(__file__).resolve().parents[1] / 'data' / 'highscores.json'
+
 #Sprites from assets
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'

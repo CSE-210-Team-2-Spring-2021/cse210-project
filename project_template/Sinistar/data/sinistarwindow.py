@@ -383,8 +383,6 @@ class SinistarWindow(arcade.Window):
                         else:
                             # GAME OVER
                             self._menu.game_lost()
-                    else:
-                        self._score += 1
                 else:
                     self._immunity -= 1
 

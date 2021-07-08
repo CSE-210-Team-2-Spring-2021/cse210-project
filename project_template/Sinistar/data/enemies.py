@@ -1,6 +1,6 @@
 import arcade, math, random
 from data import constants
-from data.menu import Menu
+from data.difficulty import Difficulty
 from data.worker import Worker
 from data.warrior import Warrior
 
@@ -15,7 +15,7 @@ class EnemyManager(arcade.SpriteList):
         """
         super().__init__()
         
-        self.menu = Menu()
+        self.difficulty = Difficulty()
         self._difficulty_mod = self._retrieve_difficulty()
         self._generate_list(player_sprite)
         self._path = None
@@ -42,7 +42,7 @@ class EnemyManager(arcade.SpriteList):
         
         """
 
-        diff_temp = self.menu.get_difficulty()
+        diff_temp = self.difficulty._get_difficulty()
 
         if diff_temp == 1:
             difficulty_modifier = .2

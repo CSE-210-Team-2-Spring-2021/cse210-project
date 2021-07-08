@@ -1,6 +1,7 @@
 import arcade
 import random, math
 from data import constants
+from data.enemy_laser import EnemyLaser
 
 class Warrior(arcade.Sprite):
 
@@ -49,8 +50,20 @@ class Warrior(arcade.Sprite):
         """Returns astroids list"""
 
         return self._warriors
+
+    def process_move(self, path, enemy_lasers, all_sprites):
+        """Updates path and movement
+        
+        Args:
+            self - instance of Enemies
+            path - the path from sprite to player
+            enemy_lasers - Enemy laser object
+        """
+        self._set_path(path)
+        self._change_direction()
+        self._shoot_at_player(enemy_lasers, all_sprites)
     
-    def set_path(self, path):
+    def _set_path(self, path):
         """Sets the path attribute
         
         Args:
@@ -58,7 +71,6 @@ class Warrior(arcade.Sprite):
             path - An astar path instance
         """
         self._path = path
-        self._change_direction()
 
     def get_path(self):
         """Sets the path attribute
@@ -85,3 +97,15 @@ class Warrior(arcade.Sprite):
 
                 self.change_x = direction[0]/constants.GRID * 2
                 self.change_y = direction[1]/constants.GRID * 2
+    
+    def _shoot_at_player(self, enemy_lasers, all_sprites):
+        """Decides if the enemy should shoot at the player
+        
+        Args:
+            self - Instance of ai
+            enemy_sprite - An enemy Sprite
+        """
+        odds = 200
+
+        if random.randrange(odds) == 0:
+            enemy_lasers.generate_laser(self, all_sprites)

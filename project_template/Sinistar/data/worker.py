@@ -49,8 +49,18 @@ class Worker(arcade.Sprite):
         """Returns astroids list"""
 
         return self._workers
+
+    def process_move(self, path, laser = None, all_sprites = None):
+        """Updates path and movement
+        
+        Args:
+            self - instance of Enemies
+            path - the path from sprite to player
+            laser - used if the sprite shoots a laser
+        """
+        self._set_path(path)
     
-    def set_path(self, path, ):
+    def _set_path(self, path):
         """Sets the path attribute
         
         Args:

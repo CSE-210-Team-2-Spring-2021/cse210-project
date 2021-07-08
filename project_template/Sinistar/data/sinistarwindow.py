@@ -281,7 +281,9 @@ class SinistarWindow(arcade.Window):
                                                                         self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                      self._enemy_sprites)
-                    ship_hit = asteroid_hit + enemy_hit
+                    enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                                                                            self._enemy_laser_sprites)
+                    ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
 
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
@@ -305,7 +307,9 @@ class SinistarWindow(arcade.Window):
                 for enemy in self._enemy_sprites:
                     self._ai.face_player(enemy, self._player_sprite)
                     
-                    enemy.set_path(self._ai.do_pathing(enemy.position, self._player_sprite.position, barriers))                  
+                    enemy.process_move(self._ai.do_pathing(enemy.position, self._player_sprite.position, barriers),
+                                        self._enemy_laser_sprites, self._all_sprites_list)  
+                self._enemy_laser_sprites.delete_laser()  
 
     def _wrap_sprite(self, sprite):
         """Wraps Sprite objects 
@@ -324,7 +328,7 @@ class SinistarWindow(arcade.Window):
             sprite.center_x = 1
 
         elif sprite.center_y > constants.SCREEN_HEIGHT:
-                sprite.center_y = 1
+            sprite.center_y = 1
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

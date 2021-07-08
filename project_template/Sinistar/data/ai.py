@@ -1,4 +1,4 @@
-import arcade, math
+import arcade, math, random
 from data import constants
 from data.laser import Laser
 

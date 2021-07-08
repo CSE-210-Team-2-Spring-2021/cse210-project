@@ -20,6 +20,7 @@ SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
 SPRITE_SCALING_DIFFICULTY = 0.2
 SPRITE_SCALING_INSTRUCTIONS = 0.7
+SPRITE_SCALING_CRYSTALS = 1
 
 # Scaled sprite size for tiles
 SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
@@ -61,6 +62,7 @@ SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
 ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
 WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
 WORKER_SPRITE = ASSET_PATH / 'worker.png'
+CRYSTAL_SPRITE = ASSET_PATH / 'crystal.png'
 WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']

@@ -13,6 +13,7 @@ from data.laser import Laser
 from data.menu import Menu
 from data.ai import AI
 from data.windowhelper import WindowHelper
+from data.bomb import Bomb
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -66,6 +67,9 @@ class SinistarWindow(arcade.Window):
 
         self._enemy_sprites = None
         self._enemy_laser_sprites = None
+
+        self._crystal_sprites = None
+        self._bomb_sprites = None
 
         self._status = []
 
@@ -133,6 +137,10 @@ class SinistarWindow(arcade.Window):
 
         self._enemy_laser_sprites = EnemyLaser()
 
+        # Setup the bombs/crystals
+        self._crystal_sprites = Bomb()
+        self._all_sprites_list.extend(self._crystal_sprites)
+        
         # Setup Lives Spritelist
         self._lives_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.LIVES_SPRITES:

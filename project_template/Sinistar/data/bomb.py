@@ -24,5 +24,5 @@ class Bomb(arcade.SpriteList):
         crystal.center_x = asteroid.center_x
         crystal.center_y = asteroid.center_y
 
-        self.append(crystal)
+        crystal_sprites.append(crystal)
         all_sprites.append(crystal)

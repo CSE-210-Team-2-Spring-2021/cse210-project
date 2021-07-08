@@ -1,4 +1,5 @@
 import json
+import arcade
 from data import constants
 
 class HighScore():
@@ -32,12 +33,18 @@ class HighScore():
             self._scores.append(score)
 
 
-    def write_new_score(self):
+    def write_new_score(self, name_in, score_in):
         """
         
         """
 
         #retrieves the name and score of the player if a top 5 has been achieved.
+        marker_low = -1
+        for i in range(0, 5):
+            if score_in < self._scores[i]:
+                marker_low = i
+        self._names[marker_low + 1] = name_in
+        self._scores[marker_low + 1] = score_in
 
 
     def get_names(self):
@@ -61,7 +68,17 @@ class HighScore():
         
         """
 
-        #is this needed?
+        start_x_1 = 50
+        start_x_2 = 150
+        start_y = 50
+        for i in range(0, 5):
+            
+
+            arcade.draw_text(self._names[i], start_x_1,
+                                    start_y, arcade.color.WHITE, 14)
+
+            arcade.draw_text(self._scores[i], start_x_2,
+                                    start_y, arcade.color.WHITE, 14)
 
 
     def save_file(self):

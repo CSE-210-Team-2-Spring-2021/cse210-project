@@ -302,13 +302,8 @@ class SinistarWindow(arcade.Window):
                         else:
                             # GAME OVER
                             self._menu.game_lost()
-<<<<<<< HEAD
                     else:
                         self._immunity -= 1
-=======
-                else:
-                    self._immunity -= 1
->>>>>>> 1aafb27d84c390934dbda68191e0710a63629c0c
 
                 #enemy movement
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,

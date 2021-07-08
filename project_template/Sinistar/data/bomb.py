@@ -1,4 +1,3 @@
-from project_template.Sinistar.data import asteroid
 import arcade
 from data import constants
 
@@ -12,7 +11,7 @@ class Bomb(arcade.SpriteList):
         """Class Constructor"""
         super().__init__()
 
-    def generate_crystal(self, asteroid, all_sprites):
+    def generate_crystal(self, asteroid, crystal_sprites, all_sprites):
         """When an asteroid explodes, it has a chance to drop a crystal. 
             Enemy Worker to pick it up later.
             Args:

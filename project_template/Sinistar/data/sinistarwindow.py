@@ -273,7 +273,8 @@ class SinistarWindow(arcade.Window):
                 # self._collisions.handle_collisions()
 
                 Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites, 
-                                            self._asteroid_sprites, self._explosion, self._volume)
+                                            self._asteroid_sprites, self._explosion, self._volume, 
+                                            self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
               
                 if self._immunity <= 0:

@@ -37,7 +37,7 @@ class Laser(arcade.SpriteList):
         self.append(laser)
         all_sprites.append(laser)
 
-    def update_player_lasers(self, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, volume, all_sprites):
+    def update_player_lasers(self, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, volume, all_sprites, crystal_sprites):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
 
             Args:
@@ -49,7 +49,7 @@ class Laser(arcade.SpriteList):
                 volume - Volume of explosion sound
                 all_sprites - List of all sprites from sinistarwindow
         """
-        odds = 200
+        odds = 2
 
         for laser in player_laser_sprites:
             asteroids = arcade.check_for_collision_with_list(laser, asteroid_sprites)
@@ -58,7 +58,7 @@ class Laser(arcade.SpriteList):
                 if random.randrange(odds) == 0:
                     explosion.play(volume, 0, False)
                     self._score += 50
-                    Bomb.generate_crystal(asteroid, all_sprites)
+                    #Bomb.generate_crystal(asteroid, crystal_sprites, all_sprites)
                     asteroid.kill()
                     laser.kill()
                 else:

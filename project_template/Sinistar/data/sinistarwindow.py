@@ -13,6 +13,7 @@ from data.laser import Laser
 from data.laser_manager import LaserManager
 from data.menu import Menu
 from data.ai import AI
+from data.windowhelper import WindowHelper
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -53,11 +54,11 @@ class SinistarWindow(arcade.Window):
         self._menu = Menu()
         self._generate_menu()
 
-        #Setup Menu
-        self._ai = AI()
+        #Setup Helper
+        self._helper = WindowHelper()
 
-        # Sprite lists
-        self._all_sprites_list = None  # is this a duplicate of line 34??
+        #Background
+        self._background = arcade.load_texture(constants.BACKGROUND)
 
         # Create Class objects
         self._asteroid_sprites = None
@@ -85,7 +86,7 @@ class SinistarWindow(arcade.Window):
         self.right_pressed = False
 
         # Set the background color
-        arcade.set_background_color(arcade.color.GRAY_ASPARAGUS)
+        arcade.set_background_color(arcade.color.EERIE_BLACK)
 
         # Immunity Timer
         self._immunity = constants.IMMUNITY
@@ -134,7 +135,7 @@ class SinistarWindow(arcade.Window):
         self._enemy_laser_sprites = EnemyLaser()
 
         # Setup Lives Spritelist
-        self._lives_sprites = []  # THis is a normal list
+        self._lives_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.LIVES_SPRITES:
             temp_sprite_list = arcade.SpriteList()
             sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
@@ -174,6 +175,11 @@ class SinistarWindow(arcade.Window):
 
         # This command has to happen before we start drawing
         arcade.start_render()
+
+        #draw background
+        arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH,
+                                            constants.SCREEN_HEIGHT,
+                                            self._background)
 
         score = "Score: " + str(self._score)
 
@@ -254,8 +260,7 @@ class SinistarWindow(arcade.Window):
                                         self.left_pressed, self.right_pressed)
 
                 # Wrap objects
-                for sprite in self._all_sprites_list:
-                    self._wrap_sprite(sprite)
+                self._helper.wrap_sprites(self._all_sprites_list)
 
                 # Check for collisions
                 # self._collisions.handle_collisions()
@@ -281,7 +286,9 @@ class SinistarWindow(arcade.Window):
                                                                         self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                      self._enemy_sprites)
-                    ship_hit = asteroid_hit + enemy_hit
+                    enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                                                                            self._enemy_laser_sprites)
+                    ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
 
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
@@ -301,30 +308,8 @@ class SinistarWindow(arcade.Window):
                     self._immunity -= 1
 
                 #enemy movement
-                barriers = self._ai.find_barriers(self._enemy_sprites, self._all_sprites_list)
-                for enemy in self._enemy_sprites:
-                    self._ai.face_player(enemy, self._player_sprite)
-                    
-                    enemy.set_path(self._ai.do_pathing(enemy.position, self._player_sprite.position, barriers))                  
-
-    def _wrap_sprite(self, sprite):
-        """Wraps Sprite objects 
-
-        Args:
-            self - An instance of self
-            sprite - a sprite object
-        """
-        if sprite.center_x <= 0:
-            sprite.center_x = constants.SCREEN_WIDTH - 1
-
-        elif sprite.center_y <= 0:
-            sprite.center_y = constants.SCREEN_HEIGHT - 1
-
-        elif sprite.center_x > constants.SCREEN_WIDTH:
-            sprite.center_x = 1
-
-        elif sprite.center_y > constants.SCREEN_HEIGHT:
-                sprite.center_y = 1
+                self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
+                                                    self._enemy_sprites, self._enemy_laser_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

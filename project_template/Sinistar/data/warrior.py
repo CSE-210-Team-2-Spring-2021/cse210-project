@@ -5,15 +5,15 @@ from data.enemy_laser import EnemyLaser
 
 class Warrior(arcade.Sprite):
 
-    def __init__(self):
+    def __init__(self, player_sprite):
         """
         Class Constructor
         """
         self.enemy_type = "Warrior"
         super().__init__(constants.WARRIOR_SPRITE, constants.SPRITE_SCALING_ENEMIES)
-        self._setup_warrior()
+        self._setup_warrior(player_sprite)
 
-    def _setup_warrior(self):
+    def _setup_warrior(self, player_sprite):
         """Responsible for assigning the position and velocity of warrior
         
         Args:
@@ -22,8 +22,10 @@ class Warrior(arcade.Sprite):
         x = constants.SCREEN_WIDTH
         y = constants.SCREEN_HEIGHT
         speed = 2
-        exclude_group_x = range(math.ceil(x/2) - 200, math.ceil(x/2) + 200)
-        exclude_group_y = range(math.ceil(y/2) - 200, math.ceil(y/2) + 200)
+        exclude_group_x = range(math.ceil(player_sprite.center_x - 200),
+                                 math.ceil(player_sprite.center_x + 200))
+        exclude_group_y = range(math.ceil(player_sprite.center_y - 200), 
+                                math.ceil(player_sprite.center_y + 200))
 
         self.center_x = random.randrange(x)
         while self.center_x in exclude_group_x:

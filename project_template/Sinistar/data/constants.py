@@ -12,7 +12,7 @@ GRID = 128
 # Scale sprites up or down
 SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
-SPRITE_SCALING_ASTEROIDS = 0.2
+SPRITE_SCALING_ASTEROIDS = 0.6
 SPRITE_SCALING_ENEMIES = 1
 SPRITE_SCALING_ENEMY_LASERS = 1
 SPRITE_SCALING_LASERS = .04
@@ -20,6 +20,7 @@ SPRITE_SCALING_MOUSE = 0.5
 SPRITE_SCALING_MENU = 1
 SPRITE_SCALING_DIFFICULTY = 0.2
 SPRITE_SCALING_INSTRUCTIONS = 0.7
+SPRITE_SCALING_CRYSTALS = 1
 
 # Scaled sprite size for tiles
 SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
@@ -35,6 +36,7 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 # How many lives has the Player?
 LIVES = 5
 IMMUNITY = 100 #TIME spent invincible after damage
+BOMBS = 0
 
 # Player/Laser Speeds
 MOVEMENT_SPEED = 7
@@ -42,7 +44,14 @@ ANGLE_SPEED = 5
 ACCELERATION_RATE = 1
 DECELERATION_RATE = 0.1
 ANGLE_DECAY = 0.2
-LASER_SPEED = 7
+LASER_SPEED = 9
+
+# Set Difficulty
+EASIEST = .25
+EASY = .5
+NORMAL = 1
+HARD = 1.25
+SINISTAR = 1.5
 
 #Number of Asteroids
 ASTEROID_COUNT = 20
@@ -57,14 +66,18 @@ SCORE_DOC = pathlib.Path(__file__).resolve().parents[1] / 'data' / 'highscores.j
 #Sprites from assets
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
-ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
+SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
+ASTEROID_SPRITE = ASSET_PATH / 'asteroid.png'                  #'basic-astroid.png'
 WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
 WORKER_SPRITE = ASSET_PATH / 'worker.png'
+CRYSTAL_SPRITE = ASSET_PATH / 'crystal.png'
 WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'
 ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
+BOMB_SPRITES = [ASSET_PATH / 'Bombs0.png', ASSET_PATH / 'Bombs1.png', ASSET_PATH / 'Bombs2.png', ASSET_PATH / 'Bombs3.png',
+                ASSET_PATH / 'Bombs4.png', ASSET_PATH / 'Bombs5.png']
 
 MOUSE = ASSET_PATH / 'mouse.png'
 
@@ -103,3 +116,4 @@ EXPLOSION = sound_path / 'explosion.wav'
 COMICAL_EXPLOSION = sound_path / 'boom.wav'
 LASER = sound_path / 'laser.wav'
 ENEMY_LASER = sound_path / 'laser-gun-19sf.mp3'
+CRYSTAL_SOUND = sound_path / 'crystal_sound.ogg'

@@ -4,16 +4,16 @@ from data import constants
 
 class Worker(arcade.Sprite):
 
-    def __init__(self):
+    def __init__(self, player_sprite):
         """
         Class Constructor
         """
         self.enemy_type = "Worker"
         super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES)
-        self._setup_worker()
+        self._setup_worker(player_sprite)
         self.has_crystal = False
 
-    def _setup_worker(self):
+    def _setup_worker(self, player_sprite):
         """Responsible for assigning the position and velocity of worker
         
         Args:
@@ -22,8 +22,10 @@ class Worker(arcade.Sprite):
         x = constants.SCREEN_WIDTH
         y = constants.SCREEN_HEIGHT
         speed = 2
-        exclude_group_x = range(math.ceil(x/2) - 200, math.ceil(x/2) + 200)
-        exclude_group_y = range(math.ceil(y/2) - 200, math.ceil(y/2) + 200)
+        exclude_group_x = range(math.ceil(player_sprite.center_x - 200),
+                                math.ceil(player_sprite.center_x + 200))
+        exclude_group_y = range(math.ceil(player_sprite.center_y - 200), 
+                                math.ceil(player_sprite.center_y + 200))
 
         self.center_x = random.randrange(x)
         while self.center_x in exclude_group_x:

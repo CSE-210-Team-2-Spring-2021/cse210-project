@@ -39,7 +39,9 @@ class WindowHelper:
             elif sprite.center_y > constants.SCREEN_HEIGHT:
                 sprite.center_y = 1
 
-    def update_enemy_actions(self, all_sprites, player_sprite, enemy_sprites, enemy_lasers, crystal_sprites):
+
+    def update_enemy_actions(self, all_sprites, player_sprite, enemy_sprites, enemy_lasers, 
+                                asteroids, crystal_sprites):
         """Processes enemy ai, movement, and lasers
         
         Args:
@@ -48,6 +50,7 @@ class WindowHelper:
             player_sprite - the player's sprite
             enemy_sprites - SpriteList of all enemies
             enemy_lasers - SpriteList of all enemy lasers
+            asteroids - SpriteList of asteroids
         """
         barriers = self._ai.find_barriers(enemy_sprites, all_sprites)
         for enemy in enemy_sprites:
@@ -64,4 +67,19 @@ class WindowHelper:
                 
                 enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
                                     enemy_lasers, all_sprites)  
-        enemy_lasers.delete_laser()  
+        enemy_lasers.delete_laser()
+        self.respawn(player_sprite, asteroids, enemy_sprites, all_sprites)
+
+    def respawn(self, player_sprite, asteroids, enemy_sprites, all_sprites):
+        """Runs the respawn code for asteroids and enemies
+        
+        Args:
+            self - an instance of WindowHelper
+            all_sprites - SpriteList of all sprites
+            player_sprite - the player's sprite
+            enemy_sprites - SpriteList of all enemies
+        """
+        asteroids.respawn_asteroids(player_sprite,
+                                                all_sprites)
+        enemy_sprites.respawn_enemies(player_sprite,
+                                            all_sprites)

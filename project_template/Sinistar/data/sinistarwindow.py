@@ -10,10 +10,10 @@ from data.asteroid_manager import AsteroidManager
 from data.enemies import EnemyManager
 from data.enemy_laser import EnemyLaser
 from data.laser import Laser
-from data.laser_manager import LaserManager
 from data.menu import Menu
 from data.ai import AI
 from data.windowhelper import WindowHelper
+from data.bomb import Bomb
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -46,6 +46,7 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
         self._score = None
+        self._bomb_count = None
 
         self._mouse_sprite = None
         self._mouse_list = None
@@ -63,10 +64,13 @@ class SinistarWindow(arcade.Window):
         # Create Class objects
         self._asteroid_sprites = None
         self._ship = None
-        self._laser_sprites_list = None
+        self._player_laser_sprites = None
 
         self._enemy_sprites = None
         self._enemy_laser_sprites = None
+
+        self._crystal_sprites = None
+        self._bomb_sprites = None
 
         self._status = []
 
@@ -75,9 +79,10 @@ class SinistarWindow(arcade.Window):
         self._theme = arcade.Sound(constants.THEME, True)
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False)
-        self._laser = arcade.Sound(constants.LASER, False)
+        self._player_laser_effect = arcade.Sound(constants.LASER, False)
         self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
+        self._crystal_effect = arcade.Sound(constants.CRYSTAL_SOUND, False)
 
         # Movement Bool
         self.up_pressed = False
@@ -110,6 +115,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
+        self._bomb_count = constants.BOMBS
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -117,23 +123,27 @@ class SinistarWindow(arcade.Window):
             constants.MOUSE, constants.SPRITE_SCALING_MOUSE)
         self._mouse_list.append(self._mouse_sprite)
 
-        # Create Asteroids
-        self._asteroid_sprites = AsteroidManager()
-        self._all_sprites_list.extend(self._asteroid_sprites)
-
-        # Create Enemies
-        self._enemy_sprites = EnemyManager()
-        self._all_sprites_list.extend(self._enemy_sprites)
-
         # Set up the player
         self._player_sprite = self._ship.get_ship()
 
+        # Create Asteroids
+        self._asteroid_sprites = AsteroidManager(self._player_sprite)
+        self._all_sprites_list.extend(self._asteroid_sprites)
+
+        # Create Enemies
+        self._enemy_sprites = EnemyManager(self._player_sprite)
+        self._all_sprites_list.extend(self._enemy_sprites)
+
         # Setup the lasers
-        self._laser_sprites_list = LaserManager(self._all_sprites_list, self._player_sprite)
-        self._all_sprites_list.extend(self._laser_sprites_list)
+        self._player_laser_sprites = Laser()
+        self._all_sprites_list.extend(self._player_laser_sprites)
 
         self._enemy_laser_sprites = EnemyLaser()
 
+        # Setup the bombs/crystals
+        self._crystal_sprites = Bomb()
+        self._all_sprites_list.extend(self._crystal_sprites)
+        
         # Setup Lives Spritelist
         self._lives_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.LIVES_SPRITES:
@@ -143,6 +153,16 @@ class SinistarWindow(arcade.Window):
             sprite.center_y = constants.SCREEN_HEIGHT - 20
             temp_sprite_list.append(sprite)
             self._lives_sprites.append(temp_sprite_list)
+        
+        # Setup Bombs Spritelist
+        self._bomb_sprites = []  # THis is a normal list of SpriteList objects
+        for path in constants.BOMB_SPRITES:
+            temp_sprite_list = arcade.SpriteList()
+            sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
+            sprite.center_x = 80
+            sprite.center_y = constants.SCREEN_HEIGHT - 80
+            temp_sprite_list.append(sprite)
+            self._bomb_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """
@@ -219,8 +239,10 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
+                bombs = Bomb.get_bomb_count(self, self._bomb_count)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
+                    # self._bomb_count[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
@@ -264,22 +286,14 @@ class SinistarWindow(arcade.Window):
 
                 # Check for collisions
                 # self._collisions.handle_collisions()
-                # Laser.delete_laser(self, self._laser_sprites_list)
-                self._lasers = LaserManager.get_lasers(self)
-                for _laser in self._lasers:
-                    self._asteroids = arcade.check_for_collision_with_list(_laser, self._asteroid_sprites)
-                    enemies = arcade.check_for_collision_with_list(_laser, self._enemy_sprites)
-                    for _asteroid in self._asteroids:
-                        self._explosion.play(self._volume, 0, False)
-                        self._score += 50
-                        _asteroid.kill()
-                        _laser.kill()
-                    for enemy in enemies:
-                        self._explosion.play(self._volume, 0, False)
-                        self._score += 200
-                        enemy.kill()
-                        _laser.kill()
+
+                Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites, 
+                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume, 
+                                            self._all_sprites_list, self._crystal_sprites)
+                Laser.delete_laser(self._player_laser_sprites)
+              
                 if self._immunity <= 0:
+                    self._player_sprite.set_normal_texture()
                     ship_hit = []
 
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
@@ -304,10 +318,12 @@ class SinistarWindow(arcade.Window):
                             self._menu.game_lost()
                 else:
                     self._immunity -= 1
+                    self._player_sprite.set_shield_texture()
 
-                #enemy movement
+                #enemy movement/ respawns
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
-                                                    self._enemy_sprites, self._enemy_laser_sprites)
+                                                    self._enemy_sprites, self._enemy_laser_sprites,
+                                                    self._asteroid_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
@@ -336,8 +352,9 @@ class SinistarWindow(arcade.Window):
                 self._menu.game_paused()
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
-            self._laser_sprites_list = LaserManager(self._all_sprites_list, self._ship)
-            self._laser.play(self._volume, 0, False)
+            self._player_laser_sprites = Laser.get_player_lasers(self)
+            Laser.generate_laser(self._player_laser_sprites, self._ship, self._all_sprites_list)
+            self._player_laser_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed

@@ -22,8 +22,9 @@ class AI():
             enemy_sprites: the list of all enemy sprites.
             all_sprites: the list of all sprites in the game.
         """
-        sprite = enemy_sprites[0] #if enemies are same size this only needs to be done once
-        barriers = arcade.AStarBarrierList(sprite, all_sprites,
+        if enemy_sprites:
+            sprite = enemy_sprites[0] #if enemies are same size this only needs to be done once
+            barriers = arcade.AStarBarrierList(sprite, all_sprites,
                             constants.GRID, 0, constants.SCREEN_WIDTH, 
                             0, constants.SCREEN_HEIGHT)
 
@@ -31,7 +32,7 @@ class AI():
         #    barriers.append(arcade.AStarBarrierList(sprite, all_sprites,
         #                    128, 0, constants.SCREEN_WIDTH, 
         #                    0, constants.SCREEN_HEIGHT))
-        return barriers
+            return barriers
 
     def do_pathing(self, enemy_location, destination, barriers):
         """Returns a list to be used as a path.

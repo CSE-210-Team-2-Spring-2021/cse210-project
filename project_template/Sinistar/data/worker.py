@@ -8,8 +8,10 @@ class Worker(arcade.Sprite):
         """
         Class Constructor
         """
+        self.enemy_type = "Worker"
         super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES)
         self._setup_worker(player_sprite)
+        self.has_crystal = False
 
     def _setup_worker(self, player_sprite):
         """Responsible for assigning the position and velocity of worker
@@ -21,7 +23,7 @@ class Worker(arcade.Sprite):
         y = constants.SCREEN_HEIGHT
         speed = 2
         exclude_group_x = range(math.ceil(player_sprite.center_x - 200),
-                                 math.ceil(player_sprite.center_x + 200))
+                                math.ceil(player_sprite.center_x + 200))
         exclude_group_y = range(math.ceil(player_sprite.center_y - 200), 
                                 math.ceil(player_sprite.center_y + 200))
 
@@ -78,3 +80,20 @@ class Worker(arcade.Sprite):
             self - instance of Enemies
         """
         return self._path
+
+    def get_enemy_type(self):
+        """
+        
+        """
+
+        return self.enemy_type
+
+    def receive_crystal_collision(self, collision):
+        """Receive the collision with a crystal and update the texture.
+        
+        """
+
+        if collision == True:
+            self.has_crystal = True
+            arcade.append_texture(constants.WORKER__CRYSTAL_SPRITE)
+            arcade.set_texture(2)

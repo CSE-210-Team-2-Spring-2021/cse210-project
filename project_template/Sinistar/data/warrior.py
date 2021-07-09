@@ -9,6 +9,7 @@ class Warrior(arcade.Sprite):
         """
         Class Constructor
         """
+        self.enemy_type = "Warrior"
         super().__init__(constants.WARRIOR_SPRITE, constants.SPRITE_SCALING_ENEMIES)
         self._setup_warrior(player_sprite)
 
@@ -111,3 +112,10 @@ class Warrior(arcade.Sprite):
 
         if random.randrange(odds) == 0:
             enemy_lasers.generate_laser(self, all_sprites)
+
+    def get_enemy_type(self):
+        """
+        
+        """
+
+        return self._enemy_type

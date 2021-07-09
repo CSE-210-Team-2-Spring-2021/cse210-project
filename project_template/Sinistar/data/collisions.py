@@ -20,9 +20,9 @@ class Collisions():
         _lasers = self._laser_sprites.get_lasers()
         for _laser in _lasers:
             asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                             self._asteroid_sprites)
+                                                            self._asteroid_sprites)
             enemies = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                           self._enemy_sprites)
+                                                            self._enemy_sprites)
         for asteroid in asteroids:
             self._explosion.play(self._volume, 0, False)
             self._score += 50
@@ -39,7 +39,7 @@ class Collisions():
             asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                 self._asteroid_sprites)
             enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                             self._enemy_sprites)
+                                                            self._enemy_sprites)
             ship_hit = asteroid_hit + enemy_hit
 
             if ship_hit != []:

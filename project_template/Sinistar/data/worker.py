@@ -87,7 +87,7 @@ class Worker(arcade.Sprite):
         return self.enemy_type
 
     def receive_crystal_collision(self, collision):
-        """
+        """Receive the collision with a crystal and update the texture.
         
         """
 
@@ -95,6 +95,3 @@ class Worker(arcade.Sprite):
             self.has_crystal = True
             arcade.append_texture(constants.WORKER__CRYSTAL_SPRITE)
             arcade.set_texture(2)
-
-
-receive_crystal_collision(True)

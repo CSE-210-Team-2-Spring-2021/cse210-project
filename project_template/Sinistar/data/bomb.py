@@ -40,4 +40,9 @@ class Bomb(arcade.SpriteList):
             crystal_hit = arcade.check_for_collision_with_list(crystal, player_sprite)
             if crystal_hit:
                 crystal.kill()
-                self.bomb_count += 1
+                self._bomb_count += 1
+
+    def get_bomb_count(self):
+        """ Returns the bomb count available"""
+
+        return self._bomb_count

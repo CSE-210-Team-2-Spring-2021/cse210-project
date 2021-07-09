@@ -155,13 +155,13 @@ class SinistarWindow(arcade.Window):
         
         # Setup Bombs Spritelist
         self._bomb_sprites = []  # THis is a normal list of SpriteList objects
-        # for path in constants.BOMB_SPRITES:
-        #     temp_sprite_list = arcade.SpriteList()
-        #     sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
-        #     sprite.center_x = 80
-        #     sprite.center_y = constants.SCREEN_HEIGHT - 80
-        #     temp_sprite_list.append(sprite)
-        #     self._bomb_sprites.append(temp_sprite_list)
+        for path in constants.BOMB_SPRITES:
+            temp_sprite_list = arcade.SpriteList()
+            sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
+            sprite.center_x = 80
+            sprite.center_y = constants.SCREEN_HEIGHT - 80
+            temp_sprite_list.append(sprite)
+            self._bomb_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """
@@ -238,8 +238,10 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
+                bombs = Bomb.get_bomb_count(self._bomb_count)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
+                    self._bomb_count[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)

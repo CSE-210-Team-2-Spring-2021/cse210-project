@@ -13,6 +13,7 @@ class Collisions():
         self._laser_sprites = Laser()
         self._enemy_sprites = EnemyManager()
         self._asteroid_sprites = Asteroid()
+        #self._crystal_sprites = Bomb()
 
     def handle_collisions(self):
         self._laser_sprites.delete_laser()

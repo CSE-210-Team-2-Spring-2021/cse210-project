@@ -52,10 +52,13 @@ class WindowHelper:
         barriers = self._ai.find_barriers(enemy_sprites, all_sprites)
         for enemy in enemy_sprites:
             if enemy.enemy_type == 'Worker':
-                self._ai.face_crystal(enemy, crystal_sprites)
-                
-                enemy.process_move(self._ai.do_pathing(enemy.position, crystal_sprites.position, barriers),
-                                    enemy_lasers, all_sprites)  
+                if enemy.has_crystal == False:
+                    self._ai.face_crystal(enemy, crystal_sprites)
+                    
+                    enemy.process_move(self._ai.do_pathing(enemy.position, crystal_sprites.position, barriers),
+                                        enemy_lasers, all_sprites)
+                else:
+                    """avoid the player"""
             elif enemy.enemy_type == 'Warrior':
                 self._ai.face_player(enemy, player_sprite)
                 

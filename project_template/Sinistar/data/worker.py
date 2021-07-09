@@ -11,6 +11,7 @@ class Worker(arcade.Sprite):
         self.enemy_type = "Worker"
         super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES)
         self._setup_worker()
+        self.has_crystal = False
 
     def _setup_worker(self):
         """Responsible for assigning the position and velocity of worker
@@ -83,4 +84,17 @@ class Worker(arcade.Sprite):
         
         """
 
-        return self._enemy_type
+        return self.enemy_type
+
+    def receive_crystal_collision(self, collision):
+        """
+        
+        """
+
+        if collision == True:
+            self.has_crystal = True
+            arcade.append_texture(constants.WORKER__CRYSTAL_SPRITE)
+            arcade.set_texture(2)
+
+
+receive_crystal_collision(True)

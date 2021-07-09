@@ -12,7 +12,7 @@ GRID = 128
 # Scale sprites up or down
 SPRITE_SCALING_PLAYER = 0.1
 SPRITE_SCALING_TILES = 0.5
-SPRITE_SCALING_ASTEROIDS = 0.2
+SPRITE_SCALING_ASTEROIDS = 0.6
 SPRITE_SCALING_ENEMIES = 1
 SPRITE_SCALING_ENEMY_LASERS = 1
 SPRITE_SCALING_LASERS = .04
@@ -67,7 +67,7 @@ SCORE_DOC = pathlib.Path(__file__).resolve().parents[1] / 'data' / 'highscores.j
 ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
 SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
-ASTEROID_SPRITE = ASSET_PATH / 'basic-astroid.png'
+ASTEROID_SPRITE = ASSET_PATH / 'asteroid.png'                  #'basic-astroid.png'
 WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
 WORKER_SPRITE = ASSET_PATH / 'worker.png'
 CRYSTAL_SPRITE = ASSET_PATH / 'crystal.png'

@@ -42,7 +42,7 @@ class Bomb(arcade.SpriteList):
                 crystal.kill()
                 self._bomb_count += 1
 
-    def get_bomb_count(self):
+    def get_bomb_count(self, _bomb_count):
         """ Returns the bomb count available"""
 
-        return self._bomb_count
+        return _bomb_count

@@ -238,10 +238,10 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
-                bombs = Bomb.get_bomb_count(self._bomb_count)
+                bombs = Bomb.get_bomb_count(self, self._bomb_count)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
-                    self._bomb_count[bombs].draw()
+                    # self._bomb_count[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)

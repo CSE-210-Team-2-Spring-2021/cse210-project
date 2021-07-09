@@ -46,6 +46,13 @@ DECELERATION_RATE = 0.1
 ANGLE_DECAY = 0.2
 LASER_SPEED = 9
 
+# Set Difficulty
+EASIEST = .25
+EASY = .5
+NORMAL = 1
+HARD = 1.25
+SINISTAR = 1.5
+
 #Number of Asteroids
 ASTEROID_COUNT = 20
 

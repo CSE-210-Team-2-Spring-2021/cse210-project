@@ -58,7 +58,7 @@ class Laser(arcade.SpriteList):
                 if random.randrange(odds) == 0:
                     explosion.play(volume, 0, False)
                     self._score += 50
-                    Bomb.generate_crystal(asteroid, crystal_sprites, all_sprites)
+                    Bomb.generate_crystal(self, asteroid, crystal_sprites, all_sprites)
                     asteroid.kill()
                     laser.kill()
                 else:

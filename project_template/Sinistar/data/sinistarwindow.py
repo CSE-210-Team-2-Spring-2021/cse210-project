@@ -82,6 +82,7 @@ class SinistarWindow(arcade.Window):
         self._player_laser_effect = arcade.Sound(constants.LASER, False)
         self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
+        self._crystal_effect = arcade.Sound(constants.CRYSTAL_SOUND, False)
 
         # Movement Bool
         self.up_pressed = False
@@ -287,7 +288,7 @@ class SinistarWindow(arcade.Window):
                 # self._collisions.handle_collisions()
 
                 Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites, 
-                                            self._asteroid_sprites, self._explosion, self._volume, 
+                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume, 
                                             self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
               

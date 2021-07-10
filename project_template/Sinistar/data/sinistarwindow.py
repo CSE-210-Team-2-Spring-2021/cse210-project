@@ -236,22 +236,22 @@ class SinistarWindow(arcade.Window):
                 output = 'GAME OVER'
                 self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
-                                 constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
-                                 constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
+                                constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
                 self._mouse_list.draw()
 
             else:  # Game playing
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
-                bombs = Bomb.get_bomb_count(self, self._bomb_count)
+                bombs = Bomb.get_bomb_count(self)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
                     # self._bomb_count[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
-                                 constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
                 
                 #for enemy in self._enemy_sprites:
                 #    if enemy.get_path():
@@ -300,7 +300,7 @@ class SinistarWindow(arcade.Window):
 
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
-                        if self._crystal_sprites == True:
+                        if self._crystal_sprites:
                             enemy.receive_crystal_collision(self._crystal_sprites, self._enemy_sprites)
             
                 self._crystal_sprites.crystal_to_bomb(self._crystal_sprites, self._player_sprite)

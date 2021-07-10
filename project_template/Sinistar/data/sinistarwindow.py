@@ -14,6 +14,7 @@ from data.menu import Menu
 from data.ai import AI
 from data.windowhelper import WindowHelper
 from data.bomb import Bomb
+from data.highscore import HighScore
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -54,6 +55,8 @@ class SinistarWindow(arcade.Window):
         # Setup Menu
         self._menu = Menu()
         self._generate_menu()
+
+        self._highscore = HighScore()
 
         #Setup Helper
         self._helper = None
@@ -231,6 +234,7 @@ class SinistarWindow(arcade.Window):
             if self._status[4]:
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
+                self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
                                  constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,

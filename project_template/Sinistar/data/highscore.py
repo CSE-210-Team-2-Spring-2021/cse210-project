@@ -68,17 +68,19 @@ class HighScore():
         
         """
 
-        start_x_1 = 50
-        start_x_2 = 150
-        start_y = 50
+        start_x_1 = constants.SCREEN_WIDTH/2 - 70
+        start_x_2 = constants.SCREEN_WIDTH/2 + 70
+        start_y = constants.SCREEN_HEIGHT - 20
         for i in range(0, 5):
             
 
             arcade.draw_text(self._names[i], start_x_1,
                                     start_y, arcade.color.WHITE, 14)
 
-            arcade.draw_text(self._scores[i], start_x_2,
+            arcade.draw_text(str(self._scores[i]), start_x_2,
                                     start_y, arcade.color.WHITE, 14)
+
+            start_y -= 20
 
 
     def save_file(self):

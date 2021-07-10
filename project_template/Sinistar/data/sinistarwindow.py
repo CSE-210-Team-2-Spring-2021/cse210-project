@@ -45,7 +45,7 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
         self._score = None
-        self._bomb_count = None
+        self._bombs_amount = None
 
         self._mouse_sprite = None
         self._mouse_list = None
@@ -115,7 +115,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
-        self._bomb_count = constants.BOMBS
+        self._bombs_amount = constants.BOMBS
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -240,10 +240,10 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
-                bombs = Bomb.get_bomb_count(self)
+                bombs = Bomb.get_bombs_amount(self)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
-                    # self._bomb_count[bombs].draw()
+                    # self._bombs_amount[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                 constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)

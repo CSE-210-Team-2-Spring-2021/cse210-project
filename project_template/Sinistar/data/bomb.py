@@ -9,7 +9,7 @@ class Bomb(arcade.SpriteList):
     def __init__(self):
         """Class Constructor"""
         super().__init__()
-        self._bomb_count = 0
+        self._bombs_amount = 0
 
     def generate_crystal(self, asteroid, crystal_sprites, all_sprites):
         """When an asteroid explodes, it has a chance to drop a crystal. 
@@ -39,10 +39,10 @@ class Bomb(arcade.SpriteList):
         if crystal_hit:
             for crystal in crystal_hit:
                 crystal.kill()
-                if self._bomb_count < 5:
-                    self._bomb_count += 1
+                if self._bombs_amount < 5:
+                    self._bombs_amount += 1
 
-    def get_bomb_count(self):
+    def get_bombs_amount(self):
         """ Returns the bomb count available"""
 
-        return self._bomb_count
+        return self._bombs_amount

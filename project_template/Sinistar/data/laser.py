@@ -25,8 +25,8 @@ class Laser(arcade.SpriteList):
         """
         # set velocity based off front of player ship
         laser = arcade.Sprite(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
-        laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 9
-        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 9
+        laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 10
+        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 10
 
         laser.center_x = _player_sprite.center_x
         laser.center_y = _player_sprite.center_y

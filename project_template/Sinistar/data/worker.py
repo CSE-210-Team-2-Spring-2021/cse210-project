@@ -41,7 +41,8 @@ class Worker(arcade.Sprite):
 
     # add in each new instance of worker
     def add_worker(self):
-        """Adds a worker when 1 is destroyed (will need more work later"""
+        """Adds a worker when 1 is destroyed (will need more work later
+        """
         worker = "*"    # arcade.Sprite("images/worker.png", constants.SPRITE_SIZE)
         worker.center_y = random.randrange(constants.SCREEN_HEIGHT) 
         worker.center_x = random.randrange(constants.SCREEN_WIDTH)
@@ -50,7 +51,8 @@ class Worker(arcade.Sprite):
         self.all_sprites.append(worker)
     
     def get_workers(self):
-        """Returns astroids list"""
+        """Returns workers list
+        """
 
         return self._workers
 
@@ -82,18 +84,28 @@ class Worker(arcade.Sprite):
         return self._path
 
     def get_enemy_type(self):
-        """
+        """Returns the type of enemy of this object
         
+        Args:
+            self - instance of Enemies
         """
 
         return self.enemy_type
 
-    def receive_crystal_collision(self, collision):
+    def receive_crystal_collision(self, crystal_sprites, enemy_sprites):
         """Receive the collision with a crystal and update the texture.
         
+        Args:
+            self - an instance of the worker object.
+            crystal_sprites(list) - a list of all crystal sprites in play
+            enemy_sprites(list) - a list of all enemy sprites
         """
 
-        if collision == True:
-            self.has_crystal = True
-            arcade.append_texture(constants.WORKER__CRYSTAL_SPRITE)
-            arcade.set_texture(2)
+        worker_crystal_texture = arcade.load_texture(constants.WORKER_CRYSTAL_SPRITE)
+        for enemy in enemy_sprites:
+            if enemy.enemy_type == "Worker" and enemy.has_crystal == False:
+                crystal_hit = arcade.check_for_collision_with_list(enemy, crystal_sprites)
+                if crystal_hit:
+                    self._texture = worker_crystal_texture
+                    for crystal in crystal_hit:
+                        crystal.kill()

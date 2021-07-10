@@ -6,13 +6,11 @@ class WindowHelper():
     """
     Assistant to the SinistarWindow class. Provides helpful classes to 
     improve the flow of sinistar window
-
     Stereotype:
         Service Provider
     """
     def __init__(self, player_sprite):
         """Class constructor
-
         Args:
             self - An instance of WindowHelper
         """
@@ -21,7 +19,6 @@ class WindowHelper():
 
     def wrap_sprites(self, sprites):
         """Wraps Sprite objects 
-
         Args:
             self - An instance of WindowHelper
             sprite - a sprite object

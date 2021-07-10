@@ -22,7 +22,6 @@ from data.highscore import HighScore
 class SinistarWindow(arcade.Window):
     """
     Main application class.
-
     Stereotype:
         Controller/Service Provider
     """
@@ -30,7 +29,6 @@ class SinistarWindow(arcade.Window):
     def __init__(self, width, height, title):
         """
         Class Constructor
-
         Args:
             self - an instance of SinistarWindow
             width - width of screen
@@ -110,7 +108,6 @@ class SinistarWindow(arcade.Window):
 
     def setup(self):
         """ Set up the game and initialize the variables. 
-
         Args:
             self - an instance of SinistarWindow
         """
@@ -172,7 +169,6 @@ class SinistarWindow(arcade.Window):
     def _generate_menu(self):
         """
         Sets up the menu sprite lists
-
         Args:
             self - An instane of SinistarWindow"""
 
@@ -187,7 +183,6 @@ class SinistarWindow(arcade.Window):
     def _change_volume(self, volume):
         """
         Changes volume of game
-
         Args:
             self - An instane of SinistarWindow"""
         self._theme.set_volume(volume, self._theme_player)
@@ -340,7 +335,6 @@ class SinistarWindow(arcade.Window):
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
-
         Args:
             self - an instance of InputService
             key - the key pressed
@@ -371,7 +365,6 @@ class SinistarWindow(arcade.Window):
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed
-
         Args:
             self - an instance of InputService
             key - the key pressed
@@ -487,4 +480,3 @@ class SinistarWindow(arcade.Window):
                 self._change_volume(1)
             else:
                 return
-        

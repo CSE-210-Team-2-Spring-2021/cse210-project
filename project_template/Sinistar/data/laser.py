@@ -54,7 +54,7 @@ class Laser(arcade.SpriteList):
             enemies = arcade.check_for_collision_with_list(laser, enemy_sprites)
             for asteroid in asteroids:
                 if random.randrange(odds) == 0:
-                    print("Odds have been achieved.")
+                    #print("Odds have been achieved.")
                     crystal.play(volume + 4, 0, False)
                     self._score += 50
                     Bomb.generate_crystal(self, asteroid, crystal_sprites, all_sprites)

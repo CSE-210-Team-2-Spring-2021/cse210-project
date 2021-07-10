@@ -3,7 +3,6 @@ from data import constants
 
 class Bomb(arcade.SpriteList):
     """Class to track the list of all Bombs in play
-
         Stereotype: Information Holder
     """
 
@@ -30,7 +29,6 @@ class Bomb(arcade.SpriteList):
 
     def crystal_to_bomb(self, crystal_sprites, player_sprite):
         """When the ship collides with crystal, a bomb is added to inventory for shooting.
-
             Args:
                 self - An instance of Bomb
                 crystal_sprites - list of all crystal sprites

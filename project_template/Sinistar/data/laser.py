@@ -6,7 +6,6 @@ from data.bomb import Bomb
 
 class Laser(arcade.SpriteList):
     """Subclass of arcade to create instances of laser
-
     Stereotype: Information Holder
     """
     # instantiate as a sprite and inherit the init from arcade.SpriteList.
@@ -39,7 +38,6 @@ class Laser(arcade.SpriteList):
 
     def update_player_lasers(self, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
-
             Args:
                 self - an instance of LaserManager
                 player_laser_sprites - SpriteList of all player laser sprites

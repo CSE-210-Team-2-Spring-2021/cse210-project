@@ -17,7 +17,6 @@ class AI():
 
     def find_barriers(self, enemy_sprites, all_sprites):
         """Returns a list of barriers to be used to find pathing.
-
         Args:
             enemy_sprites: the list of all enemy sprites.
             all_sprites: the list of all sprites in the game.

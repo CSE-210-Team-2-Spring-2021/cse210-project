@@ -6,7 +6,6 @@ from data.bomb import Bomb
 
 class Laser(arcade.SpriteList):
     """Subclass of arcade to create instances of laser
-
     Stereotype: Information Holder
     """
     # instantiate as a sprite and inherit the init from arcade.SpriteList.
@@ -26,8 +25,8 @@ class Laser(arcade.SpriteList):
         """
         # set velocity based off front of player ship
         laser = arcade.Sprite(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
-        laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 9
-        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 9
+        laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 10
+        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 10
 
         laser.center_x = _player_sprite.center_x
         laser.center_y = _player_sprite.center_y
@@ -39,7 +38,6 @@ class Laser(arcade.SpriteList):
 
     def update_player_lasers(self, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
-
             Args:
                 self - an instance of LaserManager
                 player_laser_sprites - SpriteList of all player laser sprites
@@ -56,6 +54,7 @@ class Laser(arcade.SpriteList):
             enemies = arcade.check_for_collision_with_list(laser, enemy_sprites)
             for asteroid in asteroids:
                 if random.randrange(odds) == 0:
+                    #print("Odds have been achieved.")
                     crystal.play(volume + 4, 0, False)
                     self._score += 50
                     Bomb.generate_crystal(self, asteroid, crystal_sprites, all_sprites)

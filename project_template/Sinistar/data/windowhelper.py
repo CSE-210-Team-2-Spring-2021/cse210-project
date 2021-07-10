@@ -7,13 +7,11 @@ class WindowHelper():
     """
     Assistant to the SinistarWindow class. Provides helpful classes to 
     improve the flow of sinistar window
-
     Stereotype:
         Service Provider
     """
     def __init__(self, player_sprite):
         """Class constructor
-
         Args:
             self - An instance of WindowHelper
         """
@@ -23,7 +21,6 @@ class WindowHelper():
 
     def wrap_sprites(self, sprites):
         """Wraps Sprite objects 
-
         Args:
             self - An instance of WindowHelper
             sprite - a sprite object
@@ -57,11 +54,12 @@ class WindowHelper():
         barriers = self._ai.find_barriers(enemy_sprites, all_sprites)
         for enemy in enemy_sprites:
             if enemy.enemy_type == 'Worker':
-                if crystal_sprites == True:
+                if crystal_sprites:
                     if enemy.has_crystal == False:
-                        self._ai.face_crystal(enemy, crystal_sprites)
+                        closest_crystal = self._ai.find_closest(enemy, crystal_sprites, all_sprites)
+                        self._ai.face_crystal(enemy, closest_crystal)
                         
-                        enemy.process_move(self._ai.do_pathing(enemy.position, crystal_sprites.position, barriers),
+                        enemy.process_move(self._ai.do_pathing(enemy.position, closest_crystal, barriers),
                                             enemy_lasers, all_sprites)
                 else:
                     """avoid the player"""

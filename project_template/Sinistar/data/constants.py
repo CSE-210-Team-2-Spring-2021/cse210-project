@@ -44,7 +44,7 @@ ANGLE_SPEED = 5
 ACCELERATION_RATE = 1
 DECELERATION_RATE = 0.1
 ANGLE_DECAY = 0.2
-LASER_SPEED = 9
+LASER_SPEED = 10
 
 # Set Difficulty
 EASIEST = .25
@@ -76,8 +76,8 @@ LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PAT
                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'
 ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
-BOMB_SPRITES = [ASSET_PATH / 'Bombs0.png', ASSET_PATH / 'Bombs1.png', ASSET_PATH / 'Bombs2.png', ASSET_PATH / 'Bombs3.png',
-                ASSET_PATH / 'Bombs4.png', ASSET_PATH / 'Bombs5.png']
+BOMBS_AMOUNT_SPRITES = [ASSET_PATH / 'BombsAmount0.png', ASSET_PATH / 'BombsAmount1.png', ASSET_PATH / 'BombsAmount2.png', ASSET_PATH / 'BombsAmount3.png',
+                ASSET_PATH / 'BombsAmount4.png', ASSET_PATH / 'BombsAmount5.png']
 
 MOUSE = ASSET_PATH / 'mouse.png'
 

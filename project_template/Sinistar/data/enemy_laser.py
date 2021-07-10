@@ -8,9 +8,7 @@ from data import constants
 
 class EnemyLaser(arcade.SpriteList):
     """Subclass of Actors to create instances of asteroid
-
     Stereotype: Information Holder
-
     Attributes:
         _location (coordinate) - the actors position in 2D space
         _velocity (coordinate) - the actors speed and direction 
@@ -58,4 +56,3 @@ class EnemyLaser(arcade.SpriteList):
                 
             elif laser.top > constants.SCREEN_HEIGHT - 5:
                 laser.remove_from_sprite_lists()
-                

@@ -22,7 +22,6 @@ from data.highscore import HighScore
 class SinistarWindow(arcade.Window):
     """
     Main application class.
-
     Stereotype:
         Controller/Service Provider
     """
@@ -30,7 +29,6 @@ class SinistarWindow(arcade.Window):
     def __init__(self, width, height, title):
         """
         Class Constructor
-
         Args:
             self - an instance of SinistarWindow
             width - width of screen
@@ -47,7 +45,7 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
         self._score = None
-        self._bomb_count = None
+        self._bombs_amount = None
 
         self._mouse_sprite = None
         self._mouse_list = None
@@ -73,7 +71,7 @@ class SinistarWindow(arcade.Window):
         self._enemy_laser_sprites = None
 
         self._crystal_sprites = None
-        self._bomb_sprites = None
+        self._bombs_amount_sprites = None
 
         self._status = []
 
@@ -110,7 +108,6 @@ class SinistarWindow(arcade.Window):
 
     def setup(self):
         """ Set up the game and initialize the variables. 
-
         Args:
             self - an instance of SinistarWindow
         """
@@ -118,7 +115,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
-        self._bomb_count = constants.BOMBS
+        self._bombs_amount = constants.BOMBS
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -160,19 +157,18 @@ class SinistarWindow(arcade.Window):
             self._lives_sprites.append(temp_sprite_list)
         
         # Setup Bombs Spritelist
-        self._bomb_sprites = []  # THis is a normal list of SpriteList objects
-        for path in constants.BOMB_SPRITES:
+        self._bombs_amount_sprites = []  # THis is a normal list of SpriteList objects
+        for path in constants.BOMBS_AMOUNT_SPRITES:
             temp_sprite_list = arcade.SpriteList()
             sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
             sprite.center_x = 80
             sprite.center_y = constants.SCREEN_HEIGHT - 80
             temp_sprite_list.append(sprite)
-            self._bomb_sprites.append(temp_sprite_list)
+            self._bombs_amount_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """
         Sets up the menu sprite lists
-
         Args:
             self - An instane of SinistarWindow"""
 
@@ -187,7 +183,6 @@ class SinistarWindow(arcade.Window):
     def _change_volume(self, volume):
         """
         Changes volume of game
-
         Args:
             self - An instane of SinistarWindow"""
         self._theme.set_volume(volume, self._theme_player)
@@ -236,22 +231,22 @@ class SinistarWindow(arcade.Window):
                 output = 'GAME OVER'
                 self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
-                                 constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
-                                 constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
+                                constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
                 self._mouse_list.draw()
 
             else:  # Game playing
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
-                bombs = Bomb.get_bomb_count(self, self._bomb_count)
+                bombs = Bomb.get_bombs_amount(self)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
-                    # self._bomb_count[bombs].draw()
+                    # self._bombs_amount[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
-                                 constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
+                                constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
                 
                 #for enemy in self._enemy_sprites:
                 #    if enemy.get_path():
@@ -300,7 +295,7 @@ class SinistarWindow(arcade.Window):
 
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
-                        if self._crystal_sprites == True:
+                        if self._crystal_sprites:
                             enemy.receive_crystal_collision(self._crystal_sprites, self._enemy_sprites)
             
                 self._crystal_sprites.crystal_to_bomb(self._crystal_sprites, self._player_sprite)
@@ -340,7 +335,6 @@ class SinistarWindow(arcade.Window):
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
-
         Args:
             self - an instance of InputService
             key - the key pressed
@@ -368,7 +362,6 @@ class SinistarWindow(arcade.Window):
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed
-
         Args:
             self - an instance of InputService
             key - the key pressed
@@ -484,4 +477,3 @@ class SinistarWindow(arcade.Window):
                 self._change_volume(1)
             else:
                 return
-        

@@ -37,7 +37,6 @@ class Bomb(arcade.SpriteList):
                 player_sprite - Player ship to collide with crystal
         """
         
-        #print("running crystal to bomb")
         crystal_hit = arcade.check_for_collision_with_list(player_sprite, crystal_sprites)
         if crystal_hit:
             for crystal in crystal_hit:
@@ -45,7 +44,7 @@ class Bomb(arcade.SpriteList):
                 if self._bomb_count < 5:
                     self._bomb_count += 1
 
-    def get_bomb_count(self, _bomb_count):
+    def get_bomb_count(self):
         """ Returns the bomb count available"""
 
-        return _bomb_count
+        return self._bomb_count

@@ -59,17 +59,41 @@ class AI():
             all_sprites (list): The list of all sprites in the game, used to check for obstacles.
         """
 
-        (tuple_bool, tuple_list) = arcade.has_line_of_sight(enemy_location,
+        return arcade.has_line_of_sight(enemy_location,
                                                             player_location, all_sprites, 100)
-        return (tuple_bool, tuple_list)
 
-    def get_path_vector(self, enemy_location, enemy_path):
+    def calc_distance(self, enemy_location, destination):
         """
         
         """
 
-        vector = enemy_path - enemy_location
-        return vector
+        distance = destination - enemy_location
+        return distance
+
+    def find_closest(self, enemy_sprite, crystal_sprites, all_sprites):
+        """
+        
+        """
+
+        enemy_location = (enemy_sprite.center_x, enemy_sprite.center_y)
+        
+        closest = 10000
+        distances = []
+        marker = -1
+        
+        for crystal in crystal_sprites:
+            crystal_location = (crystal.center_x, crystal.center_y)
+            if self.calc_sight_line(enemy_location, crystal_location, all_sprites):
+                distance = self.calc_distance(enemy_location, crystal_location)
+                distances.append(distance)
+
+        for i, distance in enumerate(distances):
+            if distance < closest:
+                closest = distance
+                marker = i
+
+        closest_crystal = (crystal_sprites[marker].center_x, crystal_sprites[marker].center_y)
+        return closest_crystal
 
     def face_player(self, enemy_sprite, player_sprite):
         """Makes the enemy sprite face the player sprite
@@ -97,21 +121,23 @@ class AI():
         # Set the enemy to face the player.
         enemy_sprite.angle = math.degrees(angle) - 90
 
-    def face_crystal(self, enemy_sprite, crystal_sprite):
+    def face_crystal(self, enemy_sprite, closest_crystal):
         """Makes the enemy sprite face the crystal sprite
         
         Args:
             self - Instance of ai
             enemy_sprite - An enemy Sprite
-            crystal_sprite - The crystal Sprite
+            closest_crystal(tuple) - The coordinates of the closest crystal
         """
+        
+
+        
         # Position the start at the enemy's current location
         start_x = enemy_sprite.center_x
         start_y = enemy_sprite.center_y
 
         # Get the destination location for the bullet
-        dest_x = crystal_sprite.center_x
-        dest_y = crystal_sprite.center_y
+        (dest_x, dest_y) = closest_crystal
 
         # Do math to calculate how to get the bullet to the destination.
         # Calculation the angle in radians between the start points

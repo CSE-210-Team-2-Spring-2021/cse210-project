@@ -107,5 +107,6 @@ class Worker(arcade.Sprite):
                 crystal_hit = arcade.check_for_collision_with_list(enemy, crystal_sprites)
                 if crystal_hit:
                     self._texture = worker_crystal_texture
+                    enemy.has_crystal = True
                     for crystal in crystal_hit:
                         crystal.kill()

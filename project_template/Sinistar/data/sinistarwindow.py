@@ -14,6 +14,7 @@ from data.menu import Menu
 from data.ai import AI
 from data.windowhelper import WindowHelper
 from data.bomb import Bomb
+from data.highscore import HighScore
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -55,8 +56,10 @@ class SinistarWindow(arcade.Window):
         self._menu = Menu()
         self._generate_menu()
 
+        self._highscore = HighScore()
+
         #Setup Helper
-        self._helper = WindowHelper()
+        self._helper = None
 
         #Background
         self._background = arcade.load_texture(constants.BACKGROUND)
@@ -125,6 +128,8 @@ class SinistarWindow(arcade.Window):
 
         # Set up the player
         self._player_sprite = self._ship.get_ship()
+
+        self._helper = WindowHelper(self._player_sprite)
 
         # Create Asteroids
         self._asteroid_sprites = AsteroidManager(self._player_sprite)
@@ -229,6 +234,7 @@ class SinistarWindow(arcade.Window):
             if self._status[4]:
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
+                self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
                                  constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
@@ -291,7 +297,14 @@ class SinistarWindow(arcade.Window):
                                             self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume, 
                                             self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
-              
+
+                for enemy in self._enemy_sprites:
+                    if enemy.enemy_type == "Worker":
+                        if self._crystal_sprites == True:
+                            enemy.receive_crystal_collision(self._crystal_sprites, self._enemy_sprites)
+            
+                self._crystal_sprites.crystal_to_bomb(self._crystal_sprites, self._player_sprite)
+            
                 if self._immunity <= 0:
                     self._player_sprite.set_normal_texture()
                     ship_hit = []
@@ -299,7 +312,7 @@ class SinistarWindow(arcade.Window):
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                         self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                     self._enemy_sprites)
+                                                                        self._enemy_sprites)
                     enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                             self._enemy_laser_sprites)
                     ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
@@ -323,7 +336,7 @@ class SinistarWindow(arcade.Window):
                 #enemy movement/ respawns
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
                                                     self._enemy_sprites, self._enemy_laser_sprites,
-                                                    self._asteroid_sprites)
+                                                    self._asteroid_sprites, self._crystal_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement

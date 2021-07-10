@@ -2,7 +2,7 @@ from data import constants
 from data.ai import AI
 from data.enemies import EnemyManager
 
-class WindowHelper:
+class WindowHelper():
     """
     Assistant to the SinistarWindow class. Provides helpful classes to 
     improve the flow of sinistar window
@@ -10,14 +10,14 @@ class WindowHelper:
     Stereotype:
         Service Provider
     """
-    def __init__(self):
+    def __init__(self, player_sprite):
         """Class constructor
 
         Args:
             self - An instance of WindowHelper
         """
         self._ai = AI()
-        self._enemy_manager = EnemyManager()
+        self._enemy_manager = EnemyManager(player_sprite)
 
     def wrap_sprites(self, sprites):
         """Wraps Sprite objects 
@@ -55,11 +55,12 @@ class WindowHelper:
         barriers = self._ai.find_barriers(enemy_sprites, all_sprites)
         for enemy in enemy_sprites:
             if enemy.enemy_type == 'Worker':
-                if enemy.has_crystal == False:
-                    self._ai.face_crystal(enemy, crystal_sprites)
-                    
-                    enemy.process_move(self._ai.do_pathing(enemy.position, crystal_sprites.position, barriers),
-                                        enemy_lasers, all_sprites)
+                if crystal_sprites == True:
+                    if enemy.has_crystal == False:
+                        self._ai.face_crystal(enemy, crystal_sprites)
+                        
+                        enemy.process_move(self._ai.do_pathing(enemy.position, crystal_sprites.position, barriers),
+                                            enemy_lasers, all_sprites)
                 else:
                     """avoid the player"""
             elif enemy.enemy_type == 'Warrior':

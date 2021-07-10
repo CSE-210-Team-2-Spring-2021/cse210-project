@@ -12,6 +12,7 @@ class Warrior(arcade.Sprite):
         self.enemy_type = "Warrior"
         super().__init__(constants.WARRIOR_SPRITE, constants.SPRITE_SCALING_ENEMIES)
         self._setup_warrior(player_sprite)
+        self.has_crystal = False
 
     def _setup_warrior(self, player_sprite):
         """Responsible for assigning the position and velocity of warrior
@@ -23,7 +24,7 @@ class Warrior(arcade.Sprite):
         y = constants.SCREEN_HEIGHT
         speed = 2
         exclude_group_x = range(math.ceil(player_sprite.center_x - 200),
-                                 math.ceil(player_sprite.center_x + 200))
+                                math.ceil(player_sprite.center_x + 200))
         exclude_group_y = range(math.ceil(player_sprite.center_y - 200), 
                                 math.ceil(player_sprite.center_y + 200))
 

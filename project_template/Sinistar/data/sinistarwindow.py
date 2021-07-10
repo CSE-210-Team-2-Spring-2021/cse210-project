@@ -72,6 +72,7 @@ class SinistarWindow(arcade.Window):
 
         self._crystal_sprites = None
         self._bombs_amount_sprites = None
+        self._bomb_sprites = None
 
         self._status = []
 
@@ -84,6 +85,7 @@ class SinistarWindow(arcade.Window):
         self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
         self._crystal_effect = arcade.Sound(constants.CRYSTAL_SOUND, False)
+        self._bomb_shoot_effect = arcade.Sound(constants.BOMB_EFFECT, False)
 
         # Movement Bool
         self.up_pressed = False
@@ -145,6 +147,8 @@ class SinistarWindow(arcade.Window):
         # Setup the bombs/crystals
         self._crystal_sprites = Bomb()
         self._all_sprites_list.extend(self._crystal_sprites)
+        self._bomb_sprites = Bomb()
+        self._all_sprites_list.extend(self._bomb_sprites)
         
         # Setup Lives Spritelist
         self._lives_sprites = []  # THis is a normal list of SpriteList objects
@@ -362,6 +366,13 @@ class SinistarWindow(arcade.Window):
             self._player_laser_sprites = Laser.get_player_lasers(self)
             Laser.generate_laser(self._player_laser_sprites, self._ship, self._all_sprites_list)
             self._player_laser_effect.play(self._volume, 0, False)
+        
+        # Shift key for shooting a bomb. Can be done same time as directional keys
+        if key == arcade.key.LSHIFT:
+            #if self._bombs_amount > 0:
+            self._bomb_sprites = Bomb.get_bombs_list(self)
+            Bomb.generate_bomb(self._bomb_sprites, self._ship, self._all_sprites_list)
+            self._bomb_shoot_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed

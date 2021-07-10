@@ -346,21 +346,18 @@ class SinistarWindow(arcade.Window):
         """
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = True
-        
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_pressed = True
-
         elif key == arcade.key.LEFT or key == arcade.key.A:
             self.left_pressed = True
-
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_pressed = True
-
         elif key == arcade.key.ESCAPE:
             if self._status[1]:
                 self._menu.start_pressed()
             else:
                 self._menu.game_paused()
+                
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
             self._player_laser_sprites = Laser.get_player_lasers(self)

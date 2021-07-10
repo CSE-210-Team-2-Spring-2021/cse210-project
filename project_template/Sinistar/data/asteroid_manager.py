@@ -1,6 +1,7 @@
 import arcade
 import random
 import math
+import assets
 from data import constants
 from data.asteroid import Asteroid
 
@@ -25,7 +26,8 @@ class AsteroidManager(arcade.SpriteList):
         """
         for _ in range(constants.ASTEROID_COUNT):
             # Set Position
-            asteroid = Asteroid(player_sprite)
+            asteroid = Asteroid(
+                player_sprite, constants.SPRITE_SCALING_ASTEROIDS)
             self.append(asteroid)
 
     def respawn_asteroids(self, player_sprite, all_sprites):
@@ -47,11 +49,13 @@ class AsteroidManager(arcade.SpriteList):
                 self.append(asteroid)
                 all_sprites.append(asteroid)
 
-    def split_asteroid(self, asteroid: Asteroid):
+    def split_asteroid(self, player_sprite, mother_of_all_asteroids):
         """ Splits Asteroids into chunks when collision happens """
-        x = asteroid.center_x
-        y = asteroid.center_y
-        self._score += 1
+        asteroid = Asteroid(
+            player_sprite, constants.SPRITE_SCALING_ASTEROIDS)
+        x = mother_of_all_asteroids.center_x
+        y = mother_of_all_asteroids.center_y
+        mother_of_all_asteroids.kill()
 
         if asteroid.size == 4:
             for _ in range(3):

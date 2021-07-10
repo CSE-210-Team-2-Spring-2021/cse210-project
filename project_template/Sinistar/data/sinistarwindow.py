@@ -14,7 +14,7 @@ from data.menu import Menu
 from data.ai import AI
 from data.windowhelper import WindowHelper
 from data.bomb import Bomb
-# from data.difficulty import Difficulty
+from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
 
@@ -55,10 +55,10 @@ class SinistarWindow(arcade.Window):
         self._menu = Menu()
         self._generate_menu()
 
-        #Setup Helper
+        # Setup Helper
         self._helper = WindowHelper()
 
-        #Background
+        # Background
         self._background = arcade.load_texture(constants.BACKGROUND)
 
         # Create Class objects
@@ -116,6 +116,7 @@ class SinistarWindow(arcade.Window):
         self._status = self._menu.get_status()
         self._score = 0
         self._bomb_count = constants.BOMBS
+        self._difficulty = 3
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -143,7 +144,7 @@ class SinistarWindow(arcade.Window):
         # Setup the bombs/crystals
         self._crystal_sprites = Bomb()
         self._all_sprites_list.extend(self._crystal_sprites)
-        
+
         # Setup Lives Spritelist
         self._lives_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.LIVES_SPRITES:
@@ -153,7 +154,7 @@ class SinistarWindow(arcade.Window):
             sprite.center_y = constants.SCREEN_HEIGHT - 20
             temp_sprite_list.append(sprite)
             self._lives_sprites.append(temp_sprite_list)
-        
+
         # Setup Bombs Spritelist
         self._bomb_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.BOMB_SPRITES:
@@ -196,7 +197,7 @@ class SinistarWindow(arcade.Window):
         # This command has to happen before we start drawing
         arcade.start_render()
 
-        #draw background
+        # draw background
         arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH,
                                             constants.SCREEN_HEIGHT,
                                             self._background)
@@ -246,8 +247,8 @@ class SinistarWindow(arcade.Window):
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
-                
-                #for enemy in self._enemy_sprites:
+
+                # for enemy in self._enemy_sprites:
                 #    if enemy.get_path():
                 #        arcade.draw_line_strip(enemy.get_path(), arcade.color.BLUE, 2)
 
@@ -278,8 +279,8 @@ class SinistarWindow(arcade.Window):
             else:  # Gameplay
                 # Update all sprites
                 self._all_sprites_list.update()
-                self._player_sprite.move(self.up_pressed, self.down_pressed, 
-                                        self.left_pressed, self.right_pressed)
+                self._player_sprite.move(self.up_pressed, self.down_pressed,
+                                         self.left_pressed, self.right_pressed)
 
                 # Wrap objects
                 self._helper.wrap_sprites(self._all_sprites_list)
@@ -287,11 +288,11 @@ class SinistarWindow(arcade.Window):
                 # Check for collisions
                 # self._collisions.handle_collisions()
 
-                Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites, 
-                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume, 
-                                            self._all_sprites_list, self._crystal_sprites)
+                Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites,
+                                           self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
+                                           self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
-              
+
                 if self._immunity <= 0:
                     self._player_sprite.set_normal_texture()
                     ship_hit = []
@@ -301,7 +302,7 @@ class SinistarWindow(arcade.Window):
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                      self._enemy_sprites)
                     enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                            self._enemy_laser_sprites)
+                                                                           self._enemy_laser_sprites)
                     ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
 
                     if ship_hit != []:
@@ -320,10 +321,10 @@ class SinistarWindow(arcade.Window):
                     self._immunity -= 1
                     self._player_sprite.set_shield_texture()
 
-                #enemy movement/ respawns
+                # enemy movement/ respawns
                 self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
-                                                    self._enemy_sprites, self._enemy_laser_sprites,
-                                                    self._asteroid_sprites)
+                                                  self._enemy_sprites, self._enemy_laser_sprites,
+                                                  self._asteroid_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
@@ -335,7 +336,7 @@ class SinistarWindow(arcade.Window):
         """
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = True
-        
+
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_pressed = True
 
@@ -353,7 +354,8 @@ class SinistarWindow(arcade.Window):
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
             self._player_laser_sprites = Laser.get_player_lasers(self)
-            Laser.generate_laser(self._player_laser_sprites, self._ship, self._all_sprites_list)
+            Laser.generate_laser(self._player_laser_sprites,
+                                 self._ship, self._all_sprites_list)
             self._player_laser_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
@@ -402,76 +404,86 @@ class SinistarWindow(arcade.Window):
                 self._mouse_sprite, self._pause_menu)
 
         elif self._status[4]:
-            clicked = arcade.check_for_collision_with_list(self._mouse_sprite, self._game_over_menu)
-        else: #Gameplay
+            clicked = arcade.check_for_collision_with_list(
+                self._mouse_sprite, self._game_over_menu)
+        else:  # Gameplay
             return
 
-        if clicked == []: #prevents index errors
+        if clicked == []:  # prevents index errors
             return
         else:
-            if clicked[0] == buttons[0]: #Start
+            if clicked[0] == buttons[0]:  # Start
                 self._menu.start_pressed()
-            elif clicked[0] == buttons[1]: #Settings
+            elif clicked[0] == buttons[1]:  # Settings
                 self._menu.settings_pressed()
-            elif clicked[0] == buttons[2]: #Help
+            elif clicked[0] == buttons[2]:  # Help
                 self._menu.help_pressed()
-            elif clicked[0] == buttons[3]: #Quit
+            elif clicked[0] == buttons[3]:  # Quit
                 self._menu.quit(self)
 
-            elif clicked[0] == buttons[4]: #Resume
+            elif clicked[0] == buttons[4]:  # Resume
                 self._menu.start_pressed()
-            elif clicked[0] == buttons[5]: #Back
+            elif clicked[0] == buttons[5]:  # Back
                 self._menu.back_pressed()
 
-            elif clicked[0] == buttons[6]: #Restart
+            elif clicked[0] == buttons[6]:  # Restart
                 self._menu.restart(self)
-            elif clicked[0] == buttons[7]: #Main
+            elif clicked[0] == buttons[7]:  # Main
                 self._menu.go_to_main(self)
 
-            elif clicked[0] == buttons[8]: #Easiest
+            elif clicked[0] == buttons[8]:  # Easiest
                 self._menu.change_difficulty(1)
-            elif clicked[0] == buttons[9]: #Easy
+                self._difficulty.set_difficuly(
+                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+            elif clicked[0] == buttons[9]:  # Easy
                 self._menu.change_difficulty(2)
-            elif clicked[0] == buttons[10]: #Normal
+                self._difficulty.set_difficuly(
+                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+            elif clicked[0] == buttons[10]:  # Normal
                 self._menu.change_difficulty(3)
-            elif clicked[0] == buttons[11]: #Hard
+                self._difficulty.set_difficuly(
+                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+            elif clicked[0] == buttons[11]:  # Hard
                 self._menu.change_difficulty(4)
-            elif clicked[0] == buttons[12]: #Sinistar
+                self._difficulty.set_difficuly(
+                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+            elif clicked[0] == buttons[12]:  # Sinistar
                 self._menu.change_difficulty(5)
+                self._difficulty.set_difficuly(
+                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
 
-            elif clicked[0] == buttons[15]: #Volume 0
+            elif clicked[0] == buttons[15]:  # Volume 0
                 self._menu.volume_select(0)
                 self._change_volume(0)
-            elif clicked[0] == buttons[16]: #Volume 0
+            elif clicked[0] == buttons[16]:  # Volume 0
                 self._menu.volume_select(1)
                 self._change_volume(0.1)
-            elif clicked[0] == buttons[17]: #Volume 0
+            elif clicked[0] == buttons[17]:  # Volume 0
                 self._menu.volume_select(2)
                 self._change_volume(0.2)
-            elif clicked[0] == buttons[18]: #Volume 0
+            elif clicked[0] == buttons[18]:  # Volume 0
                 self._menu.volume_select(3)
                 self._change_volume(0.3)
-            elif clicked[0] == buttons[19]: #Volume 0
+            elif clicked[0] == buttons[19]:  # Volume 0
                 self._menu.volume_select(4)
                 self._change_volume(0.4)
-            elif clicked[0] == buttons[20]: #Volume 0
+            elif clicked[0] == buttons[20]:  # Volume 0
                 self._menu.volume_select(5)
                 self._change_volume(0.5)
-            elif clicked[0] == buttons[21]: #Volume 0
+            elif clicked[0] == buttons[21]:  # Volume 0
                 self._menu.volume_select(6)
                 self._change_volume(0.6)
-            elif clicked[0] == buttons[22]: #Volume 0
+            elif clicked[0] == buttons[22]:  # Volume 0
                 self._menu.volume_select(7)
                 self._change_volume(0.7)
-            elif clicked[0] == buttons[23]: #Volume 0
+            elif clicked[0] == buttons[23]:  # Volume 0
                 self._menu.volume_select(8)
                 self._change_volume(0.8)
-            elif clicked[0] == buttons[24]: #Volume 0
+            elif clicked[0] == buttons[24]:  # Volume 0
                 self._menu.volume_select(9)
                 self._change_volume(0.9)
-            elif clicked[0] == buttons[25]: #Volume 0
+            elif clicked[0] == buttons[25]:  # Volume 0
                 self._menu.volume_select(10)
                 self._change_volume(1)
             else:
                 return
-        

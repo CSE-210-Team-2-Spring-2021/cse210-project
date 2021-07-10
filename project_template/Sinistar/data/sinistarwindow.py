@@ -297,6 +297,10 @@ class SinistarWindow(arcade.Window):
                                             self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
 
+                Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
+                                            self._explosion, self._volume)
+                Bomb.delete_bomb(self._bomb_sprites)
+
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
                         if self._crystal_sprites:

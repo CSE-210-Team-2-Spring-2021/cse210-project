@@ -1,3 +1,4 @@
+import arcade
 from data import constants
 from data.ai import AI
 from data.enemies import EnemyManager
@@ -18,6 +19,7 @@ class WindowHelper():
         """
         self._ai = AI()
         self._enemy_manager = EnemyManager(player_sprite)
+        self._text = ''
 
     def wrap_sprites(self, sprites):
         """Wraps Sprite objects 
@@ -84,3 +86,95 @@ class WindowHelper():
                                                 all_sprites)
         enemy_sprites.respawn_enemies(player_sprite,
                                             all_sprites)
+
+    def input_text(self, key):
+        """Appends keyboard text into a string
+        
+        Args:
+            self - an instance of WindowHelper
+        
+        Returns:
+            string - letter typed
+        """
+        if self._text != '':
+            if key == arcade.key.BACKSPACE:
+                self._text = str.rstrip(self._text[-1])
+                return
+
+        letter = ''
+        letter = self._keyboard(key)
+        if letter != '':
+            self._text += letter
+        
+    def _keyboard(self, key):
+        """Receives keyboard input returns a string
+        
+        Args:
+            self - an instance of WindowHelper
+        
+        Returns:
+            string - letter typed
+        """
+        if key == arcade.key.A:
+            return 'A'
+        elif key == arcade.key.B:
+            return 'B'
+        elif key == arcade.key.C:
+            return 'C'
+        elif key == arcade.key.D:
+            return 'D'
+        elif key == arcade.key.E:
+            return 'E'
+        elif key == arcade.key.F:
+            return 'F'
+        elif key == arcade.key.G:
+            return 'G'
+        elif key == arcade.key.H:
+            return 'H'
+        elif key == arcade.key.I:
+            return 'I'
+        elif key == arcade.key.J:
+            return 'J'
+        elif key == arcade.key.K:
+            return 'K'
+        elif key == arcade.key.L:
+            return 'L'
+        elif key == arcade.key.M:
+            return 'M'
+        elif key == arcade.key.N:
+            return 'N'
+        elif key == arcade.key.O:
+            return 'O'
+        elif key == arcade.key.P:
+            return 'P'
+        elif key == arcade.key.Q:
+            return 'Q'
+        elif key == arcade.key.R:
+            return 'R'
+        elif key == arcade.key.S:
+            return 'S'
+        elif key == arcade.key.T:
+            return 'T'
+        elif key == arcade.key.U:
+            return 'U'
+        elif key == arcade.key.V:
+            return 'V'
+        elif key == arcade.key.W:
+            return 'W'
+        elif key == arcade.key.X:
+            return 'X'
+        elif key == arcade.key.Y:
+            return 'Y'
+        elif key == arcade.key.Z:
+            return 'Z'
+    
+    def get_text(self):
+        """Returns text
+        
+        Args:
+            self - Instance of WindowHelper
+            
+        Return:
+            self._text - Text to hold player name
+        """
+        return self._text

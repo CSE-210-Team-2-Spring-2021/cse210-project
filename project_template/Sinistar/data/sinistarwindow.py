@@ -11,6 +11,10 @@ from data.enemies import EnemyManager
 from data.enemy_laser import EnemyLaser
 from data.laser import Laser
 from data.menu import Menu
+from data.ai import AI
+from data.windowhelper import WindowHelper
+from data.bomb import Bomb
+from data.highscore import HighScore
 # from data.difficulty import Difficulty
 # from data.collisions import Collisions
 
@@ -43,6 +47,7 @@ class SinistarWindow(arcade.Window):
         # Set up the player info
         self._player_sprite = None
         self._score = None
+        self._bomb_count = None
 
         self._mouse_sprite = None
         self._mouse_list = None
@@ -51,16 +56,24 @@ class SinistarWindow(arcade.Window):
         self._menu = Menu()
         self._generate_menu()
 
-        # Sprite lists
-        self._all_sprites_list = None  # is this a duplicate of line 34??
+        self._highscore = HighScore()
+
+        #Setup Helper
+        self._helper = None
+
+        #Background
+        self._background = arcade.load_texture(constants.BACKGROUND)
 
         # Create Class objects
         self._asteroid_sprites = None
         self._ship = None
-        self._laser_sprites = None
+        self._player_laser_sprites = None
 
         self._enemy_sprites = None
         self._enemy_laser_sprites = None
+
+        self._crystal_sprites = None
+        self._bomb_sprites = None
 
         self._status = []
 
@@ -69,9 +82,10 @@ class SinistarWindow(arcade.Window):
         self._theme = arcade.Sound(constants.THEME, True)
         self._theme_player = self._theme.play(self._volume, 0, True)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION, False)
-        self._laser = arcade.Sound(constants.LASER, False)
+        self._player_laser_effect = arcade.Sound(constants.LASER, False)
         self._enemy_laser_effect = arcade.Sound(constants.ENEMY_LASER, False)
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
+        self._crystal_effect = arcade.Sound(constants.CRYSTAL_SOUND, False)
 
         # Movement Bool
         self.up_pressed = False
@@ -80,7 +94,7 @@ class SinistarWindow(arcade.Window):
         self.right_pressed = False
 
         # Set the background color
-        arcade.set_background_color(arcade.color.GRAY_ASPARAGUS)
+        arcade.set_background_color(arcade.color.EERIE_BLACK)
 
         # Immunity Timer
         self._immunity = constants.IMMUNITY
@@ -104,6 +118,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
+        self._bomb_count = constants.BOMBS
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -111,25 +126,31 @@ class SinistarWindow(arcade.Window):
             constants.MOUSE, constants.SPRITE_SCALING_MOUSE)
         self._mouse_list.append(self._mouse_sprite)
 
-        # Create Asteroids
-        self._asteroid_sprites = AsteroidManager()
-        self._all_sprites_list.extend(self._asteroid_sprites)
-
-        # Create Enemies
-        self._enemy_sprites = EnemyManager()
-        self._all_sprites_list.extend(self._enemy_sprites)
-
         # Set up the player
         self._player_sprite = self._ship.get_ship()
 
+        self._helper = WindowHelper(self._player_sprite)
+
+        # Create Asteroids
+        self._asteroid_sprites = AsteroidManager(self._player_sprite)
+        self._all_sprites_list.extend(self._asteroid_sprites)
+
+        # Create Enemies
+        self._enemy_sprites = EnemyManager(self._player_sprite)
+        self._all_sprites_list.extend(self._enemy_sprites)
+
         # Setup the lasers
-        self._laser_sprites = Laser(
-            self._all_sprites_list, self._player_sprite)
+        self._player_laser_sprites = Laser()
+        self._all_sprites_list.extend(self._player_laser_sprites)
 
         self._enemy_laser_sprites = EnemyLaser()
 
+        # Setup the bombs/crystals
+        self._crystal_sprites = Bomb()
+        self._all_sprites_list.extend(self._crystal_sprites)
+        
         # Setup Lives Spritelist
-        self._lives_sprites = []  # THis is a normal list
+        self._lives_sprites = []  # THis is a normal list of SpriteList objects
         for path in constants.LIVES_SPRITES:
             temp_sprite_list = arcade.SpriteList()
             sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
@@ -137,6 +158,16 @@ class SinistarWindow(arcade.Window):
             sprite.center_y = constants.SCREEN_HEIGHT - 20
             temp_sprite_list.append(sprite)
             self._lives_sprites.append(temp_sprite_list)
+        
+        # Setup Bombs Spritelist
+        self._bomb_sprites = []  # THis is a normal list of SpriteList objects
+        for path in constants.BOMB_SPRITES:
+            temp_sprite_list = arcade.SpriteList()
+            sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
+            sprite.center_x = 80
+            sprite.center_y = constants.SCREEN_HEIGHT - 80
+            temp_sprite_list.append(sprite)
+            self._bomb_sprites.append(temp_sprite_list)
 
     def _generate_menu(self):
         """
@@ -162,102 +193,6 @@ class SinistarWindow(arcade.Window):
         self._theme.set_volume(volume, self._theme_player)
         self._volume = volume
 
-    def _update_movement(self):
-        """
-        Controls the movement of ship
-
-        Args:
-            self - An instane of SinistarWindow
-        """
-        FRICTION = constants.DECELERATION_RATE
-        ACCELERATION_RATE = constants.ACCELERATION_RATE
-        ANGLE_DECAY = constants.ANGLE_DECAY
-        ANGLE_RATE = constants.ANGLE_SPEED
-        MAX_SPEED = constants.MOVEMENT_SPEED
-        angle = self._player_sprite.angle
-        angle_rad = math.radians(angle)
-        speed = math.sqrt(self._player_sprite.change_x **
-                          2 + self._player_sprite.change_y ** 2)
-
-        # Find angle in radians that the ship is moving in (not where it is facing)
-        if self._player_sprite.change_x != 0:  # No division by 0
-            velocity_rad = math.atan(
-                self._player_sprite.change_y/self._player_sprite.change_x)
-        else:
-            if self._player_sprite.change_y > 0:  # Player moving up
-                velocity_rad = math.pi/2
-            else:
-                velocity_rad = -math.pi/2
-
-        # Slows down the ship as it drifts
-        if speed > FRICTION:
-            if self._player_sprite.change_x > 0:
-                self._player_sprite.change_x -= abs(
-                    FRICTION * math.cos(velocity_rad))
-            elif self._player_sprite.change_x < 0:
-                self._player_sprite.change_x += abs(
-                    FRICTION * math.cos(velocity_rad))
-            else:
-                self._player_sprite.change_x = 0
-            if self._player_sprite.change_y > 0:
-                self._player_sprite.change_y -= abs(
-                    FRICTION * math.sin(velocity_rad))
-            elif self._player_sprite.change_y < 0:
-                self._player_sprite.change_y += abs(
-                    FRICTION * math.sin(velocity_rad))
-            else:
-                self._player_sprite.change_y = 0
-        else:
-            self._player_sprite.change_x = 0
-            self._player_sprite.change_y = 0
-
-        # Slows down ships rotation
-        if self._player_sprite.change_angle > ANGLE_DECAY:
-            self._player_sprite.change_angle -= ANGLE_DECAY
-        elif self._player_sprite.change_angle < -ANGLE_DECAY:
-            self._player_sprite.change_angle += ANGLE_DECAY
-        else:
-            self._player_sprite.change_angle = 0
-
-        angle = self._player_sprite.angle  # Update values
-        angle_rad = math.radians(angle)
-
-        # Apply acceleration based on the keys pressed
-        if self.up_pressed and not self.down_pressed:
-            self._player_sprite.change_x += ACCELERATION_RATE * \
-                math.cos(angle_rad)
-            self._player_sprite.change_y += ACCELERATION_RATE * \
-                math.sin(angle_rad)
-        elif self.down_pressed and not self.up_pressed:
-            self._player_sprite.change_x -= ACCELERATION_RATE * \
-                math.cos(angle_rad)
-            self._player_sprite.change_y -= ACCELERATION_RATE * \
-                math.sin(angle_rad)
-        if self.left_pressed and not self.right_pressed:
-            self._player_sprite.change_angle = ANGLE_RATE
-        elif self.right_pressed and not self.left_pressed:
-            self._player_sprite.change_angle = -ANGLE_RATE
-
-        # Stop the ship from moving beyond max speed
-        speed = math.sqrt(self._player_sprite.change_x **
-                          2 + self._player_sprite.change_y ** 2)
-        if speed > MAX_SPEED:
-            velocity_rad = math.atan(
-                self._player_sprite.change_y/self._player_sprite.change_x)
-            angle_rad = math.radians(angle)
-            if self._player_sprite.change_x > 0:
-                self._player_sprite.change_x = abs(
-                    MAX_SPEED * math.cos(velocity_rad))
-            elif self._player_sprite.change_x < 0:
-                self._player_sprite.change_x = - \
-                    abs(MAX_SPEED * math.cos(velocity_rad))
-            if self._player_sprite.change_y > 0:
-                self._player_sprite.change_y = abs(
-                    MAX_SPEED * math.sin(velocity_rad))
-            elif self._player_sprite.change_y < 0:
-                self._player_sprite.change_y = - \
-                    abs(MAX_SPEED * math.sin(velocity_rad))
-
     def on_draw(self):
         """
         Render the screen.
@@ -265,6 +200,11 @@ class SinistarWindow(arcade.Window):
 
         # This command has to happen before we start drawing
         arcade.start_render()
+
+        #draw background
+        arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH,
+                                            constants.SCREEN_HEIGHT,
+                                            self._background)
 
         score = "Score: " + str(self._score)
 
@@ -294,6 +234,7 @@ class SinistarWindow(arcade.Window):
             if self._status[4]:
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
+                self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
                                  constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
                 arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 70,
@@ -304,11 +245,17 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
+                bombs = Bomb.get_bomb_count(self, self._bomb_count)
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
+                    # self._bomb_count[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
+                
+                #for enemy in self._enemy_sprites:
+                #    if enemy.get_path():
+                #        arcade.draw_line_strip(enemy.get_path(), arcade.color.BLUE, 2)
 
     def on_update(self, delta_time):
         """ Movement and game logic """
@@ -337,39 +284,38 @@ class SinistarWindow(arcade.Window):
             else:  # Gameplay
                 # Update all sprites
                 self._all_sprites_list.update()
-                self._update_movement()
+                self._player_sprite.move(self.up_pressed, self.down_pressed, 
+                                        self.left_pressed, self.right_pressed)
 
                 # Wrap objects
-                for sprite in self._all_sprites_list:
-                    self._wrap_sprite(sprite)
+                self._helper.wrap_sprites(self._all_sprites_list)
 
                 # Check for collisions
                 # self._collisions.handle_collisions()
-                self._laser_sprites.delete_laser()
-                _lasers = self._laser_sprites.get_lasers()
-                for _laser in _lasers:
-                    asteroids = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                                     self._asteroid_sprites)
-                    enemies = arcade.check_for_collision_with_list(self._laser_sprites,
-                                                                   self._enemy_sprites)
-                for asteroid in asteroids:
-                    self._explosion.play(self._volume, 0, False)
-                    self._score += 50
-                    asteroid.kill()
-                    _laser.kill()
-                for enemy in enemies:
-                    self._explosion.play(self._volume, 0, False)
-                    self._score += 200
-                    enemy.kill()
-                    _laser.kill()
+
+                Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites, 
+                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume, 
+                                            self._all_sprites_list, self._crystal_sprites)
+                Laser.delete_laser(self._player_laser_sprites)
+
+                for enemy in self._enemy_sprites:
+                    if enemy.enemy_type == "Worker":
+                        if self._crystal_sprites == True:
+                            enemy.receive_crystal_collision(self._crystal_sprites, self._enemy_sprites)
+            
+                self._crystal_sprites.crystal_to_bomb(self._crystal_sprites, self._player_sprite)
+            
                 if self._immunity <= 0:
+                    self._player_sprite.set_normal_texture()
                     ship_hit = []
 
                     asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
                                                                         self._asteroid_sprites)
                     enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                     self._enemy_sprites)
-                    ship_hit = asteroid_hit + enemy_hit
+                                                                        self._enemy_sprites)
+                    enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
+                                                                            self._enemy_laser_sprites)
+                    ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
 
                     if ship_hit != []:
                         self._boom.play(self._volume, 0, False)
@@ -383,29 +329,14 @@ class SinistarWindow(arcade.Window):
                         else:
                             # GAME OVER
                             self._menu.game_lost()
-                    else:
-                        self._score += 1
                 else:
                     self._immunity -= 1
+                    self._player_sprite.set_shield_texture()
 
-    def _wrap_sprite(self, sprite):
-        """Wraps Sprite objects 
-
-        Args:
-            self - An instance of self
-            sprite - a sprite object
-        """
-        if sprite.center_x <= 0:
-            sprite.center_x = constants.SCREEN_WIDTH - 1
-
-        elif sprite.center_y <= 0:
-            sprite.center_y = constants.SCREEN_HEIGHT - 1
-
-        elif sprite.center_x > constants.SCREEN_WIDTH:
-            sprite.center_x = 1
-
-        elif sprite.center_y > constants.SCREEN_HEIGHT:
-                sprite.center_y = 1
+                #enemy movement/ respawns
+                self._helper.update_enemy_actions(self._all_sprites_list, self._player_sprite,
+                                                    self._enemy_sprites, self._enemy_laser_sprites,
+                                                    self._asteroid_sprites, self._crystal_sprites)
 
     def on_key_press(self, key, modifier):
         """Called when a key is pressed for movement
@@ -416,23 +347,15 @@ class SinistarWindow(arcade.Window):
             player_sprite - the player's sprite object
         """
         if key == arcade.key.UP or key == arcade.key.W:
-            #self._player_sprite.change_y = constants.MOVEMENT_SPEED
-            #self._player_sprite.speed = constants.MOVEMENT_SPEED
             self.up_pressed = True
         
         elif key == arcade.key.DOWN or key == arcade.key.S:
-            #self._player_sprite.change_y = -constants.MOVEMENT_SPEED
-            #self._player_sprite.speed = -constants.MOVEMENT_SPEED
             self.down_pressed = True
 
         elif key == arcade.key.LEFT or key == arcade.key.A:
-            #self._player_sprite.change_x = -constants.MOVEMENT_SPEED
-            #self._player_sprite.change_angle = constants.ANGLE_SPEED
             self.left_pressed = True
 
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            #self._player_sprite.change_x = constants.MOVEMENT_SPEED
-            #self._player_sprite.change_angle = -constants.ANGLE_SPEED
             self.right_pressed = True
 
         elif key == arcade.key.ESCAPE:
@@ -442,8 +365,9 @@ class SinistarWindow(arcade.Window):
                 self._menu.game_paused()
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
-            self._laser_sprites = Laser(self._all_sprites_list, self._ship)
-            self._laser.play(self._volume, 0, False)
+            self._player_laser_sprites = Laser.get_player_lasers(self)
+            Laser.generate_laser(self._player_laser_sprites, self._ship, self._all_sprites_list)
+            self._player_laser_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed
@@ -453,12 +377,6 @@ class SinistarWindow(arcade.Window):
             key - the key pressed
             player_sprite - the player's sprite object
         """
-        # if key == arcade.key.UP or key == arcade.key.DOWN:
-        #    self._player_sprite.speed = 0
-
-        # elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
-        #    self._player_sprite.change_angle = 0
-
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = False
         elif key == arcade.key.DOWN or key == arcade.key.S:

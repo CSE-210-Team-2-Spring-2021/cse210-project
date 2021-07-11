@@ -15,11 +15,13 @@ class Asteroid(arcade.Sprite):
 
     """
 
-    def __init__(self, player_sprite, scale):
+    def __init__(self, player_sprite, size):
         """
         Class Constructor"""
-        super().__init__(constants.ASTEROID_SPRITE, constants.SPRITE_SCALING_ASTEROIDS)
+        super().__init__(constants.ASTEROID_SPRITE,
+                         (constants.SPRITE_SCALING_ASTEROIDS * size / 3))
         self._setup_asteroid(player_sprite)
+        self._size = size
 
     def _setup_asteroid(self, player_sprite):
         """Responsible for assigning the position and velocity of asteroid
@@ -46,3 +48,6 @@ class Asteroid(arcade.Sprite):
         # Set Speed
         self.change_x = random.randint(-speed, speed)
         self.change_y = random.randint(-speed, speed)
+
+    def get_size(self):
+        return self._size

@@ -115,7 +115,7 @@ class SinistarWindow(arcade.Window):
         self._status = self._menu.get_status()
         self._score = 0
         self._bombs_amount = constants.BOMBS
-        self._difficulty = 3
+        self._difficulty = Difficulty()
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -167,6 +167,9 @@ class SinistarWindow(arcade.Window):
             sprite.center_y = constants.SCREEN_HEIGHT - 80
             temp_sprite_list.append(sprite)
             self._bombs_amount_sprites.append(temp_sprite_list)
+
+        self._difficulty.set_difficulty(
+            self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
 
     def _generate_menu(self):
         """
@@ -289,7 +292,7 @@ class SinistarWindow(arcade.Window):
                 # Check for collisions
                 # self._collisions.handle_collisions()
 
-                Laser.update_player_lasers(self, self._player_laser_sprites, self._enemy_sprites,
+                Laser.update_player_lasers(self, self._player_sprite, self._player_laser_sprites, self._enemy_sprites,
                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
                                            self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
@@ -451,23 +454,23 @@ class SinistarWindow(arcade.Window):
             elif clicked[0] == buttons[8]:  # Easiest
                 self._menu.change_difficulty(1)
                 self._difficulty.set_difficulty(
-                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+                    self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
             elif clicked[0] == buttons[9]:  # Easy
                 self._menu.change_difficulty(2)
                 self._difficulty.set_difficulty(
-                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+                    self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
             elif clicked[0] == buttons[10]:  # Normal
                 self._menu.change_difficulty(3)
                 self._difficulty.set_difficulty(
-                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+                    self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
             elif clicked[0] == buttons[11]:  # Hard
                 self._menu.change_difficulty(4)
                 self._difficulty.set_difficulty(
-                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+                    self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
             elif clicked[0] == buttons[12]:  # Sinistar
                 self._menu.change_difficulty(5)
                 self._difficulty.set_difficulty(
-                    self._menu.get_difficulty(), self._enemy_sprites, self._asteroid_sprites)
+                    self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
 
             elif clicked[0] == buttons[15]:  # Volume 0
                 self._menu.volume_select(0)

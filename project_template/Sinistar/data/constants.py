@@ -1,6 +1,8 @@
 import math
 from typing import Optional
-import arcade, os, pathlib
+import arcade
+import os
+import pathlib
 
 SCREEN_TITLE = "Definitely Not a Sinistar Clone"
 
@@ -36,7 +38,7 @@ SCREEN_HEIGHT = SPRITE_SIZE * SCREEN_GRID_HEIGHT
 
 # How many lives has the Player?
 LIVES = 5
-IMMUNITY = 100 #TIME spent invincible after damage
+IMMUNITY = 100  # TIME spent invincible after damage
 BOMBS = 0
 
 # Player/Laser Speeds
@@ -54,31 +56,33 @@ NORMAL = 1
 HARD = 1.25
 SINISTAR = 1.5
 
-#Number of Asteroids
-ASTEROID_COUNT = 20
+# Number of Asteroids
+ASTEROID_COUNT = 10
 
-#Number of Enemies
+# Number of Enemies
 WORKER_COUNT = 5
 WARRIOR_COUNT = 5
 
-#Highscore doc path
-SCORE_DOC = pathlib.Path(__file__).resolve().parents[1] / 'data' / 'highscores.json'
+# Highscore doc path
+SCORE_DOC = pathlib.Path(__file__).resolve(
+).parents[1] / 'data' / 'highscores.json'
 
-#Sprites from assets
-ASSET_PATH = pathlib.Path(__file__).resolve().parents[1] / 'assets' #path to parent directory
+# Sprites from assets
+ASSET_PATH = pathlib.Path(__file__).resolve(
+).parents[1] / 'assets'  # path to parent directory
 PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
 SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
-ASTEROID_SPRITE = ASSET_PATH / 'asteroid.png'                  #'basic-astroid.png'
+ASTEROID_SPRITE = ASSET_PATH / 'asteroid.png'  # 'basic-astroid.png'
 WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
 WORKER_SPRITE = ASSET_PATH / 'worker.png'
 CRYSTAL_SPRITE = ASSET_PATH / 'crystal.png'
 WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
 LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
-                ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
+                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
 LASER_SPRITE = ASSET_PATH / 'laser.png'
 ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
 BOMBS_AMOUNT_SPRITES = [ASSET_PATH / 'BombsAmount0.png', ASSET_PATH / 'BombsAmount1.png', ASSET_PATH / 'BombsAmount2.png', ASSET_PATH / 'BombsAmount3.png',
-                ASSET_PATH / 'BombsAmount4.png', ASSET_PATH / 'BombsAmount5.png']
+                        ASSET_PATH / 'BombsAmount4.png', ASSET_PATH / 'BombsAmount5.png']
 BOMB_SPRITE = ASSET_PATH / 'bomb.png'
 
 MOUSE = ASSET_PATH / 'mouse.png'
@@ -111,7 +115,7 @@ INSTRUCTIONS = ASSET_PATH / 'Help_Menu.png'
 
 BACKGROUND = ASSET_PATH / 'Star Background.png'
 
-#Sounds
+# Sounds
 sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
 THEME = sound_path / 'bensound-scifi.mp3'
 EXPLOSION = sound_path / 'explosion.wav'

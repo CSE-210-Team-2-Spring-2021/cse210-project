@@ -44,11 +44,11 @@ class Bomb(arcade.SpriteList):
         if crystal_hit:
             for crystal in crystal_hit:
                 crystal.kill()
-                print("crystal hit")
+                #print("crystal hit")
 
                 if self._bombs_amount < 5:
                     self._bombs_amount += 1
-                    print(self._bombs_amount)
+                    #print(self._bombs_amount)
 
     def generate_bomb(self, _player_sprite, all_sprites):
         """Generates each new instance of bomb shooting from player ship

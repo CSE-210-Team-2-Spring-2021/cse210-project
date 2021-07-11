@@ -296,9 +296,9 @@ class SinistarWindow(arcade.Window):
                                            self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
 
-                Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
-                                  self._explosion, self._volume)
-                Bomb.delete_bomb(self._bomb_sprites)
+                #Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
+                #                  self._explosion, self._volume)
+                #Bomb.delete_bomb(self._bomb_sprites)
 
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
@@ -371,12 +371,12 @@ class SinistarWindow(arcade.Window):
             self._player_laser_effect.play(self._volume, 0, False)
 
         # Shift key for shooting a bomb. Can be done same time as directional keys
-        if key == arcade.key.LSHIFT:
+        #if key == arcade.key.LSHIFT:
             # if self._bombs_amount > 0:
-            self._bomb_sprites = Bomb.get_bombs_list(self)
-            Bomb.generate_bomb(self._bomb_sprites,
-                               self._ship, self._all_sprites_list)
-            self._bomb_shoot_effect.play(self._volume, 0, False)
+            # self._bomb_sprites = Bomb.get_bombs_list(self)
+            # Bomb.generate_bomb(self._bomb_sprites,
+            #                    self._ship, self._all_sprites_list)
+            # self._bomb_shoot_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed

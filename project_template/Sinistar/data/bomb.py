@@ -10,8 +10,12 @@ class Bomb(arcade.SpriteList):
     def __init__(self):
         """Class Constructor"""
         super().__init__()
-        self._bombs_amount = 0
+        self._bombs_amount = constants.BOMBS
+        self._crystal_sprites = []
+        self._bomb_sprites = []
 
+        
+               
     def generate_crystal(self, asteroid, crystal_sprites, all_sprites):
         """When an asteroid explodes, it has a chance to drop a crystal. 
             Enemy Worker to pick it up later.
@@ -40,8 +44,11 @@ class Bomb(arcade.SpriteList):
         if crystal_hit:
             for crystal in crystal_hit:
                 crystal.kill()
+                #print("crystal hit")
+
                 if self._bombs_amount < 5:
                     self._bombs_amount += 1
+                    #print(self._bombs_amount)
 
     def generate_bomb(self, _player_sprite, all_sprites):
         """Generates each new instance of bomb shooting from player ship
@@ -62,6 +69,7 @@ class Bomb(arcade.SpriteList):
         bomb.angle = _player_sprite.angle
         self.append(bomb)
         all_sprites.append(bomb)
+        self._bombs_amount -= 1
 
     def update_bombs(self, bomb_sprites, enemy_sprites, asteroid_sprites, explosion, volume):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries

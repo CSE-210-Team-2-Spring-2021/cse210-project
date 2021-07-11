@@ -2,6 +2,8 @@ import arcade
 from data import constants
 from data.ai import AI
 from data.enemies import EnemyManager
+from data.difficulty import Difficulty
+
 
 class WindowHelper():
     """
@@ -10,6 +12,7 @@ class WindowHelper():
     Stereotype:
         Service Provider
     """
+
     def __init__(self, player_sprite):
         """Class constructor
         Args:
@@ -38,11 +41,10 @@ class WindowHelper():
             elif sprite.center_y > constants.SCREEN_HEIGHT:
                 sprite.center_y = 1
 
-
-    def update_enemy_actions(self, all_sprites, player_sprite, enemy_sprites, enemy_lasers, 
-                                asteroids, crystal_sprites):
+    def update_enemy_actions(self, all_sprites, player_sprite, enemy_sprites, enemy_lasers,
+                             asteroids, crystal_sprites):
         """Processes enemy ai, movement, and lasers
-        
+
         Args:
             self - an instance of WindowHelper
             all_sprites - SpriteList of all sprites
@@ -56,24 +58,25 @@ class WindowHelper():
             if enemy.enemy_type == 'Worker':
                 if crystal_sprites:
                     if enemy.has_crystal == False:
-                        closest_crystal = self._ai.find_closest(enemy, crystal_sprites, all_sprites)
+                        closest_crystal = self._ai.find_closest(
+                            enemy, crystal_sprites, all_sprites)
                         self._ai.face_crystal(enemy, closest_crystal)
-                        
+
                         enemy.process_move(self._ai.do_pathing(enemy.position, closest_crystal, barriers),
-                                            enemy_lasers, all_sprites)
+                                           enemy_lasers, all_sprites)
                 else:
                     """avoid the player"""
             elif enemy.enemy_type == 'Warrior':
                 self._ai.face_player(enemy, player_sprite)
-                
+
                 enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
-                                    enemy_lasers, all_sprites)  
+                                   enemy_lasers, all_sprites)
         enemy_lasers.delete_laser()
         self.respawn(player_sprite, asteroids, enemy_sprites, all_sprites)
 
     def respawn(self, player_sprite, asteroids, enemy_sprites, all_sprites):
         """Runs the respawn code for asteroids and enemies
-        
+
         Args:
             self - an instance of WindowHelper
             all_sprites - SpriteList of all sprites
@@ -81,16 +84,20 @@ class WindowHelper():
             enemy_sprites - SpriteList of all enemies
         """
         asteroids.respawn_asteroids(player_sprite,
-                                                all_sprites)
+                                    all_sprites)
         enemy_sprites.respawn_enemies(player_sprite,
-                                            all_sprites)
+                                      all_sprites)
+
+    def get_enemy_manager(self):
+        """ Returns EnemyManager """
+        return self._enemy_manager
 
     def input_text(self, key):
         """Appends keyboard text into a string
-        
+
         Args:
             self - an instance of WindowHelper
-        
+
         Returns:
             string - letter typed
         """
@@ -103,13 +110,13 @@ class WindowHelper():
         letter = self._keyboard(key)
         if letter != '':
             self._text += letter
-        
+
     def _keyboard(self, key):
         """Receives keyboard input returns a string
-        
+
         Args:
             self - an instance of WindowHelper
-        
+
         Returns:
             string - letter typed
         """
@@ -165,13 +172,13 @@ class WindowHelper():
             return 'Y'
         elif key == arcade.key.Z:
             return 'Z'
-    
+
     def get_text(self):
         """Returns text
-        
+
         Args:
             self - Instance of WindowHelper
-            
+
         Return:
             self._text - Text to hold player name
         """

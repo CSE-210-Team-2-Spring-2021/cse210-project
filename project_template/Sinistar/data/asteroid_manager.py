@@ -15,8 +15,10 @@ class AsteroidManager(arcade.SpriteList):
             self - an instance of AsteroidManager
         """
         super().__init__()
-        self._generate_list(player_sprite)
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION)
+        self._start_size = 3
+        self._count = constants.ASTEROID_COUNT
+        self._generate_list(player_sprite)
 
     def _generate_list(self, player_sprite):
         """Fills self with asteroid objects
@@ -24,9 +26,9 @@ class AsteroidManager(arcade.SpriteList):
         Args:
             self - instance of AsteroidManager
         """
-        for _ in range(constants.ASTEROID_COUNT):
+        for _ in range(self._count):
             # Set Position
-            asteroid = Asteroid(player_sprite)
+            asteroid = Asteroid(player_sprite, self._start_size)
             self.append(asteroid)
 
     def respawn_asteroids(self, player_sprite, all_sprites):
@@ -37,78 +39,32 @@ class AsteroidManager(arcade.SpriteList):
             self - instance of AsteroidManager
             all_sprites - List of all sprites
         """
-        count = constants.ASTEROID_COUNT
+        count = self._count
         num_asteroids = len(self)
         if num_asteroids < count:
             odds = 200
             dif = 1 - ((count - num_asteroids) / count)
             odds = math.ceil(odds * dif)
             if random.randrange(odds) == 0:
-                asteroid = Asteroid(player_sprite)
+                asteroid = Asteroid(player_sprite, self._start_size)
                 self.append(asteroid)
                 all_sprites.append(asteroid)
 
-    def split_asteroid(self, player_sprite, mother_of_all_asteroids):
+    def split_asteroid(self, player_sprite, mother_of_all_asteroids, all_sprites_list):
         """ Splits Asteroids into chuncks when collision happens """
-        asteroid = Asteroid(
-            player_sprite, constants.SPRITE_SCALING_ASTEROIDS)
-        x = mother_of_all_asteroids.center.x
-        y = mother_of_all_asteroids.center.y
+        broken_size = mother_of_all_asteroids.get_size()
+        if broken_size > 1:
+            for _ in range(random.randint(1, 3)):
+                asteroid = Asteroid(player_sprite, broken_size - 1)
+                asteroid.center_x = mother_of_all_asteroids.center_x
+                asteroid.center_y = mother_of_all_asteroids.center_y
+                self.append(asteroid)
+                all_sprites_list.append(asteroid)
+
         mother_of_all_asteroids.kill()
 
-        if asteroid.size == 4:
-            for _ in range(3):
-                image_no = random.randrange(2)
-                image_list = []
+    def set_count(self, count):
+        self._count = count
 
-                enemy_sprite = Asteroid(
-                    image_list[image_no], self.constants.SPRITE_ASTEROIDS * 1.5)
-                enemy_sprite.center_x = x
-                enemy_sprite.center_y = y
-
-                enemy_sprite.change_x = random.random() * 2.5 - 1.25
-                enemy_sprite.change_y = random.random() * 2.5 - 1.25
-
-                enemy_sprite.change_angle = (random.random() - 0.5) * 2
-                enemy_sprite.size = 3
-                self.asteroid_list.append(enemy_sprite)
-                self._boom
-
-        elif asteroid.size == 3:
-            for _ in range(3):
-                image_no = random.randrange(2)
-                image_list = []
-
-                enemy_sprite = Asteroid(
-                    image_list[image_no], self.constants.SPRITE_ASTEROIDS * 1.5)
-                enemy_sprite.center_x = x
-                enemy_sprite.center_y = y
-
-                enemy_sprite.change_x = random.random() * 3 - 1.5
-                enemy_sprite.change_y = random.random() * 3 - 1.5
-
-                enemy_sprite.change_angle = (random.random() - 0.5) * 2
-                enemy_sprite.size = 2
-                self.asteroid_list.append(enemy_sprite)
-                self._boom
-
-        elif asteroid.size == 2:
-            for _ in range(3):
-                image_no = random.randrange(2)
-                image_list = []
-
-                enemy_sprite = Asteroid(
-                    image_list[image_no], self.constants.SPRITE_ASTEROIDS * 1.5)
-                enemy_sprite.center_x = x
-                enemy_sprite.center_y = y
-
-                enemy_sprite.change_x = random.random() * 3.5 - 1.75
-                enemy_sprite.change_y = random.random() * 3.5 - 1.75
-
-                enemy_sprite.change_angle = (random.random() - 0.5) * 2
-                enemy_sprite.size = 2
-                self.asteroid_list.append(enemy_sprite)
-                self._boom
-
-        else:
-            self._boom
+    def get_count(self):
+        return self._count

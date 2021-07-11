@@ -4,6 +4,7 @@ import math
 from data import constants
 from data.bomb import Bomb
 
+
 class Laser(arcade.SpriteList):
     """Subclass of arcade to create instances of laser
     Stereotype: Information Holder
@@ -24,9 +25,11 @@ class Laser(arcade.SpriteList):
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of player ship
-        laser = arcade.Sprite(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
+        laser = arcade.Sprite(constants.LASER_SPRITE,
+                              constants.SPRITE_SCALING_LASERS)
         laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 10
-        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 10
+        laser.change_x = - \
+            math.sin(math.radians(_player_sprite.angle - 90)) * 10
 
         laser.center_x = _player_sprite.center_x
         laser.center_y = _player_sprite.center_y
@@ -36,7 +39,7 @@ class Laser(arcade.SpriteList):
         self.append(laser)
         all_sprites.append(laser)
 
-    def update_player_lasers(self, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites):
+    def update_player_lasers(self, player_sprite, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
             Args:
                 self - an instance of LaserManager
@@ -50,21 +53,24 @@ class Laser(arcade.SpriteList):
         odds = 2
 
         for laser in player_laser_sprites:
-            asteroids = arcade.check_for_collision_with_list(laser, asteroid_sprites)
-            enemies = arcade.check_for_collision_with_list(laser, enemy_sprites)
+            asteroids = arcade.check_for_collision_with_list(
+                laser, asteroid_sprites)
+            enemies = arcade.check_for_collision_with_list(
+                laser, enemy_sprites)
             for asteroid in asteroids:
                 if random.randrange(odds) == 0:
                     #print("Odds have been achieved.")
                     crystal.play(volume + 4, 0, False)
-                    self._score += 50
-                    Bomb.generate_crystal(self, asteroid, crystal_sprites, all_sprites)
-                    asteroid.kill()
-                    laser.kill()
+                    Bomb.generate_crystal(
+                        self, asteroid, crystal_sprites, all_sprites)
                 else:
                     explosion.play(volume, 0, False)
-                    self._score += 50
-                    asteroid.kill()
-                    laser.kill()
+
+                self._score += 50
+                asteroid_sprites.split_asteroid(
+                    player_sprite, asteroid, all_sprites)
+                laser.kill()
+
             for enemy in enemies:
                 explosion.play(volume, 0, False)
                 self._score += 200
@@ -79,13 +85,13 @@ class Laser(arcade.SpriteList):
         for laser in self:
             if laser.right > constants.SCREEN_WIDTH - 5:
                 laser.remove_from_sprite_lists()
-                
+
             elif laser.left < 5:
                 laser.remove_from_sprite_lists()
-                
+
             elif laser.bottom < 5:
                 laser.remove_from_sprite_lists()
-                
+
             elif laser.top > constants.SCREEN_HEIGHT - 5:
                 laser.remove_from_sprite_lists()
 

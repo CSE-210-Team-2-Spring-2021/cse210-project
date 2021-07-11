@@ -21,6 +21,7 @@ SPRITE_SCALING_MENU = 1
 SPRITE_SCALING_DIFFICULTY = 0.2
 SPRITE_SCALING_INSTRUCTIONS = 0.7
 SPRITE_SCALING_CRYSTALS = 1
+SPRITE_SCALING_BOMB = .1
 
 # Scaled sprite size for tiles
 SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_TILES)
@@ -78,6 +79,7 @@ LASER_SPRITE = ASSET_PATH / 'laser.png'
 ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
 BOMBS_AMOUNT_SPRITES = [ASSET_PATH / 'BombsAmount0.png', ASSET_PATH / 'BombsAmount1.png', ASSET_PATH / 'BombsAmount2.png', ASSET_PATH / 'BombsAmount3.png',
                 ASSET_PATH / 'BombsAmount4.png', ASSET_PATH / 'BombsAmount5.png']
+BOMB_SPRITE = ASSET_PATH / 'bomb.png'
 
 MOUSE = ASSET_PATH / 'mouse.png'
 
@@ -117,3 +119,4 @@ COMICAL_EXPLOSION = sound_path / 'boom.wav'
 LASER = sound_path / 'laser.wav'
 ENEMY_LASER = sound_path / 'laser-gun-19sf.mp3'
 CRYSTAL_SOUND = sound_path / 'crystal_sound.ogg'
+BOMB_EFFECT = sound_path / 'bomb_effect.wav'

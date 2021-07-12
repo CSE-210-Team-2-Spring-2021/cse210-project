@@ -1,70 +1,101 @@
-from data.ship import Ship
-from data.constants import LASER_SPRITE, SCREEN_HEIGHT, SCREEN_WIDTH
 import arcade
 import random
 import math
 from data import constants
-# from data.projectile import Projectile
-
-# Laser class for projectiles shooting from front of ship.
+from data.bomb import Bomb
 
 
-class Laser(arcade.Sprite):
-    """Subclass of Actors to create instances of asteroid
-
+class Laser(arcade.SpriteList):
+    """Subclass of arcade to create instances of laser
     Stereotype: Information Holder
-
-    Attributes:
-        _location (coordinate) - the actors position in 2D space
-        _velocity (coordinate) - the actors speed and direction 
     """
-    # instantiate as a projectile sprite and inherit the init from arcade.Sprite.
+    # instantiate as a sprite and inherit the init from arcade.SpriteList.
 
-    def __init__(self, all_sprites, _player_sprite):
+    def __init__(self):
         """
         Class Constructor"""
-        super().__init__(constants.LASER_SPRITE, constants.SPRITE_SCALING_LASERS)
-        self._laser_sprites = []
+        super().__init__()
         self._laser_speed = constants.LASER_SPEED
-        self.generate_laser(all_sprites, _player_sprite)
-        self.delete_laser()
-        self.get_lasers()
 
-    def generate_laser(self, all_sprites, _player_sprite):
+    def generate_laser(self, _player_sprite, all_sprites):
         """Generates each new instance of laser shooting from player ship
             Args:
                 self - An instance of laser
+                _player_sprite - player ship sprite
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of player ship
-        self.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * self._laser_speed
-        self.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * self._laser_speed
+        laser = arcade.Sprite(constants.LASER_SPRITE,
+                              constants.SPRITE_SCALING_LASERS)
+        laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 10
+        laser.change_x = - \
+            math.sin(math.radians(_player_sprite.angle - 90)) * 10
 
-        self.center_x = _player_sprite.center_x
-        self.center_y = _player_sprite.center_y
+        laser.center_x = _player_sprite.center_x
+        laser.center_y = _player_sprite.center_y
 
         # add laser to laser list, and add to all sprites list
-        self._laser_sprites.append(self)
-        all_sprites.append(self)
+        laser.angle = _player_sprite.angle
+        self.append(laser)
+        all_sprites.append(laser)
+
+    def update_player_lasers(self, player_sprite, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites):
+        """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
+            Args:
+                self - an instance of LaserManager
+                player_laser_sprites - SpriteList of all player laser sprites
+                enemy_sprites - SpriteList of all enemies
+                asteroid_sprites - SpriteList of all asteroids
+                explosion - Sound for enemy sprite death
+                volume - Volume of explosion sound
+                all_sprites - List of all sprites from sinistarwindow
+        """
+        odds = 2
+
+        for laser in player_laser_sprites:
+            asteroids = arcade.check_for_collision_with_list(
+                laser, asteroid_sprites)
+            enemies = arcade.check_for_collision_with_list(
+                laser, enemy_sprites)
+            for asteroid in asteroids:
+                if random.randrange(odds) == 0:
+                    #print("Odds have been achieved.")
+                    crystal.play(volume + 4, 0, False)
+                    Bomb.generate_crystal(
+                        self, asteroid, crystal_sprites, all_sprites)
+                else:
+                    explosion.play(volume, 0, False)
+
+                self._score += 50
+                asteroid_sprites.split_asteroid(
+                    player_sprite, asteroid, all_sprites)
+                laser.kill()
+
+            for enemy in enemies:
+                explosion.play(volume, 0, False)
+                self._score += 200
+                enemy.kill()
+                laser.kill()
 
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:
                 self - an instance of laser
         """
-        super().update()  # init from arcade.Sprite update functionality
-        _laser_sprites = self._laser_sprites
-        for _ in _laser_sprites:
-            if self.right < 0:
-                self.remove_from_sprite_lists()
-            elif self.left > SCREEN_WIDTH:
-                self.remove_from_sprite_lists()
-            elif self.bottom > SCREEN_HEIGHT:
-                self.remove_from_sprite_lists() 
-            elif self.top < 0:
-                self.remove_from_sprite_lists()
+        for laser in self:
+            if laser.right > constants.SCREEN_WIDTH - 5:
+                laser.remove_from_sprite_lists()
 
-    def get_lasers(self):
-        """Returns laser list"""
+            elif laser.left < 5:
+                laser.remove_from_sprite_lists()
 
-        return self._laser_sprites
+            elif laser.bottom < 5:
+                laser.remove_from_sprite_lists()
+
+            elif laser.top > constants.SCREEN_HEIGHT - 5:
+                laser.remove_from_sprite_lists()
+
+    def get_player_lasers(self):
+        """Returns list of all player lasers
+        """
+        return self._player_laser_sprites

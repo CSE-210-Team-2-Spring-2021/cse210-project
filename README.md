@@ -74,3 +74,6 @@ Chase Patterson - pat20001@byui.edu
 In-Game Theme: https://www.bensound.com
 Enemy Laser Sound: https://www.soundfishing.eu
 Laser Sound: https://www.findsounds.com
+Crystal Sound: https://kenney.nl/assets/impact-sounds
+Asteroid sprite: https://www.vippng.com/preview/ixJwwhh_clipart-transparent-background-asteroid-png/
+Bomb launch effect: https://www.findsounds.com

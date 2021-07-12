@@ -1,10 +1,3 @@
-from data import constants
-from data import sinistarwindow
-from data import asteroid
-from data import enemies
-from data import menu
-
-
 class Difficulty():
     """ This class will determine the difficulty of the game based on user input from the menu. 
 
@@ -12,26 +5,19 @@ class Difficulty():
 
     """
 
-    def __init__(self):
-        self._difficulty = constants.NORMAL
-
-    def _set_difficulty(self):
-        if self._menu._change_difficulty() == 1:
-            self._difficulty = self._asteroid.add_asteroid(
-                1) & self._enemies.retrieve_difficulty(1)
-        elif self._menu._change_difficulty() == 2:
-            self._difficulty = self._asteroid.add_asteroid(
-                2) & self._enemies.retrieve_difficulty(2)
-        elif self._menu._change_difficulty() == 3:
-            self._difficulty = self._asteroid.add_asteroid(
-                3) & self._enemies.retrieve_difficulty(3)
-        elif self._menu._change_difficulty() == 4:
-            self._difficulty = self._asteroid.add_asteroid(
-                4) & self._enemies.retrieve_difficulty(4)
+    def set_difficulty(self, difficulty, asteroid_manager, enemies):
+        if difficulty == 1:
+            asteroid_manager.set_count(5)
+            enemies.set_count(1, 1)
+        elif difficulty == 2:
+            asteroid_manager.set_count(7)
+            enemies.set_count(2, 2)
+        elif difficulty == 3:
+            asteroid_manager.set_count(10)
+            enemies.set_count(2, 4)
+        elif difficulty == 4:
+            asteroid_manager.set_count(15)
+            enemies.set_count(4, 6)
         else:
-            self._difficulty = self._asteroid.add_asteroid(
-                5) & self._enemies.retrieve_difficulty(5)
-
-    def _get_difficulty(self):
-        """Returns the difficulty"""
-        return self._difficulty
+            asteroid_manager.set_count(20)
+            enemies.set_count(8, 10)

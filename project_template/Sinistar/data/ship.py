@@ -16,7 +16,7 @@ class Ship(arcade.Sprite):
     def __init__(self, all_sprites):
         """
         Class Constructor"""
-        super().__init__(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER)
+        super().__init__(constants.PLAYER_SPRITE, constants.SPRITE_SCALING_PLAYER, hit_box_algorithm = "Detailed")
         self._lives = None
         self.speed = 0
         self.angle = 90

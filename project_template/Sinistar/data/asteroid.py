@@ -19,7 +19,7 @@ class Asteroid(arcade.Sprite):
         """
         Class Constructor"""
         super().__init__(constants.ASTEROID_SPRITE,
-                         (constants.SPRITE_SCALING_ASTEROIDS * size / 3))
+                         (constants.SPRITE_SCALING_ASTEROIDS * size / 3), hit_box_algorithm = "Detailed")
         self._setup_asteroid(player_sprite)
         self._size = size
 

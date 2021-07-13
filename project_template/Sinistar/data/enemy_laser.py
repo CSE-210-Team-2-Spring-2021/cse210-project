@@ -28,7 +28,7 @@ class EnemyLaser(arcade.SpriteList):
                 all_sprites - List of all sprites from WinistarWindow
         """
         # set velocity based off front of enemy ship
-        laser = arcade.Sprite(constants.ENEMY_LASER_SPRITE, constants.SPRITE_SCALING_ENEMY_LASERS)
+        laser = arcade.Sprite(constants.ENEMY_LASER_SPRITE, constants.SPRITE_SCALING_ENEMY_LASERS, hit_box_algorithm = "Detailed")
         laser.change_y = math.cos(math.radians(_enemy_sprite.angle)) * self._laser_speed
         laser.change_x = -math.sin(math.radians(_enemy_sprite.angle)) * self._laser_speed
 

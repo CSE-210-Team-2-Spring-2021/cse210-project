@@ -322,6 +322,8 @@ class SinistarWindow(arcade.Window):
                     ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
 
                     if ship_hit != []:
+                        if enemy_laser_hit:
+                            enemy_laser_hit[0].kill()
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
                         self._score -= 100

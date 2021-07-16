@@ -16,7 +16,7 @@ from data.windowhelper import WindowHelper
 from data.bomb import Bomb
 from data.highscore import HighScore
 from data.difficulty import Difficulty
-# from data.collisions import Collisions
+from data.collisions import Collisions
 
 
 class SinistarWindow(arcade.Window):
@@ -127,6 +127,13 @@ class SinistarWindow(arcade.Window):
 
         self._helper = WindowHelper(self._player_sprite)
 
+        # Create Asteroids
+        self._asteroid_sprites = AsteroidManager(self._player_sprite)
+        self._all_sprites_list.extend(self._asteroid_sprites)
+
+        # Create Enemies
+        self._enemy_sprites = self._helper.get_enemy_manager()
+
         # Setup the lasers
         self._player_laser_sprites = Laser()
         self._all_sprites_list.extend(self._player_laser_sprites)
@@ -161,15 +168,6 @@ class SinistarWindow(arcade.Window):
 
         self._difficulty.set_difficulty(
             self._menu.get_difficulty(), self._asteroid_sprites, self._helper.get_enemy_manager())
-
-    def create_nonuser_sprites(self):
-        # Create Asteroids
-        self._asteroid_sprites = AsteroidManager(self._player_sprite)
-        self._all_sprites_list.extend(self._asteroid_sprites)
-
-        # Create Enemies
-        self._enemy_sprites = EnemyManager(self._player_sprite)
-        self._all_sprites_list.extend(self._enemy_sprites)
 
     def _generate_menu(self):
         """
@@ -435,6 +433,10 @@ class SinistarWindow(arcade.Window):
             return
         else:
             if clicked[0] == buttons[0]:  # Start
+                self._asteroid_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._asteroid_sprites)
+                self._enemy_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._enemy_sprites)
                 self._menu.start_pressed()
             elif clicked[0] == buttons[1]:  # Settings
                 self._menu.settings_pressed()

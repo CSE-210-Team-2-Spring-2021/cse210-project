@@ -38,9 +38,6 @@ class EnemyManager(arcade.SpriteList):
             warrior = Warrior(player_sprite)
             self.append(warrior)
 
-        print(self._war_count)
-        print(self._work_count)
-
     def respawn_enemies(self, player_sprite, all_sprites):
         """Checks if asteroids need to be respawned, 
         if so it has a chance of respawning

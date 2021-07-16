@@ -101,9 +101,6 @@ class SinistarWindow(arcade.Window):
         # Hide Mouse
         self.set_mouse_visible(False)
 
-        # Collisions check
-        # self._collisions = Collisions()
-
     def setup(self):
         """ Set up the game and initialize the variables. 
         Args:
@@ -115,6 +112,7 @@ class SinistarWindow(arcade.Window):
         self._score = 0
         self._bombs_amount = constants.BOMBS
         self._difficulty = Difficulty()
+        self._collisions = Collisions()
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -310,19 +308,10 @@ class SinistarWindow(arcade.Window):
 
                 if self._immunity <= 0:
                     self._player_sprite.set_normal_texture()
-                    ship_hit = []
+                    ship_hit = self._collisions.is_ship_hit(self._player_sprite,
+                                                            self._asteroid_sprites, self._enemy_sprites, self._enemy_laser_sprites)
 
-                    asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                        self._asteroid_sprites)
-                    enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                     self._enemy_sprites)
-                    enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                           self._enemy_laser_sprites)
-                    ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
-
-                    if ship_hit != []:
-                        if enemy_laser_hit:
-                            enemy_laser_hit[0].kill()
+                    if ship_hit:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
                         self._score -= 100

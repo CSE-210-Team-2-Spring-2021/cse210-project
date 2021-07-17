@@ -6,11 +6,11 @@ class AI():
     """Class used for handling the enemy AI
     
     Sterotypes:
-        Information Holder?
+        Information Holder and Controller.
     """
 
     def __init__(self):
-        """
+        """The object initializer.
         
         """
         t = 5 #this is just to stop errors
@@ -61,23 +61,28 @@ class AI():
         return arcade.has_line_of_sight(enemy_location, player_location, all_sprites)
 
     def calc_distance(self, enemy_location, destination):
-        """
+        """A function used to calculate distance.
         
+        Args:
+            self
+            enemy_location(tuple): The coordinates of this enemy.
+            destination(tuple): The coordinates of the destination.
         """
 
         (start_x, start_y) = enemy_location
         (d_x, d_y) = destination
         end_x = d_x - start_x
         end_y = d_y - start_y
-        if end_x != 0:
-            distance = end_y / end_x
-        else:
-            distance = "infinite"
+        c2 = end_x ** 2 + end_y ** 2
+        distance = c2 ** 1/2
         return distance
 
-    def find_closest(self, enemy_sprite, crystal_sprites, all_sprites):
-        """
+    def find_closest(self, enemy_sprite, crystal_sprites):
+        """Find and return the closes crystal sprite.
         
+        Args:
+            enemy_sprite(sprite): The sprite representative of this enemy.
+            crystal_sprites(sprite list): The list of all crystals sprites to be checked.
         """
 
         enemy_location = (enemy_sprite.center_x, enemy_sprite.center_y)
@@ -88,14 +93,11 @@ class AI():
         
         for crystal in crystal_sprites:
             crystal_location = (crystal.center_x, crystal.center_y)
-            #if self.calc_sight_line(enemy_location, crystal_location, all_sprites):
             distance = self.calc_distance(enemy_location, crystal_location)
             distances.append(distance)
 
         for i, distance in enumerate(distances):
-            if distance == "infinite":
-                "panic"
-            elif distance < closest:
+            if distance < closest:
                 closest = distance
                 marker = i
 

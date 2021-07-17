@@ -40,17 +40,6 @@ class Worker(arcade.Sprite):
         self.change_x = random.randint(-speed, speed)
         self.change_y = random.randint(-speed, speed)
 
-    # add in each new instance of worker
-    def add_worker(self):
-        """Adds a worker when 1 is destroyed (will need more work later
-        """
-        worker = "*"    # arcade.Sprite("images/worker.png", constants.SPRITE_SIZE)
-        worker.center_y = random.randrange(constants.SCREEN_HEIGHT) 
-        worker.center_x = random.randrange(constants.SCREEN_WIDTH)
-        worker.velocity = (random.randint(-5, 5), random.randint(5, -5))
-        self.workers_list.append(worker)
-        self.all_sprites.append(worker)
-    
     def get_workers(self):
         """Returns workers list
         """
@@ -74,8 +63,8 @@ class Worker(arcade.Sprite):
         Args:
             self - instance of Warrior
         """
-        if ((self.center_x - constants.SCREEN_WIDTH) > 2) and ((0 - self.center_x) < -2):
-            if ((self.center_y - constants.SCREEN_HEIGHT) > 2) and ((0 - self.center_y) < -2):
+        if ((constants.SCREEN_WIDTH - self.center_x) > 100) and (self.center_x > 100):
+            if ((constants.SCREEN_HEIGHT - self.center_y) > 100) and (self.center_y > 100):
                 if self._path:
                     if len(self._path) > 2:
                         start_x = self._path[0][0]

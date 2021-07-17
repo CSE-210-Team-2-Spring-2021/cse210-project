@@ -119,7 +119,7 @@ class WindowHelper():
         letter = ''
         letter = self._keyboard(key)
         if letter != '':
-            self._text += letter
+                self._text += letter
 
     def _keyboard(self, key):
         """Receives keyboard input returns a string
@@ -182,6 +182,8 @@ class WindowHelper():
             return 'Y'
         elif key == arcade.key.Z:
             return 'Z'
+        else:
+            return ''
 
     def get_text(self):
         """Returns text

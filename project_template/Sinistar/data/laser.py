@@ -49,6 +49,7 @@ class Laser(arcade.SpriteList):
                 explosion - Sound for enemy sprite death
                 volume - Volume of explosion sound
                 all_sprites - List of all sprites from sinistarwindow
+                score - Total running score from sinistarwindow
         """
         odds = 2
 
@@ -62,18 +63,18 @@ class Laser(arcade.SpriteList):
                     crystal.play(volume + 4, 0, False)
                     crystal_sprites.generate_crystal(asteroid, crystal_sprites, all_sprites)
                 else:
-                    explosion.play(volume, 0, False)
                     score += 50
+                    explosion.play(volume, 0, False)
                     asteroid_sprites.split_asteroid(
                     player_sprite, asteroid, all_sprites)
                     laser.kill()
 
             for enemy in enemies:
-                explosion.play(volume, 0, False)
                 score += 200
+                explosion.play(volume, 0, False)
                 enemy.kill()
                 laser.kill()
-
+        return score
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:

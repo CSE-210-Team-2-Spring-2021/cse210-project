@@ -42,7 +42,7 @@ class WindowHelper():
                 sprite.center_y = 1
 
     def update_enemy_actions(self, all_sprites, player_sprite, enemy_sprites, enemy_lasers,
-                             asteroids, crystal_sprites):
+                            asteroids, crystal_sprites):
         """Processes enemy ai, movement, and lasers
 
         Args:
@@ -64,24 +64,23 @@ class WindowHelper():
                         self._ai.face_crystal(enemy, closest_crystal)
 
                         enemy.process_move(self._ai.do_pathing(enemy.position, closest_crystal, barriers),
-                                           enemy_lasers, all_sprites)
+                                            enemy_lasers, all_sprites)
                     else:
                         self._ai.face_away_from_player(enemy, player_sprite)
                         enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
-                                   enemy_lasers, all_sprites)
+                                    enemy_lasers, all_sprites)
 
                 else:
-                    """avoid the player"""
                     enemy.crystal_exists(False)
                     self._ai.face_away_from_player(enemy, player_sprite)
                     enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
-                                   enemy_lasers, all_sprites)
+                                    enemy_lasers, all_sprites)
 
             elif enemy.enemy_type == 'Warrior':
                 self._ai.face_player(enemy, player_sprite)
 
                 enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
-                                   enemy_lasers, all_sprites)
+                                    enemy_lasers, all_sprites)
         enemy_lasers.delete_laser()
         self.respawn(player_sprite, asteroids, enemy_sprites, all_sprites)
 
@@ -97,7 +96,7 @@ class WindowHelper():
         asteroids.respawn_asteroids(player_sprite,
                                     all_sprites)
         enemy_sprites.respawn_enemies(player_sprite,
-                                      all_sprites)
+                                        all_sprites)
 
     def get_enemy_manager(self):
         """ Returns EnemyManager """

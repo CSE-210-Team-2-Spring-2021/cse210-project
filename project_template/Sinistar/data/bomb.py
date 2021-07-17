@@ -10,7 +10,7 @@ class Bomb(arcade.SpriteList):
     def __init__(self):
         """Class Constructor"""
         super().__init__()
-        self._bombs_amount = constants.BOMBS
+        self._bombs_amount = 0
         self._crystal_sprites = []
         self._bomb_sprites = []
 
@@ -42,11 +42,9 @@ class Bomb(arcade.SpriteList):
         if crystal_hit:
             for crystal in crystal_hit:
                 crystal.kill()
-                #print("crystal hit")
 
                 if self._bombs_amount < 5:
                     self._bombs_amount += 1
-                    #print(self._bombs_amount)
 
     def generate_bomb(self, _player_sprite, all_sprites):
         """Generates each new instance of bomb shooting from player ship
@@ -65,11 +63,12 @@ class Bomb(arcade.SpriteList):
 
         # add bomb to bomb list, and add to all sprites list
         bomb.angle = _player_sprite.angle
-        self.append(bomb)
+        self._bomb_sprites.append(bomb)
         all_sprites.append(bomb)
-        self._bombs_amount -= 1
+        if self._bombs_amount > 0:
+            self._bombs_amount -= 1
 
-    def update_bombs(self, bomb_sprites, enemy_sprites, asteroid_sprites, explosion, volume):
+    def update_bombs(self, bomb_sprites, enemy_sprites, asteroid_sprites, explosion, volume, window):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
             Args:
                 self - an instance of LaserManager
@@ -78,6 +77,7 @@ class Bomb(arcade.SpriteList):
                 asteroid_sprites - SpriteList of all asteroids
                 explosion - Sound for enemy sprite death
                 volume - Volume of explosion sound
+                score - Total running score from sinistarwindow
         """
 
         for bomb in bomb_sprites:
@@ -85,12 +85,13 @@ class Bomb(arcade.SpriteList):
             enemies = arcade.check_for_collision_with_list(bomb, enemy_sprites)
             for asteroid in asteroids:
                 explosion.play(volume, 0, False)
-                self._score += 50
+                window.update_score(300)
                 asteroid.kill()
                 bomb.kill()
+                
             for enemy in enemies:
                 explosion.play(volume, 0, False)
-                self._score += 200
+                window.update_score(200)
                 enemy.kill()
                 bomb.kill()
 

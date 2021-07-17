@@ -39,7 +39,7 @@ class Laser(arcade.SpriteList):
         all_sprites.append(laser)
 
     def update_player_lasers(self, player_sprite, player_laser_sprites, enemy_sprites, 
-                asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites, score):
+                asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites, window):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
             Args:
                 self - an instance of LaserManager
@@ -63,18 +63,18 @@ class Laser(arcade.SpriteList):
                     crystal.play(volume + 4, 0, False)
                     crystal_sprites.generate_crystal(asteroid, crystal_sprites, all_sprites)
                 else:
-                    score += 50
+                    window.update_score(50)
                     explosion.play(volume, 0, False)
                     asteroid_sprites.split_asteroid(
                     player_sprite, asteroid, all_sprites)
                     laser.kill()
 
             for enemy in enemies:
-                score += 200
+                window.update_score(200)
                 explosion.play(volume, 0, False)
                 enemy.kill()
                 laser.kill()
-        return score
+                
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:

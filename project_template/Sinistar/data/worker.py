@@ -74,8 +74,8 @@ class Worker(arcade.Sprite):
         Args:
             self - instance of Warrior
         """
-        if ((constants.SCREEN_WIDTH - self.center_x) > 2) and (self.center_x > 2):
-            if ((constants.SCREEN_HEIGHT - self.center_y) > 2) and (self.center_y > 2):
+        if ((constants.SCREEN_WIDTH - self.center_x) > 100) and (self.center_x > 100):
+            if ((constants.SCREEN_HEIGHT - self.center_y) > 100) and (self.center_y > 100):
                 if self._path:
                     if len(self._path) > 2:
                         start_x = self._path[0][0]

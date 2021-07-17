@@ -55,6 +55,8 @@ class SinistarWindow(arcade.Window):
         self._generate_menu()
 
         self._highscore = None
+        self._name = False
+        self._has_name = False
 
         # Setup Helper
         self._helper = None
@@ -238,17 +240,20 @@ class SinistarWindow(arcade.Window):
         else:
             # Game over (Will need more options for restart)
             if self._status[4]:
-                self._game_over_menu.draw()
-                output = 'GAME OVER'
-                if self._highscore.check_highscore(self._score):
-                    name = self._highscore.retrieve_name()
-                    self.highscore.save_highscore(name, self._score)
+                if self._highscore.check_highscore(self._score) and self._has_name == False:
+                    self._name = self._highscore.retrieve_name(self._helper.get_text())
+                
+                else:
+                    self._game_over_menu.draw()
+                    output = 'GAME OVER'
+                    
+                    arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
+                                    constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
+                    arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 50,
+                                    constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
+                    self._mouse_list.draw()
                 self._highscore.display_scores()
-                arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
-                                constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
-                arcade.draw_text(output, constants.SCREEN_WIDTH/2 - 50,
-                                constants.SCREEN_HEIGHT/2 + 100, arcade.color.WHITE, 20)
-                self._mouse_list.draw()
+                self._highscore.save_file()
 
             else:  # Game playing
                 # Draw all the sprites.
@@ -352,7 +357,11 @@ class SinistarWindow(arcade.Window):
             player_sprite - the player's sprite object
         """
         if self._status[4]:
-            self._helper.input_text(key)
+            if key == arcade.key.RETURN or key == arcade.key.LINEFEED:
+                self._has_name = True
+                self._highscore.save_highscore(self._name, self._score)
+            else:
+                self._helper.input_text(key)
         
         elif key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = True

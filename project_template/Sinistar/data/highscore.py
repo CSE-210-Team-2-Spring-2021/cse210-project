@@ -1,5 +1,6 @@
 import json
 import arcade
+from arcade.key import N
 from data import constants
 from data.windowhelper import WindowHelper
 
@@ -37,23 +38,19 @@ class HighScore():
         for score in json_new["Score"]:
             self._scores.append(score)
 
-    def retrieve_name(self, key):
+    def retrieve_name(self, name):
         """
         
         """
 
-        name_in = self._helper.get_text()
+        name_in = name
 
-        congratulatory_text = "Congratulations! You achieved a highscore. Please input your name, and press enter when finished to verify correct spelling."
-        verification_text = "Is this your name?"
+        congratulatory_text = "Congratulations! You achieved a highscore. Please input your name, then press enter."
 
-        arcade.draw_text(congratulatory_text, constants.SCREEN_WIDTH/2 - 100,
+        arcade.draw_text(congratulatory_text, constants.SCREEN_WIDTH/2 - 300,
                         constants.SCREEN_HEIGHT/2 + 80, arcade.color.WHITE, 20)
-
-        arcade.draw_text(verification_text, constants.SCREEN_WIDTH/2 - 30,
-                constants.SCREEN_HEIGHT/2 + 60, arcade.color.WHITE, 20)
-        arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 15,
-                constants.SCREEN_HEIGHT/2 + 40, arcade.color.WHITE, 20)
+        arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 300,
+                        constants.SCREEN_HEIGHT/2 + 40, arcade.color.WHITE, 20)
 
         return name_in
 
@@ -63,20 +60,19 @@ class HighScore():
         """
 
         #retrieves the name and score of the player if a top 5 has been achieved.
-        
         for i in range(0, 5):
-            if score_in < self._scores[i]:
+            if score_in > self._scores[i]:
                 self._score_marker = i
                 self._has_highscore = True
-        return self._has_highscore
+                return self._has_highscore
 
     def save_highscore(self, name_in, score_in):
         """
         
         """
 
-        self._names[self._score_marker + 1] = name_in
-        self._scores[self._score_marker + 1] = score_in
+        self._names[self._score_marker] = name_in
+        self._scores[self._score_marker] = score_in
 
     def get_names(self):
         """
@@ -119,15 +115,17 @@ class HighScore():
         
         """
 
-        json_new:dict = "{}"
+        json_new:dict = {
+            "Name": [],
+            "Score": []
+            }
 
         #Compiling the lists into a dictionary for the json.
-        for name in self._names["Name"]:
+        for i, name in enumerate(self._names):
             json_new["Name"].append(name)
 
-        for score in self._scores["Score"]:
+        for i, score in enumerate(self._scores):
             json_new["Score"].append(score)
 
         with open(constants.SCORE_DOC, 'w') as outfile:
             json.dump(json_new, outfile)
-        constants.SCORE_DOC.close()

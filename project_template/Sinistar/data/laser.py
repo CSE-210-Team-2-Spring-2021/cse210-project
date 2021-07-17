@@ -51,7 +51,7 @@ class Laser(arcade.SpriteList):
                 all_sprites - List of all sprites from sinistarwindow
                 score - Total running score from sinistarwindow
         """
-        odds = 2
+        odds = 12
 
         for laser in player_laser_sprites:
             asteroids = arcade.check_for_collision_with_list(

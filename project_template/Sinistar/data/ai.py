@@ -58,15 +58,21 @@ class AI():
             all_sprites (list): The list of all sprites in the game, used to check for obstacles.
         """
 
-        return arcade.has_line_of_sight(enemy_location,
-                                                            player_location, all_sprites, 100)
+        return arcade.has_line_of_sight(enemy_location, player_location, all_sprites)
 
     def calc_distance(self, enemy_location, destination):
         """
         
         """
 
-        distance = destination - enemy_location
+        (start_x, start_y) = enemy_location
+        (d_x, d_y) = destination
+        end_x = d_x - start_x
+        end_y = d_y - start_y
+        if end_x != 0:
+            distance = end_y / end_x
+        else:
+            distance = "infinite"
         return distance
 
     def find_closest(self, enemy_sprite, crystal_sprites, all_sprites):
@@ -82,12 +88,14 @@ class AI():
         
         for crystal in crystal_sprites:
             crystal_location = (crystal.center_x, crystal.center_y)
-            if self.calc_sight_line(enemy_location, crystal_location, all_sprites):
-                distance = self.calc_distance(enemy_location, crystal_location)
-                distances.append(distance)
+            #if self.calc_sight_line(enemy_location, crystal_location, all_sprites):
+            distance = self.calc_distance(enemy_location, crystal_location)
+            distances.append(distance)
 
         for i, distance in enumerate(distances):
-            if distance < closest:
+            if distance == "infinite":
+                "panic"
+            elif distance < closest:
                 closest = distance
                 marker = i
 

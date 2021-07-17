@@ -229,9 +229,9 @@ class SinistarWindow(arcade.Window):
             if self._status[4]:
                 self._game_over_menu.draw()
                 output = 'GAME OVER'
-                #if self._highscore.check_highscore(self._score):
-                    #name = self._highscore.retrieve_name(key)
-                    #self.highscore.save_highscore(name, self._score)
+                if self._highscore.check_highscore(self._score):
+                    name = self._highscore.retrieve_name()
+                    self.highscore.save_highscore(name, self._score)
                 self._highscore.display_scores()
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2 - 50,
                                 constants.SCREEN_HEIGHT/2 + 90, arcade.color.WHITE, 14)
@@ -293,8 +293,8 @@ class SinistarWindow(arcade.Window):
 
 
                 self._player_laser_sprites.update_player_lasers(self._player_sprite, self._player_laser_sprites, self._enemy_sprites,
-                                           self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
-                                           self._all_sprites_list, self._crystal_sprites, self._score)
+                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
+                                            self._all_sprites_list, self._crystal_sprites, self._score)
                 self._player_laser_sprites.delete_laser()
 
 
@@ -345,7 +345,10 @@ class SinistarWindow(arcade.Window):
             key - the key pressed
             player_sprite - the player's sprite object
         """
-        if key == arcade.key.UP or key == arcade.key.W:
+        if self._status[4]:
+            self._helper.input_text(key)
+        
+        elif key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = True
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_pressed = True

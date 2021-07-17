@@ -69,10 +69,8 @@ class AI():
         (d_x, d_y) = destination
         end_x = d_x - start_x
         end_y = d_y - start_y
-        if end_x != 0:
-            distance = end_y / end_x
-        else:
-            distance = "infinite"
+        c2 = end_x ** 2 + end_y ** 2
+        distance = c2 ** 1/2
         return distance
 
     def find_closest(self, enemy_sprite, crystal_sprites, all_sprites):
@@ -93,9 +91,7 @@ class AI():
             distances.append(distance)
 
         for i, distance in enumerate(distances):
-            if distance == "infinite":
-                "panic"
-            elif distance < closest:
+            if distance < closest:
                 closest = distance
                 marker = i
 

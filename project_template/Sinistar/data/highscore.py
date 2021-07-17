@@ -42,26 +42,18 @@ class HighScore():
         
         """
 
-        getting_name = True
-        has_name = False
+        name_in = self._helper.get_text()
 
         congratulatory_text = "Congratulations! You achieved a highscore. Please input your name, and press enter when finished to verify correct spelling."
         verification_text = "Is this your name?"
 
         arcade.draw_text(congratulatory_text, constants.SCREEN_WIDTH/2 - 100,
                         constants.SCREEN_HEIGHT/2 + 80, arcade.color.WHITE, 20)
-        while getting_name:
-            if has_name:
-                arcade.draw_text(verification_text, constants.SCREEN_WIDTH/2 - 30,
-                        constants.SCREEN_HEIGHT/2 + 60, arcade.color.WHITE, 20)
-                arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 15,
-                        constants.SCREEN_HEIGHT/2 + 40, arcade.color.WHITE, 20)
-            else:
-                if key != arcade.key.RETURN and key != arcade.key.LINEFEED:
-                    self._helper.input_text(key)
-                else:
-                    has_name = True
-                    name_in = self._helper.get_text()
+
+        arcade.draw_text(verification_text, constants.SCREEN_WIDTH/2 - 30,
+                constants.SCREEN_HEIGHT/2 + 60, arcade.color.WHITE, 20)
+        arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 15,
+                constants.SCREEN_HEIGHT/2 + 40, arcade.color.WHITE, 20)
 
         return name_in
 

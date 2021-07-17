@@ -9,9 +9,10 @@ class Worker(arcade.Sprite):
         Class Constructor
         """
         self.enemy_type = "Worker"
-        super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES)
+        super().__init__(constants.WORKER_SPRITE, constants.SPRITE_SCALING_ENEMIES, hit_box_algorithm = "Detailed")
         self._setup_worker(player_sprite)
         self.has_crystal = False
+        self._crystals_exist = False
 
     def _setup_worker(self, player_sprite):
         """Responsible for assigning the position and velocity of worker
@@ -39,17 +40,6 @@ class Worker(arcade.Sprite):
         self.change_x = random.randint(-speed, speed)
         self.change_y = random.randint(-speed, speed)
 
-    # add in each new instance of worker
-    def add_worker(self):
-        """Adds a worker when 1 is destroyed (will need more work later
-        """
-        worker = "*"    # arcade.Sprite("images/worker.png", constants.SPRITE_SIZE)
-        worker.center_y = random.randrange(constants.SCREEN_HEIGHT) 
-        worker.center_x = random.randrange(constants.SCREEN_WIDTH)
-        worker.velocity = (random.randint(-5, 5), random.randint(5, -5))
-        self.workers_list.append(worker)
-        self.all_sprites.append(worker)
-    
     def get_workers(self):
         """Returns workers list
         """
@@ -65,6 +55,31 @@ class Worker(arcade.Sprite):
             laser - used if the sprite shoots a laser
         """
         self._set_path(path)
+        self._change_direction()
+
+    def _change_direction(self):
+        """Sets the direciton to follow the path
+        
+        Args:
+            self - instance of Warrior
+        """
+        if ((constants.SCREEN_WIDTH - self.center_x) > 100) and (self.center_x > 100):
+            if ((constants.SCREEN_HEIGHT - self.center_y) > 100) and (self.center_y > 100):
+                if self._path:
+                    if len(self._path) > 2:
+                        start_x = self._path[0][0]
+                        start_y = self._path[0][1]
+                        end_x = self._path[1][0]
+                        end_y = self._path[1][1]
+                    
+                        if self._crystals_exist and self.has_crystal == False:
+                            direction = (end_x - start_x, end_y - start_y)
+
+                        else:
+                            direction = (-(end_x - start_x), -(end_y - start_y))
+
+                        self.change_x = direction[0]/constants.GRID * 2
+                        self.change_y = direction[1]/constants.GRID * 2
     
     def _set_path(self, path):
         """Sets the path attribute
@@ -110,3 +125,12 @@ class Worker(arcade.Sprite):
                     enemy.has_crystal = True
                     for crystal in crystal_hit:
                         crystal.kill()
+
+    def crystal_exists(self, exists):
+        """Sets attribute to True if Crystal exists
+        
+        Args:
+            self - an instance of Worker
+            exists - Bool if crystals exist"""
+
+        self._crystals_exist = exists

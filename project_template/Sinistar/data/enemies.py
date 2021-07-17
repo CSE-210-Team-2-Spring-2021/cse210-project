@@ -21,9 +21,8 @@ class EnemyManager(arcade.SpriteList):
         self._path = None
         self._war_count = constants.WARRIOR_COUNT
         self._work_count = constants.WORKER_COUNT
-        self._generate_list(player_sprite)
 
-    def _generate_list(self, player_sprite):
+    def generate_list(self, player_sprite):
         """Fills self with enemy objects
 
         Args:

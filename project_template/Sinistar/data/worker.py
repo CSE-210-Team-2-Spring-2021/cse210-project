@@ -74,21 +74,23 @@ class Worker(arcade.Sprite):
         Args:
             self - instance of Warrior
         """
-        if self._path:
-            if len(self._path) > 2:
-                start_x = self._path[0][0]
-                start_y = self._path[0][1]
-                end_x = self._path[1][0]
-                end_y = self._path[1][1]
-            
-                if self._crystals_exist and self.has_crystal == False:
-                    direction = (end_x - start_x, end_y - start_y)
+        if ((self.center_x - constants.SCREEN_WIDTH) > 2) and ((0 - self.center_x) < -2):
+            if ((self.center_y - constants.SCREEN_HEIGHT) > 2) and ((0 - self.center_y) < -2):
+                if self._path:
+                    if len(self._path) > 2:
+                        start_x = self._path[0][0]
+                        start_y = self._path[0][1]
+                        end_x = self._path[1][0]
+                        end_y = self._path[1][1]
+                    
+                        if self._crystals_exist and self.has_crystal == False:
+                            direction = (end_x - start_x, end_y - start_y)
 
-                else:
-                    direction = (-(end_x - start_x), -(end_y - start_y))
+                        else:
+                            direction = (-(end_x - start_x), -(end_y - start_y))
 
-                self.change_x = direction[0]/constants.GRID * 2
-                self.change_y = direction[1]/constants.GRID * 2
+                        self.change_x = direction[0]/constants.GRID * 2
+                        self.change_y = direction[1]/constants.GRID * 2
     
     def _set_path(self, path):
         """Sets the path attribute

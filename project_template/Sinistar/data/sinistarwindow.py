@@ -355,9 +355,8 @@ class SinistarWindow(arcade.Window):
 
         # Adding spacebar for shooting a laser. Can be done same time as directional keys. Reason for separate if statement.
         if key == arcade.key.SPACE:
-            self._player_laser_sprites = Laser.get_player_lasers(self)
-            Laser.generate_laser(self._player_laser_sprites,
-                                 self._ship, self._all_sprites_list)
+            self._player_laser_sprites.get_player_lasers()
+            self._player_laser_sprites.generate_laser(self._ship, self._all_sprites_list)
             self._player_laser_effect.play(self._volume, 0, False)
 
         # Shift key for shooting a bomb. Can be done same time as directional keys

@@ -2,7 +2,6 @@ import arcade
 import random
 import math
 from data import constants
-from data.bomb import Bomb
 
 
 class Laser(arcade.SpriteList):
@@ -16,6 +15,7 @@ class Laser(arcade.SpriteList):
         Class Constructor"""
         super().__init__()
         self._laser_speed = constants.LASER_SPEED
+        self._player_laser_sprites = []
 
     def generate_laser(self, _player_sprite, all_sprites):
         """Generates each new instance of laser shooting from player ship
@@ -28,8 +28,7 @@ class Laser(arcade.SpriteList):
         laser = arcade.Sprite(constants.LASER_SPRITE,
                               constants.SPRITE_SCALING_LASERS, hit_box_algorithm = "Detailed")
         laser.change_y = math.cos(math.radians(_player_sprite.angle - 90)) * 10
-        laser.change_x = - \
-            math.sin(math.radians(_player_sprite.angle - 90)) * 10
+        laser.change_x = -math.sin(math.radians(_player_sprite.angle - 90)) * 10
 
         laser.center_x = _player_sprite.center_x
         laser.center_y = _player_sprite.center_y
@@ -39,7 +38,8 @@ class Laser(arcade.SpriteList):
         self.append(laser)
         all_sprites.append(laser)
 
-    def update_player_lasers(self, player_sprite, player_laser_sprites, enemy_sprites, asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites, score):
+    def update_player_lasers(self, player_sprite, player_laser_sprites, enemy_sprites, 
+                asteroid_sprites, explosion, crystal, volume, all_sprites, crystal_sprites, score):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
             Args:
                 self - an instance of LaserManager
@@ -59,19 +59,18 @@ class Laser(arcade.SpriteList):
                 laser, enemy_sprites)
             for asteroid in asteroids:
                 if random.randrange(odds) == 0:
-                    #print("Odds have been achieved.")
                     crystal.play(volume + 4, 0, False)
                     crystal_sprites.generate_crystal(asteroid, crystal_sprites, all_sprites)
                 else:
                     explosion.play(volume, 0, False)
-                    self._score += 50
+                    score += 50
                     asteroid_sprites.split_asteroid(
                     player_sprite, asteroid, all_sprites)
                     laser.kill()
 
             for enemy in enemies:
                 explosion.play(volume, 0, False)
-                self._score += 200
+                score += 200
                 enemy.kill()
                 laser.kill()
 

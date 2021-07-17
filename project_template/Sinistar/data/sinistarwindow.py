@@ -129,7 +129,7 @@ class SinistarWindow(arcade.Window):
 
         self._helper = WindowHelper(self._player_sprite)
 
-        self._highscore = HighScore(self._player_sprite)
+        self._highscore = HighScore()
 
         # Create Asteroids
         self._asteroid_sprites = AsteroidManager(self._player_sprite)

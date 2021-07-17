@@ -60,7 +60,7 @@ class WindowHelper():
                     enemy.crystal_exists(True)
                     if enemy.has_crystal == False:
                         closest_crystal = self._ai.find_closest(
-                            enemy, crystal_sprites, all_sprites)
+                            enemy, crystal_sprites)
                         self._ai.face_crystal(enemy, closest_crystal)
 
                         enemy.process_move(self._ai.do_pathing(enemy.position, closest_crystal, barriers),

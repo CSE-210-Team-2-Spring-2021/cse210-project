@@ -86,6 +86,7 @@ class SinistarWindow(arcade.Window):
         self._explosion = arcade.Sound(constants.EXPLOSION, False)
         self._crystal_effect = arcade.Sound(constants.CRYSTAL_SOUND, False)
         self._bomb_shoot_effect = arcade.Sound(constants.BOMB_EFFECT, False)
+        self._crystal_pickup = arcade.Sound(constants.CRYSTAL_PICKUP, False)
 
         # Movement Bool
         self.up_pressed = False
@@ -316,7 +317,7 @@ class SinistarWindow(arcade.Window):
                                 self._crystal_sprites, self._enemy_sprites)
 
                 self._crystal_sprites.crystal_to_bomb(
-                    self._crystal_sprites, self._player_sprite)
+                    self._crystal_sprites, self._player_sprite, self._crystal_pickup, self._volume)
 
                 if self._immunity <= 0:
                     self._player_sprite.set_normal_texture()

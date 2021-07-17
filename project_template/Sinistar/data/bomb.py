@@ -30,17 +30,20 @@ class Bomb(arcade.SpriteList):
         crystal_sprites.append(crystal)
         all_sprites.append(crystal)
 
-    def crystal_to_bomb(self, crystal_sprites, player_sprite):
+    def crystal_to_bomb(self, crystal_sprites, player_sprite, crystal_pickup, volume):
         """When the ship collides with crystal, a bomb is added to inventory for shooting.
             Args:
                 self - An instance of Bomb
                 crystal_sprites - list of all crystal sprites
                 player_sprite - Player ship to collide with crystal
+                crystal_pickup - Sound of ship picking up crystal
+                volume - Sound effect volume
         """
         
         crystal_hit = arcade.check_for_collision_with_list(player_sprite, crystal_sprites)
         if crystal_hit:
             for crystal in crystal_hit:
+                crystal_pickup.play(volume, 0, False)
                 crystal.kill()
 
                 if self._bombs_amount < 5:

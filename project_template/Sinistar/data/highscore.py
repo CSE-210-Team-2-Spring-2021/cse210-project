@@ -1,24 +1,28 @@
 import json
 import arcade
 from data import constants
-from data.windowhelper import WindowHelper
 
 class HighScore():
-    """
+    """A class of object designed to keep track of and save scores to a file.
     
+    Archetype: Information Holder
+    
+    Attributes:
+        _names(list): A list of all names in the score file
+        _scores(list): A list of all scores in the score file.
+        _score_marker(int): An index to indicate where the players highscore is.
     """
 
-    def __init__(self, player_sprite):
-        """
+    def __init__(self):
+        """Setup the object and organize the file into appropriate lists.
         
+        Args:
+            self
         """
-
-        self._helper = WindowHelper(player_sprite)
 
         self._names:list = []
         self._scores:list = []
         self._score_marker = -1
-        self._has_highscore = False
 
         json_in_temp: str = ""
         json_in:str = ""
@@ -37,74 +41,76 @@ class HighScore():
         for score in json_new["Score"]:
             self._scores.append(score)
 
-    def retrieve_name(self, key):
-        """
+    def retrieve_name(self, name):
+        """Get the user's name to be added to the list.
         
+        Args:
+            self
+            name(str): The user's name.
         """
 
-        getting_name = True
-        has_name = False
+        name_in = name
 
-        congratulatory_text = "Congratulations! You achieved a highscore. Please input your name, and press enter when finished to verify correct spelling."
-        verification_text = "Is this your name?"
+        congratulatory_text = "Congratulations! You achieved a highscore. Please input your name, then press enter."
 
-        arcade.draw_text(congratulatory_text, constants.SCREEN_WIDTH/2 - 100,
+        arcade.draw_text(congratulatory_text, constants.SCREEN_WIDTH/2 - 300,
                         constants.SCREEN_HEIGHT/2 + 80, arcade.color.WHITE, 20)
-        while getting_name:
-            if has_name:
-                arcade.draw_text(verification_text, constants.SCREEN_WIDTH/2 - 30,
-                        constants.SCREEN_HEIGHT/2 + 60, arcade.color.WHITE, 20)
-                arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 15,
+        arcade.draw_text(name_in, constants.SCREEN_WIDTH/2 - 300,
                         constants.SCREEN_HEIGHT/2 + 40, arcade.color.WHITE, 20)
-            else:
-                if key != arcade.key.RETURN and key != arcade.key.LINEFEED:
-                    self._helper.input_text(key)
-                else:
-                    has_name = True
-                    name_in = self._helper.get_text()
 
         return name_in
 
     def check_highscore(self, score_in):
-        """
+        """Check if the user achieved a highscore.
         
+        Args:
+            self
+            score_in(int): The user's score.
         """
 
         #retrieves the name and score of the player if a top 5 has been achieved.
-        
         for i in range(0, 5):
-            if score_in < self._scores[i]:
+            if score_in > self._scores[i]:
                 self._score_marker = i
-                self._has_highscore = True
-        return self._has_highscore
+                return self._has_highscore
 
     def save_highscore(self, name_in, score_in):
-        """
+        """Add the player highscore and name to the corresponding lists.
         
+        Args:
+            self
+            name_in(str): The user's name.
+            score_in(int): The user's score.
         """
 
-        self._names[self._score_marker + 1] = name_in
-        self._scores[self._score_marker + 1] = score_in
+        self._names[self._score_marker] = name_in
+        self._scores[self._score_marker] = score_in
 
     def get_names(self):
-        """
+        """Return the list of all names.
         
+        Args:
+            self
         """
 
         return self._names
 
 
     def get_scores(self):
-        """
+        """Return the list of all scores.
         
+        Args:
+            self
         """
 
         return self._scores
 
 
     def display_scores(self):
-        """
+        """Outputs the scores to the screen
         
+        Args:
+            self
         """
 
         start_x_1 = constants.SCREEN_WIDTH/2 - 70
@@ -123,19 +129,23 @@ class HighScore():
 
 
     def save_file(self):
-        """
+        """Save the file with the new scores.
         
+        Args:
+            self
         """
 
-        json_new:dict = "{}"
+        json_new:dict = {
+            "Name": [],
+            "Score": []
+            }
 
         #Compiling the lists into a dictionary for the json.
-        for name in self._names["Name"]:
+        for i, name in enumerate(self._names):
             json_new["Name"].append(name)
 
-        for score in self._scores["Score"]:
+        for i, score in enumerate(self._scores):
             json_new["Score"].append(score)
 
         with open(constants.SCORE_DOC, 'w') as outfile:
             json.dump(json_new, outfile)
-        constants.SCORE_DOC.close()

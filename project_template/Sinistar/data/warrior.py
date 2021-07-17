@@ -40,16 +40,6 @@ class Warrior(arcade.Sprite):
         self.change_x = random.randint(-speed, speed)
         self.change_y = random.randint(-speed, speed)
 
-    # add in each new instance of warrior
-    def add_warrior(self):
-        """Adds a warrior when 1 is destroyed (will need more work later"""
-        warrior = "*"    # arcade.Sprite("images/warrior.png", constants.SPRITE_SIZE)
-        warrior.center_y = random.randrange(constants.SCREEN_HEIGHT) 
-        warrior.center_x = random.randrange(constants.SCREEN_WIDTH)
-        warrior.velocity = (random.randint(-5, 5), random.randint(5, -5))
-        self.warriors_list.append(warrior)
-        self.all_sprites.append(warrior)
-    
     def get_warriors(self):
         """Returns astroids list"""
 
@@ -115,7 +105,7 @@ class Warrior(arcade.Sprite):
             enemy_lasers.generate_laser(self, all_sprites)
 
     def get_enemy_type(self):
-        """
+        """Returns the type of enemy of this object.
         
         """
 

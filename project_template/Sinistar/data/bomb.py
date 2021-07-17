@@ -68,7 +68,7 @@ class Bomb(arcade.SpriteList):
         if self._bombs_amount > 0:
             self._bombs_amount -= 1
 
-    def update_bombs(self, bomb_sprites, enemy_sprites, asteroid_sprites, explosion, volume, score):
+    def update_bombs(self, bomb_sprites, enemy_sprites, asteroid_sprites, explosion, volume, window):
         """Update and check each player laser for collisions with asteroids, enemies, and screen boundaries
             Args:
                 self - an instance of LaserManager
@@ -85,13 +85,13 @@ class Bomb(arcade.SpriteList):
             enemies = arcade.check_for_collision_with_list(bomb, enemy_sprites)
             for asteroid in asteroids:
                 explosion.play(volume, 0, False)
-                score += 300
+                window.update_score(300)
                 asteroid.kill()
                 bomb.kill()
                 
             for enemy in enemies:
                 explosion.play(volume, 0, False)
-                score += 200
+                window.update_score(200)
                 enemy.kill()
                 bomb.kill()
 

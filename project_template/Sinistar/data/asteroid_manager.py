@@ -44,10 +44,11 @@ class AsteroidManager(arcade.SpriteList):
             odds = 200
             dif = 1 - ((count - num_asteroids) / count)
             odds = math.ceil(odds * dif)
-            if random.randrange(odds) == 0:
-                asteroid = Asteroid(player_sprite, self._start_size)
-                self.append(asteroid)
-                all_sprites.append(asteroid)
+            if odds > 0:
+                if random.randrange(odds) == 0:
+                    asteroid = Asteroid(player_sprite, self._start_size)
+                    self.append(asteroid)
+                    all_sprites.append(asteroid)
 
     def split_asteroid(self, player_sprite, mother_of_all_asteroids, all_sprites_list):
         """ Splits Asteroids into chuncks when collision happens """

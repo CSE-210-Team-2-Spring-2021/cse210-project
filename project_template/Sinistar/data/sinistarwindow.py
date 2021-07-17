@@ -160,7 +160,7 @@ class SinistarWindow(arcade.Window):
         for path in constants.BOMBS_AMOUNT_SPRITES:
             temp_sprite_list = arcade.SpriteList()
             sprite = arcade.Sprite(path, constants.SPRITE_SCALING_TILES)
-            sprite.center_x = 80
+            sprite.center_x = 175
             sprite.center_y = constants.SCREEN_HEIGHT - 80
             temp_sprite_list.append(sprite)
             self._bombs_amount_sprites.append(temp_sprite_list)
@@ -188,6 +188,16 @@ class SinistarWindow(arcade.Window):
             self - An instane of SinistarWindow"""
         self._theme.set_volume(volume, self._theme_player)
         self._volume = volume
+
+    def update_score(self, score):
+        """
+        Updates the games' score\
+        
+        Args:
+            self - An instance of SinistarWindow
+            score - value to add to score
+        """
+        self._score += score
 
     def on_draw(self):
         """
@@ -291,12 +301,12 @@ class SinistarWindow(arcade.Window):
 
                 self._player_laser_sprites.update_player_lasers(self._player_sprite, self._player_laser_sprites, self._enemy_sprites,
                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
-                                           self._all_sprites_list, self._crystal_sprites, self._score)
+                                           self._all_sprites_list, self._crystal_sprites, self)
                 self._player_laser_sprites.delete_laser()
 
                 self._bomb_sprites = self._crystal_sprites.get_bombs_list()
                 self._crystal_sprites.update_bombs(self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
-                                                    self._explosion, self._volume, self._score)
+                                                    self._explosion, self._volume, self)
                 self._crystal_sprites.delete_bomb()
 
                 for enemy in self._enemy_sprites:
@@ -317,7 +327,6 @@ class SinistarWindow(arcade.Window):
                     if ship_hit:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
-                        self._score -= 100
                         lives = self._ship.get_lives()
                         if lives > 0:
                             self._ship.set_lives(lives - 1)
@@ -443,6 +452,11 @@ class SinistarWindow(arcade.Window):
 
             elif clicked[0] == buttons[6]:  # Restart
                 self._menu.restart(self)
+                self._asteroid_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._asteroid_sprites)
+                self._enemy_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._enemy_sprites)
+                self._player_sprite.set_lives(5)
             elif clicked[0] == buttons[7]:  # Main
                 self._menu.go_to_main(self)
 

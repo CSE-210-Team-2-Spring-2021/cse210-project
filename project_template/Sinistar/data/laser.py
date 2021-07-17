@@ -74,7 +74,7 @@ class Laser(arcade.SpriteList):
                 explosion.play(volume, 0, False)
                 enemy.kill()
                 laser.kill()
-        return score
+                
     def delete_laser(self):
         """ updates to check if each laser leaves viewed play space, then removes that laser if yes.
             Args:

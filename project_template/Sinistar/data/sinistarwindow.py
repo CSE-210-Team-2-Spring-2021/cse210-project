@@ -72,6 +72,7 @@ class SinistarWindow(arcade.Window):
 
         self._crystal_sprites = None
         self._bombs_amount_sprites = None
+        self._bomb_sprites = None
 
         self._status = []
 
@@ -110,7 +111,7 @@ class SinistarWindow(arcade.Window):
         self._ship = Ship(self._all_sprites_list)
         self._status = self._menu.get_status()
         self._score = 0
-        self._bombs_amount = constants.BOMBS
+        #self._bombs_amount = constants.BOMBS
         self._difficulty = Difficulty()
         self._collisions = Collisions()
 
@@ -251,10 +252,6 @@ class SinistarWindow(arcade.Window):
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                 constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
 
-                # for enemy in self._enemy_sprites:
-                #    if enemy.get_path():
-                #        arcade.draw_line_strip(enemy.get_path(), arcade.color.BLUE, 2)
-
     def on_update(self, delta_time):
         """ Movement and game logic """
         # update status
@@ -297,10 +294,10 @@ class SinistarWindow(arcade.Window):
                                            self._all_sprites_list, self._crystal_sprites, self._score)
                 self._player_laser_sprites.delete_laser()
 
-
-                # Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
-                #                  self._explosion, self._volume)
-                # Bomb.delete_bomb(self._bomb_sprites)
+                self._bomb_sprites = self._crystal_sprites.get_bombs_list()
+                self._crystal_sprites.update_bombs(self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
+                                                    self._explosion, self._volume, self._score)
+                self._crystal_sprites.delete_bomb()
 
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
@@ -366,12 +363,12 @@ class SinistarWindow(arcade.Window):
             self._player_laser_effect.play(self._volume, 0, False)
 
         # Shift key for shooting a bomb. Can be done same time as directional keys
-        # if key == arcade.key.LSHIFT:
-            # if self._bombs_amount > 0:
-            # self._bomb_sprites = Bomb.get_bombs_list(self)
-            # Bomb.generate_bomb(self._bomb_sprites,
-            #                    self._ship, self._all_sprites_list)
-            # self._bomb_shoot_effect.play(self._volume, 0, False)
+        if key == arcade.key.LSHIFT:
+            bombs = self._crystal_sprites.get_bombs_amount()
+            if bombs > 0:
+                self._crystal_sprites.get_bombs_list()
+                self._crystal_sprites.generate_bomb(self._ship, self._all_sprites_list)
+                self._bomb_shoot_effect.play(self._volume, 0, False)
 
     def on_key_release(self, key, modifier):
         """Called when a key stops being pressed

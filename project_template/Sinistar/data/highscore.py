@@ -72,7 +72,7 @@ class HighScore():
         for i in range(0, 5):
             if score_in > self._scores[i]:
                 self._score_marker = i
-                return self._has_highscore
+                return True
 
     def save_highscore(self, name_in, score_in):
         """Add the player highscore and name to the corresponding lists.

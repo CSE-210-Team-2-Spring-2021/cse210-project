@@ -14,8 +14,6 @@ class Bomb(arcade.SpriteList):
         self._crystal_sprites = []
         self._bomb_sprites = []
 
-        
-               
     def generate_crystal(self, asteroid, crystal_sprites, all_sprites):
         """When an asteroid explodes, it has a chance to drop a crystal. 
             Enemy Worker to pick it up later.

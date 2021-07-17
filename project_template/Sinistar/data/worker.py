@@ -40,17 +40,6 @@ class Worker(arcade.Sprite):
         self.change_x = random.randint(-speed, speed)
         self.change_y = random.randint(-speed, speed)
 
-    # add in each new instance of worker
-    def add_worker(self):
-        """Adds a worker when 1 is destroyed (will need more work later
-        """
-        worker = "*"    # arcade.Sprite("images/worker.png", constants.SPRITE_SIZE)
-        worker.center_y = random.randrange(constants.SCREEN_HEIGHT) 
-        worker.center_x = random.randrange(constants.SCREEN_WIDTH)
-        worker.velocity = (random.randint(-5, 5), random.randint(5, -5))
-        self.workers_list.append(worker)
-        self.all_sprites.append(worker)
-    
     def get_workers(self):
         """Returns workers list
         """

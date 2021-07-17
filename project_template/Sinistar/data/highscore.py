@@ -1,25 +1,28 @@
 import json
 import arcade
-from arcade.key import N
 from data import constants
-from data.windowhelper import WindowHelper
 
 class HighScore():
-    """
+    """A class of object designed to keep track of and save scores to a file.
     
+    Archetype: Information Holder
+    
+    Attributes:
+        _names(list): A list of all names in the score file
+        _scores(list): A list of all scores in the score file.
+        _score_marker(int): An index to indicate where the players highscore is.
     """
 
-    def __init__(self, player_sprite):
-        """
+    def __init__(self):
+        """Setup the object and organize the file into appropriate lists.
         
+        Args:
+            self
         """
-
-        self._helper = WindowHelper(player_sprite)
 
         self._names:list = []
         self._scores:list = []
         self._score_marker = -1
-        self._has_highscore = False
 
         json_in_temp: str = ""
         json_in:str = ""
@@ -39,8 +42,11 @@ class HighScore():
             self._scores.append(score)
 
     def retrieve_name(self, name):
-        """
+        """Get the user's name to be added to the list.
         
+        Args:
+            self
+            name(str): The user's name.
         """
 
         name_in = name
@@ -55,44 +61,56 @@ class HighScore():
         return name_in
 
     def check_highscore(self, score_in):
-        """
+        """Check if the user achieved a highscore.
         
+        Args:
+            self
+            score_in(int): The user's score.
         """
 
         #retrieves the name and score of the player if a top 5 has been achieved.
         for i in range(0, 5):
             if score_in > self._scores[i]:
                 self._score_marker = i
-                self._has_highscore = True
                 return self._has_highscore
 
     def save_highscore(self, name_in, score_in):
-        """
+        """Add the player highscore and name to the corresponding lists.
         
+        Args:
+            self
+            name_in(str): The user's name.
+            score_in(int): The user's score.
         """
 
         self._names[self._score_marker] = name_in
         self._scores[self._score_marker] = score_in
 
     def get_names(self):
-        """
+        """Return the list of all names.
         
+        Args:
+            self
         """
 
         return self._names
 
 
     def get_scores(self):
-        """
+        """Return the list of all scores.
         
+        Args:
+            self
         """
 
         return self._scores
 
 
     def display_scores(self):
-        """
+        """Outputs the scores to the screen
         
+        Args:
+            self
         """
 
         start_x_1 = constants.SCREEN_WIDTH/2 - 70
@@ -111,8 +129,10 @@ class HighScore():
 
 
     def save_file(self):
-        """
+        """Save the file with the new scores.
         
+        Args:
+            self
         """
 
         json_new:dict = {

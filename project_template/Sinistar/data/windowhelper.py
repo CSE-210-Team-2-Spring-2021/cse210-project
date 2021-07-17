@@ -113,7 +113,7 @@ class WindowHelper():
         """
         if self._text != '':
             if key == arcade.key.BACKSPACE:
-                self._text = str.rstrip(self._text[-1])
+                self._text = self._text[:len(self._text) - 1]
                 return
 
         letter = ''

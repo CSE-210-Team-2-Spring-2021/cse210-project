@@ -141,8 +141,8 @@ class SinistarWindow(arcade.Window):
         # Setup the bombs/crystals
         self._crystal_sprites = Bomb()
         self._all_sprites_list.extend(self._crystal_sprites)
-        self._bomb_sprites = Bomb()
-        self._all_sprites_list.extend(self._bomb_sprites)
+        # self._bomb_sprites = Bomb()
+        # self._all_sprites_list.extend(self._bomb_sprites)
 
         # Setup Lives Spritelist
         self._lives_sprites = []  # THis is a normal list of SpriteList objects
@@ -240,10 +240,10 @@ class SinistarWindow(arcade.Window):
                 # Draw all the sprites.
                 self._all_sprites_list.draw()
                 lives = self._ship.get_lives()
-                bombs = Bomb.get_bombs_amount(self)
+                bombs = self._crystal_sprites.get_bombs_amount()
                 if lives >= 0:
                     self._lives_sprites[lives].draw()
-                    # self._bombs_amount[bombs].draw()
+                self._bombs_amount_sprites[bombs].draw()
                 # Draw Score
                 arcade.draw_text(score, constants.SCREEN_WIDTH/2,
                                  constants.SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
@@ -288,10 +288,10 @@ class SinistarWindow(arcade.Window):
                 # Check for collisions
                 # self._collisions.handle_collisions()
 
-                Laser.update_player_lasers(self, self._player_sprite, self._player_laser_sprites, self._enemy_sprites,
+                self._player_laser_sprites.update_player_lasers(self._player_sprite, self._player_laser_sprites, self._enemy_sprites,
                                            self._asteroid_sprites, self._explosion, self._crystal_effect, self._volume,
-                                           self._all_sprites_list, self._crystal_sprites)
-                Laser.delete_laser(self._player_laser_sprites)
+                                           self._all_sprites_list, self._crystal_sprites, self._score)
+                self._player_laser_sprites.delete_laser()
 
                 # Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
                 #                  self._explosion, self._volume)

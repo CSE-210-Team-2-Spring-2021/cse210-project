@@ -120,6 +120,32 @@ class AI():
         # Set the enemy to face the player.
         enemy_sprite.angle = math.degrees(angle) - 90
 
+    def face_away_from_player(self, enemy_sprite, player_sprite):
+        """Makes the enemy sprite face the player sprite
+        
+        Args:
+            self - Instance of ai
+            enemy_sprite - An enemy Sprite
+            player_sprite - The player Sprite
+        """
+        # Position the start at the enemy's current location
+        start_x = enemy_sprite.center_x
+        start_y = enemy_sprite.center_y
+
+        # Get the destination location for the bullet
+        dest_x = player_sprite.center_x
+        dest_y = player_sprite.center_y
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # Set the enemy to face the player.
+        enemy_sprite.angle = -(math.degrees(angle) - 90)
+
     def face_crystal(self, enemy_sprite, closest_crystal):
         """Makes the enemy sprite face the crystal sprite
         

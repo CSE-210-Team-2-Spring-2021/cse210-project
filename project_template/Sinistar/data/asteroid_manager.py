@@ -18,9 +18,8 @@ class AsteroidManager(arcade.SpriteList):
         self._boom = arcade.Sound(constants.COMICAL_EXPLOSION)
         self._start_size = 3
         self._count = constants.ASTEROID_COUNT
-        self._generate_list(player_sprite)
 
-    def _generate_list(self, player_sprite):
+    def generate_list(self, player_sprite):
         """Fills self with asteroid objects
 
         Args:

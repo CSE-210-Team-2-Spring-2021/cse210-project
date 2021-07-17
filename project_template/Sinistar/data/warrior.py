@@ -10,7 +10,7 @@ class Warrior(arcade.Sprite):
         Class Constructor
         """
         self.enemy_type = "Warrior"
-        super().__init__(constants.WARRIOR_SPRITE, constants.SPRITE_SCALING_ENEMIES)
+        super().__init__(constants.WARRIOR_SPRITE, constants.SPRITE_SCALING_ENEMIES, hit_box_algorithm = "Detailed")
         self._setup_warrior(player_sprite)
         self.has_crystal = False
 

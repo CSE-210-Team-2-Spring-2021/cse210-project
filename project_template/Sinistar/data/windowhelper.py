@@ -57,6 +57,7 @@ class WindowHelper():
         for enemy in enemy_sprites:
             if enemy.enemy_type == 'Worker':
                 if crystal_sprites:
+                    enemy.crystal_exists(True)
                     if enemy.has_crystal == False:
                         closest_crystal = self._ai.find_closest(
                             enemy, crystal_sprites, all_sprites)
@@ -64,8 +65,18 @@ class WindowHelper():
 
                         enemy.process_move(self._ai.do_pathing(enemy.position, closest_crystal, barriers),
                                            enemy_lasers, all_sprites)
+                    else:
+                        self._ai.face_away_from_player(enemy, player_sprite)
+                        enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
+                                   enemy_lasers, all_sprites)
+
                 else:
                     """avoid the player"""
+                    enemy.crystal_exists(False)
+                    self._ai.face_away_from_player(enemy, player_sprite)
+                    enemy.process_move(self._ai.do_pathing(enemy.position, player_sprite.position, barriers),
+                                   enemy_lasers, all_sprites)
+
             elif enemy.enemy_type == 'Warrior':
                 self._ai.face_player(enemy, player_sprite)
 

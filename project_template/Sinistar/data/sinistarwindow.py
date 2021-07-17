@@ -16,7 +16,7 @@ from data.windowhelper import WindowHelper
 from data.bomb import Bomb
 from data.highscore import HighScore
 from data.difficulty import Difficulty
-# from data.collisions import Collisions
+from data.collisions import Collisions
 
 
 class SinistarWindow(arcade.Window):
@@ -101,9 +101,6 @@ class SinistarWindow(arcade.Window):
         # Hide Mouse
         self.set_mouse_visible(False)
 
-        # Collisions check
-        # self._collisions = Collisions()
-
     def setup(self):
         """ Set up the game and initialize the variables. 
         Args:
@@ -115,6 +112,7 @@ class SinistarWindow(arcade.Window):
         self._score = 0
         self._bombs_amount = constants.BOMBS
         self._difficulty = Difficulty()
+        self._collisions = Collisions()
 
         # Create mouse
         self._mouse_list = arcade.SpriteList()
@@ -132,8 +130,7 @@ class SinistarWindow(arcade.Window):
         self._all_sprites_list.extend(self._asteroid_sprites)
 
         # Create Enemies
-        self._enemy_sprites = EnemyManager(self._player_sprite)
-        self._all_sprites_list.extend(self._enemy_sprites)
+        self._enemy_sprites = self._helper.get_enemy_manager()
 
         # Setup the lasers
         self._player_laser_sprites = Laser()
@@ -296,9 +293,9 @@ class SinistarWindow(arcade.Window):
                                            self._all_sprites_list, self._crystal_sprites)
                 Laser.delete_laser(self._player_laser_sprites)
 
-                #Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
+                # Bomb.update_bombs(self, self._bomb_sprites, self._enemy_sprites, self._asteroid_sprites,
                 #                  self._explosion, self._volume)
-                #Bomb.delete_bomb(self._bomb_sprites)
+                # Bomb.delete_bomb(self._bomb_sprites)
 
                 for enemy in self._enemy_sprites:
                     if enemy.enemy_type == "Worker":
@@ -311,17 +308,10 @@ class SinistarWindow(arcade.Window):
 
                 if self._immunity <= 0:
                     self._player_sprite.set_normal_texture()
-                    ship_hit = []
+                    ship_hit = self._collisions.is_ship_hit(self._player_sprite,
+                                                            self._asteroid_sprites, self._enemy_sprites, self._enemy_laser_sprites)
 
-                    asteroid_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                        self._asteroid_sprites)
-                    enemy_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                     self._enemy_sprites)
-                    enemy_laser_hit = arcade.check_for_collision_with_list(self._player_sprite,
-                                                                           self._enemy_laser_sprites)
-                    ship_hit = asteroid_hit + enemy_hit + enemy_laser_hit
-
-                    if ship_hit != []:
+                    if ship_hit:
                         self._boom.play(self._volume, 0, False)
                         self._immunity = constants.IMMUNITY
                         self._score -= 100
@@ -371,7 +361,7 @@ class SinistarWindow(arcade.Window):
             self._player_laser_effect.play(self._volume, 0, False)
 
         # Shift key for shooting a bomb. Can be done same time as directional keys
-        #if key == arcade.key.LSHIFT:
+        # if key == arcade.key.LSHIFT:
             # if self._bombs_amount > 0:
             # self._bomb_sprites = Bomb.get_bombs_list(self)
             # Bomb.generate_bomb(self._bomb_sprites,
@@ -432,6 +422,10 @@ class SinistarWindow(arcade.Window):
             return
         else:
             if clicked[0] == buttons[0]:  # Start
+                self._asteroid_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._asteroid_sprites)
+                self._enemy_sprites.generate_list(self._player_sprite)
+                self._all_sprites_list.extend(self._enemy_sprites)
                 self._menu.start_pressed()
             elif clicked[0] == buttons[1]:  # Settings
                 self._menu.settings_pressed()

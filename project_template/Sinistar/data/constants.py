@@ -64,64 +64,66 @@ WORKER_COUNT = 5
 WARRIOR_COUNT = 5
 
 # Highscore doc path
-SCORE_DOC = pathlib.Path(__file__).resolve(
-).parents[1] / 'data' / 'highscores.json'
+SCORE_DOC = os.path.abspath('./data/highscores.json')
 
 # Sprites from assets
-ASSET_PATH = pathlib.Path(__file__).resolve(
-).parents[1] / 'assets'  # path to parent directory
-PLAYER_SPRITE = ASSET_PATH / 'basic-ship.png'
-SHIELD_PLAYER_SPRITE = ASSET_PATH / 'shield-basic-ship.png'
-ASTEROID_SPRITE = ASSET_PATH / 'asteroid.png'  # 'basic-astroid.png'
-WARRIOR_SPRITE = ASSET_PATH / 'warrior.png'
-WORKER_SPRITE = ASSET_PATH / 'worker.png'
-CRYSTAL_SPRITE = ASSET_PATH / 'crystal.png'
-WORKER_CRYSTAL_SPRITE = ASSET_PATH / 'worker-with-crystal.png'
-LIVES_SPRITES = [ASSET_PATH / 'Lives0.png', ASSET_PATH / 'Lives1.png', ASSET_PATH / 'Lives2.png', ASSET_PATH / 'Lives3.png',
-                 ASSET_PATH / 'Lives4.png', ASSET_PATH / 'Lives5.png']
-LASER_SPRITE = ASSET_PATH / 'laser.png'
-ENEMY_LASER_SPRITE = ASSET_PATH / 'enemy-laser.png'
-BOMBS_AMOUNT_SPRITES = [ASSET_PATH / 'BombsAmount0.png', ASSET_PATH / 'BombsAmount1.png', ASSET_PATH / 'BombsAmount2.png', ASSET_PATH / 'BombsAmount3.png',
-                        ASSET_PATH / 'BombsAmount4.png', ASSET_PATH / 'BombsAmount5.png']
-BOMB_SPRITE = ASSET_PATH / 'bomb.png'
+#ASSET_PATH = pathlib.Path(__file__).resolve(
+#).parents[1] / 'assets'  # path to parent directory
+#ASSET_PATH = os.path.abspath('../assets')  # path to parent directory
+PLAYER_SPRITE = os.path.abspath('./assets/basic-ship.png')
+SHIELD_PLAYER_SPRITE = os.path.abspath('./assets/shield-basic-ship.png')
+ASTEROID_SPRITE = os.path.abspath('./assets/asteroid.png')  # 'basic-astroid.png'
+WARRIOR_SPRITE = os.path.abspath('./assets/warrior.png')
+WORKER_SPRITE = os.path.abspath('./assets/worker.png')
+CRYSTAL_SPRITE = os.path.abspath('./assets/crystal.png')
+WORKER_CRYSTAL_SPRITE = os.path.abspath('./assets/worker-with-crystal.png')
+LIVES_SPRITES = [os.path.abspath('./assets/Lives0.png'), os.path.abspath('./assets/Lives1.png'),
+                 os.path.abspath('./assets/Lives2.png'), os.path.abspath('./assets/Lives3.png'),
+                 os.path.abspath('./assets/Lives4.png'), os.path.abspath('./assets/Lives5.png')]
+LASER_SPRITE = os.path.abspath('./assets/laser.png')
+ENEMY_LASER_SPRITE = os.path.abspath('./assets/enemy-laser.png')
+BOMBS_AMOUNT_SPRITES = [os.path.abspath('./assets/BombsAmount0.png'), os.path.abspath('./assets/BombsAmount1.png'),
+                        os.path.abspath('./assets/BombsAmount2.png'), os.path.abspath('./assets/BombsAmount3.png'),
+                        os.path.abspath('./assets/BombsAmount4.png'), os.path.abspath('./assets/BombsAmount5.png')]
+BOMB_SPRITE = os.path.abspath('./assets/bomb.png')
 
-MOUSE = ASSET_PATH / 'mouse.png'
+MOUSE = os.path.abspath('./assets/mouse.png')
 
-MENU_BACK = ASSET_PATH / 'Menu - Back.png'
-MENU_HELP = ASSET_PATH / 'Menu - Help.png'
-MENU_QUIT = ASSET_PATH / 'Menu - Quit.png'
-MENU_RESUME = ASSET_PATH / 'Menu - Resume.png'
-MENU_SETTINGS = ASSET_PATH / 'Menu - Settings.png'
-MENU_START = ASSET_PATH / 'Menu - Start.png'
-MENU_MAIN = ASSET_PATH / 'Menu - Main.png'
-MENU_RESTART = ASSET_PATH / 'Menu - Restart.png'
+MENU_BACK = os.path.abspath('./assets/Menu - Back.png')
+MENU_HELP = os.path.abspath('./assets/Menu - Help.png')
+MENU_QUIT = os.path.abspath('./assets/Menu - Quit.png')
+MENU_RESUME = os.path.abspath('./assets/Menu - Resume.png')
+MENU_SETTINGS = os.path.abspath('./assets/Menu - Settings.png')
+MENU_START = os.path.abspath('./assets/Menu - Start.png')
+MENU_MAIN = os.path.abspath('./assets/Menu - Main.png')
+MENU_RESTART = os.path.abspath('./assets/Menu - Restart.png')
 
-DIFFICULTY_EASIEST = ASSET_PATH / 'Difficulty - Easiest.png'
-DIFFICULTY_EASY = ASSET_PATH / 'Difficulty - Easy.png'
-DIFFICULTY_NORMAL = ASSET_PATH / 'Difficulty - Normal.png'
-DIFFICULTY_HARD = ASSET_PATH / 'Difficulty - Hard.png'
-DIFFICULTY_SINISTAR = ASSET_PATH / 'Difficulty - Sinistar.png'
-DIFFICULTY_SELECTOR = ASSET_PATH / 'Difficulty - Selector.png'
-DIFFICULTY_LABEL = ASSET_PATH / 'Difficulty - Label.png'
+DIFFICULTY_EASIEST = os.path.abspath('./assets/Difficulty - Easiest.png')
+DIFFICULTY_EASY = os.path.abspath('./assets/Difficulty - Easy.png')
+DIFFICULTY_NORMAL = os.path.abspath('./assets/Difficulty - Normal.png')
+DIFFICULTY_HARD = os.path.abspath('./assets/Difficulty - Hard.png')
+DIFFICULTY_SINISTAR = os.path.abspath('./assets/Difficulty - Sinistar.png')
+DIFFICULTY_SELECTOR = os.path.abspath('./assets/Difficulty - Selector.png')
+DIFFICULTY_LABEL = os.path.abspath('./assets/Difficulty - Label.png')
 
 
-VOLUME_SPRITE = ASSET_PATH / 'Volume.png'
-VOLUME_LABEL = ASSET_PATH / 'Volume - Label.png'
-VOLUME_SELECTOR = ASSET_PATH / 'Volume - Selector.png'
-VOLUME_MUTE = ASSET_PATH / 'Mute.png'
+VOLUME_SPRITE = os.path.abspath('./assets/Volume.png')
+VOLUME_LABEL = os.path.abspath('./assets/Volume - Label.png')
+VOLUME_SELECTOR = os.path.abspath('./assets/Volume - Selector.png')
+VOLUME_MUTE = os.path.abspath('./assets/Mute.png')
 VOLUME_INC = 10
 
-INSTRUCTIONS = ASSET_PATH / 'Help_Menu.png'
+INSTRUCTIONS = os.path.abspath('./assets/Help_Menu.png')
 
-BACKGROUND = ASSET_PATH / 'Star Background.png'
+BACKGROUND = os.path.abspath('./assets/Star Background.png')
 
 # Sounds
-sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
-THEME = sound_path / 'bensound-scifi.mp3'
-EXPLOSION = sound_path / 'explosion.wav'
-COMICAL_EXPLOSION = sound_path / 'boom.wav'
-LASER = sound_path / 'laser.wav'
-ENEMY_LASER = sound_path / 'laser-gun-19sf.mp3'
-CRYSTAL_SOUND = sound_path / 'crystal_sound.ogg'
-BOMB_EFFECT = sound_path / 'bomb_effect.wav'
-CRYSTAL_PICKUP = sound_path / 'Crystal_Pickup.wav'
+#sound_path = pathlib.Path(__file__).resolve().parents[1] / 'sounds'
+THEME = os.path.abspath('./sounds/bensound-scifi.mp3')
+EXPLOSION = os.path.abspath('./sounds/explosion.wav')
+COMICAL_EXPLOSION = os.path.abspath('./sounds/boom.wav')
+LASER = os.path.abspath('./sounds/laser.wav')
+ENEMY_LASER = os.path.abspath('./sounds/laser-gun-19sf.mp3')
+CRYSTAL_SOUND = os.path.abspath('./sounds/crystal_sound.ogg')
+BOMB_EFFECT = os.path.abspath('./sounds/bomb_effect.wav')
+CRYSTAL_PICKUP = os.path.abspath('./sounds/Crystal_Pickup.wav')

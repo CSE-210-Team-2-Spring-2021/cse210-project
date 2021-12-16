@@ -175,7 +175,7 @@ class Menu:
         self._help_sprites.append(self._menu_sprites[28])
 
         # HELP MENU
-        self._help_sprites.append(self._menu_sprites[5])  # BACK
+        #self._help_sprites.append(self._menu_sprites[5])  # BACK
 
         # GAME OVER
         self._game_over_sprites.append(self._menu_sprites[3])

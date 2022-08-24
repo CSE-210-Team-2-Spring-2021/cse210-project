@@ -33,7 +33,7 @@ click the "run" icon.
 The project files and folders are organized as follows:
 
 ```
-project                    (project root folder)
+project_template        (project root folder)
 +-- docs                (project documentation)
 +-- Sinistar              [src code files - rename for project]
   +-- assets            (program asset files)

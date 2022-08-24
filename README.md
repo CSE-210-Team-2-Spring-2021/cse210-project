@@ -55,7 +55,7 @@ Python Arcade Library
 
 ---
 
-Nathaniel Jackson - jac20003@byui.edu - drbubbles40-school
+Nathaniel Jackson - jac20003@byui.edu - drbubbles40-school -Mostly contributed to sinistarwindow.py, windowhelper.py, menu.py, and small portions of most other classes.
 Kyle Ames - ame18007@byui.edu
 TJ Anderson - and15126@byui.edu
 Chase Patterson - pat20001@byui.edu
